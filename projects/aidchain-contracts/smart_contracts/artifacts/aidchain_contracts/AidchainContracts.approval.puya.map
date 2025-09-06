@@ -1,0 +1,834 @@
+{
+  "version": 3,
+  "sources": [
+    "../../aidchain_contracts/contract.py"
+  ],
+  "mappings": ";;;;;;;;;;;AAIA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;;;AAeK;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AALA;;AAAA;AAAA;AAAA;;AAAA;AAVL;;;AAAA;AAAA;;;AAAA;;;AAUK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AALA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;;AAJA;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AADL;;AAAA;;;;;;;;;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAOR;;;AAGe;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGe;;AAAA;;AAAA;AAAP",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "algopy.arc4.ARC4Contract.approval_program",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1"
+    },
+    "4": {
+      "op": "bytecblock 0x151f7c75"
+    },
+    "11": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "13": {
+      "op": "bz main_bare_routing@9",
+      "stack_out": []
+    },
+    "16": {
+      "op": "pushbytess 0x02bece11 0xff511553 0xa20ddd23 0xcdba1297 // method \"hello(string)string\", method \"create_donation(uint64)string\", method \"get_donation_info(uint64,string)string\", method \"calculate_total(uint64,uint64)uint64\"",
+      "defined_out": [
+        "Method(calculate_total(uint64,uint64)uint64)",
+        "Method(create_donation(uint64)string)",
+        "Method(get_donation_info(uint64,string)string)",
+        "Method(hello(string)string)"
+      ],
+      "stack_out": [
+        "Method(hello(string)string)",
+        "Method(create_donation(uint64)string)",
+        "Method(get_donation_info(uint64,string)string)",
+        "Method(calculate_total(uint64,uint64)uint64)"
+      ]
+    },
+    "38": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(calculate_total(uint64,uint64)uint64)",
+        "Method(create_donation(uint64)string)",
+        "Method(get_donation_info(uint64,string)string)",
+        "Method(hello(string)string)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "Method(hello(string)string)",
+        "Method(create_donation(uint64)string)",
+        "Method(get_donation_info(uint64,string)string)",
+        "Method(calculate_total(uint64,uint64)uint64)",
+        "tmp%2#0"
+      ]
+    },
+    "41": {
+      "op": "match main_hello_route@3 main_create_donation_route@4 main_get_donation_info_route@5 main_calculate_total_route@6",
+      "stack_out": []
+    },
+    "51": {
+      "block": "main_after_if_else@13",
+      "stack_in": [],
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "53": {
+      "op": "return",
+      "stack_out": []
+    },
+    "54": {
+      "block": "main_calculate_total_route@6",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%24#0"
+      ],
+      "stack_out": [
+        "tmp%24#0"
+      ]
+    },
+    "56": {
+      "op": "!",
+      "defined_out": [
+        "tmp%25#0"
+      ],
+      "stack_out": [
+        "tmp%25#0"
+      ]
+    },
+    "57": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "58": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%26#0"
+      ],
+      "stack_out": [
+        "tmp%26#0"
+      ]
+    },
+    "60": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "61": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_bytes[8]%2#0"
+      ],
+      "stack_out": [
+        "reinterpret_bytes[8]%2#0"
+      ]
+    },
+    "64": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%28#0"
+      ],
+      "stack_out": [
+        "tmp%28#0"
+      ]
+    },
+    "65": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "reinterpret_bytes[8]%3#0",
+        "tmp%28#0"
+      ],
+      "stack_out": [
+        "tmp%28#0",
+        "reinterpret_bytes[8]%3#0"
+      ]
+    },
+    "68": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%28#0",
+        "tmp%29#0"
+      ],
+      "stack_out": [
+        "tmp%28#0",
+        "tmp%29#0"
+      ]
+    },
+    "69": {
+      "callsub": "smart_contracts.aidchain_contracts.contract.AidchainContracts.calculate_total",
+      "op": "callsub calculate_total",
+      "defined_out": [
+        "to_encode%3#0"
+      ],
+      "stack_out": [
+        "to_encode%3#0"
+      ]
+    },
+    "72": {
+      "op": "itob",
+      "defined_out": [
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0"
+      ]
+    },
+    "73": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "74": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "val_as_bytes%0#0"
+      ]
+    },
+    "75": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%30#0"
+      ],
+      "stack_out": [
+        "tmp%30#0"
+      ]
+    },
+    "76": {
+      "op": "log",
+      "stack_out": []
+    },
+    "77": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "78": {
+      "op": "return",
+      "stack_out": []
+    },
+    "79": {
+      "block": "main_get_donation_info_route@5",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "81": {
+      "op": "!",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "82": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "83": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "85": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "86": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_bytes[8]%1#0"
+      ],
+      "stack_out": [
+        "reinterpret_bytes[8]%1#0"
+      ]
+    },
+    "89": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%20#0"
+      ]
+    },
+    "90": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "tmp%20#0",
+        "tmp%21#0"
+      ],
+      "stack_out": [
+        "tmp%20#0",
+        "tmp%21#0"
+      ]
+    },
+    "93": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%20#0",
+        "tmp%22#0"
+      ],
+      "stack_out": [
+        "tmp%20#0",
+        "tmp%22#0"
+      ]
+    },
+    "96": {
+      "callsub": "smart_contracts.aidchain_contracts.contract.AidchainContracts.get_donation_info",
+      "op": "callsub get_donation_info",
+      "defined_out": [
+        "to_encode%2#0"
+      ],
+      "stack_out": [
+        "to_encode%2#0"
+      ]
+    },
+    "99": {
+      "op": "dup",
+      "defined_out": [
+        "to_encode%2#0",
+        "to_encode%2#0 (copy)"
+      ],
+      "stack_out": [
+        "to_encode%2#0",
+        "to_encode%2#0 (copy)"
+      ]
+    },
+    "100": {
+      "op": "len",
+      "defined_out": [
+        "length%2#0",
+        "to_encode%2#0"
+      ],
+      "stack_out": [
+        "to_encode%2#0",
+        "length%2#0"
+      ]
+    },
+    "101": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%2#0",
+        "to_encode%2#0"
+      ],
+      "stack_out": [
+        "to_encode%2#0",
+        "as_bytes%2#0"
+      ]
+    },
+    "102": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "length_uint16%2#0",
+        "to_encode%2#0"
+      ],
+      "stack_out": [
+        "to_encode%2#0",
+        "length_uint16%2#0"
+      ]
+    },
+    "105": {
+      "op": "swap",
+      "stack_out": [
+        "length_uint16%2#0",
+        "to_encode%2#0"
+      ]
+    },
+    "106": {
+      "op": "concat",
+      "defined_out": [
+        "encoded_value%2#0"
+      ],
+      "stack_out": [
+        "encoded_value%2#0"
+      ]
+    },
+    "107": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "encoded_value%2#0"
+      ],
+      "stack_out": [
+        "encoded_value%2#0",
+        "0x151f7c75"
+      ]
+    },
+    "108": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "encoded_value%2#0"
+      ]
+    },
+    "109": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%23#0"
+      ],
+      "stack_out": [
+        "tmp%23#0"
+      ]
+    },
+    "110": {
+      "op": "log",
+      "stack_out": []
+    },
+    "111": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "112": {
+      "op": "return",
+      "stack_out": []
+    },
+    "113": {
+      "block": "main_create_donation_route@4",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "115": {
+      "op": "!",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "116": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "117": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "119": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "120": {
+      "op": "pushbytes 0x151f7c75001d446f6e6174696f6e2063726561746564207375636365737366756c6c79",
+      "defined_out": [
+        "0x151f7c75001d446f6e6174696f6e2063726561746564207375636365737366756c6c79"
+      ],
+      "stack_out": [
+        "0x151f7c75001d446f6e6174696f6e2063726561746564207375636365737366756c6c79"
+      ]
+    },
+    "157": {
+      "op": "log",
+      "stack_out": []
+    },
+    "158": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "159": {
+      "op": "return",
+      "stack_out": []
+    },
+    "160": {
+      "block": "main_hello_route@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "162": {
+      "op": "!",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "163": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "164": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "166": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "167": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "170": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "173": {
+      "callsub": "smart_contracts.aidchain_contracts.contract.AidchainContracts.hello",
+      "op": "callsub hello",
+      "defined_out": [
+        "to_encode%0#0"
+      ],
+      "stack_out": [
+        "to_encode%0#0"
+      ]
+    },
+    "176": {
+      "op": "dup",
+      "defined_out": [
+        "to_encode%0#0",
+        "to_encode%0#0 (copy)"
+      ],
+      "stack_out": [
+        "to_encode%0#0",
+        "to_encode%0#0 (copy)"
+      ]
+    },
+    "177": {
+      "op": "len",
+      "defined_out": [
+        "length%0#0",
+        "to_encode%0#0"
+      ],
+      "stack_out": [
+        "to_encode%0#0",
+        "length%0#0"
+      ]
+    },
+    "178": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%0#0",
+        "to_encode%0#0"
+      ],
+      "stack_out": [
+        "to_encode%0#0",
+        "as_bytes%0#0"
+      ]
+    },
+    "179": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "length_uint16%0#0",
+        "to_encode%0#0"
+      ],
+      "stack_out": [
+        "to_encode%0#0",
+        "length_uint16%0#0"
+      ]
+    },
+    "182": {
+      "op": "swap",
+      "stack_out": [
+        "length_uint16%0#0",
+        "to_encode%0#0"
+      ]
+    },
+    "183": {
+      "op": "concat",
+      "defined_out": [
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "encoded_value%0#0"
+      ]
+    },
+    "184": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "encoded_value%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "185": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "encoded_value%0#0"
+      ]
+    },
+    "186": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "187": {
+      "op": "log",
+      "stack_out": []
+    },
+    "188": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "189": {
+      "op": "return",
+      "stack_out": []
+    },
+    "190": {
+      "block": "main_bare_routing@9",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%31#0"
+      ],
+      "stack_out": [
+        "tmp%31#0"
+      ]
+    },
+    "192": {
+      "op": "bnz main_after_if_else@13",
+      "stack_out": []
+    },
+    "195": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%32#0"
+      ],
+      "stack_out": [
+        "tmp%32#0"
+      ]
+    },
+    "197": {
+      "op": "!",
+      "defined_out": [
+        "tmp%33#0"
+      ],
+      "stack_out": [
+        "tmp%33#0"
+      ]
+    },
+    "198": {
+      "error": "can only call when creating",
+      "op": "assert // can only call when creating",
+      "stack_out": []
+    },
+    "199": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "200": {
+      "op": "return",
+      "stack_out": []
+    },
+    "201": {
+      "subroutine": "smart_contracts.aidchain_contracts.contract.AidchainContracts.hello",
+      "params": {
+        "name#0": "bytes"
+      },
+      "block": "hello",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "204": {
+      "op": "pushbytes \"Hello, \"",
+      "defined_out": [
+        "\"Hello, \""
+      ],
+      "stack_out": [
+        "\"Hello, \""
+      ]
+    },
+    "213": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "\"Hello, \"",
+        "name#0 (copy)"
+      ],
+      "stack_out": [
+        "\"Hello, \"",
+        "name#0 (copy)"
+      ]
+    },
+    "215": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "216": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "217": {
+      "subroutine": "smart_contracts.aidchain_contracts.contract.AidchainContracts.get_donation_info",
+      "params": {
+        "amount#0": "uint64",
+        "donor#0": "bytes"
+      },
+      "block": "get_donation_info",
+      "stack_in": [],
+      "op": "proto 2 1"
+    },
+    "220": {
+      "op": "pushbytes \"Donation info retrieved for donor: \"",
+      "defined_out": [
+        "\"Donation info retrieved for donor: \""
+      ],
+      "stack_out": [
+        "\"Donation info retrieved for donor: \""
+      ]
+    },
+    "257": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "\"Donation info retrieved for donor: \"",
+        "donor#0 (copy)"
+      ],
+      "stack_out": [
+        "\"Donation info retrieved for donor: \"",
+        "donor#0 (copy)"
+      ]
+    },
+    "259": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "260": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "261": {
+      "subroutine": "smart_contracts.aidchain_contracts.contract.AidchainContracts.calculate_total",
+      "params": {
+        "amount1#0": "uint64",
+        "amount2#0": "uint64"
+      },
+      "block": "calculate_total",
+      "stack_in": [],
+      "op": "proto 2 1"
+    },
+    "264": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "amount1#0 (copy)"
+      ],
+      "stack_out": [
+        "amount1#0 (copy)"
+      ]
+    },
+    "266": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "amount1#0 (copy)",
+        "amount2#0 (copy)"
+      ],
+      "stack_out": [
+        "amount1#0 (copy)",
+        "amount2#0 (copy)"
+      ]
+    },
+    "268": {
+      "op": "+",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "269": {
+      "retsub": true,
+      "op": "retsub"
+    }
+  }
+}

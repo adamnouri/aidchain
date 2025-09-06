@@ -1,0 +1,169 @@
+#pragma version 10
+#pragma typetrack false
+
+// algopy.arc4.ARC4Contract.approval_program() -> uint64:
+main:
+    intcblock 1
+    bytecblock 0x151f7c75
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@9
+    pushbytess 0x02bece11 0xff511553 0xa20ddd23 0xcdba1297 // method "hello(string)string", method "create_donation(uint64)string", method "get_donation_info(uint64,string)string", method "calculate_total(uint64,uint64)uint64"
+    txna ApplicationArgs 0
+    match main_hello_route@3 main_create_donation_route@4 main_get_donation_info_route@5 main_calculate_total_route@6
+
+main_after_if_else@13:
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    pushint 0 // 0
+    return
+
+main_calculate_total_route@6:
+    // smart_contracts/aidchain_contracts/contract.py:20
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txna ApplicationArgs 2
+    btoi
+    // smart_contracts/aidchain_contracts/contract.py:20
+    // @abimethod()
+    callsub calculate_total
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+main_get_donation_info_route@5:
+    // smart_contracts/aidchain_contracts/contract.py:15
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txna ApplicationArgs 2
+    extract 2 0
+    // smart_contracts/aidchain_contracts/contract.py:15
+    // @abimethod()
+    callsub get_donation_info
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+main_create_donation_route@4:
+    // smart_contracts/aidchain_contracts/contract.py:10
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    pushbytes 0x151f7c75001d446f6e6174696f6e2063726561746564207375636365737366756c6c79
+    log
+    intc_0 // 1
+    return
+
+main_hello_route@3:
+    // smart_contracts/aidchain_contracts/contract.py:6
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    txna ApplicationArgs 1
+    extract 2 0
+    // smart_contracts/aidchain_contracts/contract.py:6
+    // @abimethod()
+    callsub hello
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+main_bare_routing@9:
+    // smart_contracts/aidchain_contracts/contract.py:5
+    // class AidchainContracts(ARC4Contract):
+    txn OnCompletion
+    bnz main_after_if_else@13
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_0 // 1
+    return
+
+
+// smart_contracts.aidchain_contracts.contract.AidchainContracts.hello(name: bytes) -> bytes:
+hello:
+    // smart_contracts/aidchain_contracts/contract.py:6-7
+    // @abimethod()
+    // def hello(self, name: String) -> String:
+    proto 1 1
+    // smart_contracts/aidchain_contracts/contract.py:8
+    // return "Hello, " + name
+    pushbytes "Hello, "
+    frame_dig -1
+    concat
+    retsub
+
+
+// smart_contracts.aidchain_contracts.contract.AidchainContracts.get_donation_info(amount: uint64, donor: bytes) -> bytes:
+get_donation_info:
+    // smart_contracts/aidchain_contracts/contract.py:15-16
+    // @abimethod()
+    // def get_donation_info(self, amount: UInt64, donor: String) -> String:
+    proto 2 1
+    // smart_contracts/aidchain_contracts/contract.py:18
+    // return String("Donation info retrieved for donor: ") + donor
+    pushbytes "Donation info retrieved for donor: "
+    frame_dig -1
+    concat
+    retsub
+
+
+// smart_contracts.aidchain_contracts.contract.AidchainContracts.calculate_total(amount1: uint64, amount2: uint64) -> uint64:
+calculate_total:
+    // smart_contracts/aidchain_contracts/contract.py:20-21
+    // @abimethod()
+    // def calculate_total(self, amount1: UInt64, amount2: UInt64) -> UInt64:
+    proto 2 1
+    // smart_contracts/aidchain_contracts/contract.py:23
+    // return amount1 + amount2
+    frame_dig -2
+    frame_dig -1
+    +
+    retsub
