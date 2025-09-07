@@ -56,34 +56,34 @@ export const useLandingPageStats = () => {
 
   const loadStats = useCallback(async () => {
     console.log('📈 Loading landing page stats:', { appClient: !!appClient })
-    
+
     setStats(prev => ({ ...prev, loading: true, error: null }))
 
     try {
       // Try blockchain first
-      if (appClient) {
-        console.log('🔗 Loading stats from blockchain...')
-        const [totalDonationsRes, campaignCountRes, orgCountRes] = await Promise.all([
-          appClient.send.getTotalDonations(),
-          appClient.send.getCampaignCount(),
-          appClient.send.getOrganizationCount()
-        ])
 
-        setStats({
-          totalDonations: Number(totalDonationsRes.return),
-          activeCampaigns: Number(campaignCountRes.return),
-          totalOrganizations: Number(orgCountRes.return),
-          loading: false,
-          error: null
-        })
-        return
-      }
+      console.log('🔗 Loading stats from blockchain...')
+      const [totalDonationsRes, campaignCountRes, orgCountRes] = await Promise.all([
+        appClient.send.getTotalDonations(),
+        appClient.send.getCampaignCount(),
+        appClient.send.getOrganizationCount()
+      ])
 
-      throw new Error('No blockchain connection')
+      setStats({
+        totalDonations: Number(totalDonationsRes.return),
+        activeCampaigns: Number(campaignCountRes.return),
+        totalOrganizations: Number(orgCountRes.return),
+        loading: false,
+        error: null
+      })
+
+      return
+
+
     } catch (error) {
       console.error('❌ Blockchain stats loading failed:', error)
       console.log('🎭 Using mock stats for demo')
-      
+
       // Fallback to mock stats for hackathon demo
       setStats({
         totalDonations: 1365000, // $1.365M
@@ -126,11 +126,11 @@ export const useCampaignCategories = () => {
       'hurricane': '/assets/hurricane-aid.jpg',
       'orphan': '/assets/orphan-support.jpg'
     }
-    
-    const key = Object.keys(imageMap).find(k => 
+
+    const key = Object.keys(imageMap).find(k =>
       title.toLowerCase().includes(k)
     )
-    
+
     return key ? imageMap[key] : '/assets/default-aid.jpg'
   }
 
@@ -143,7 +143,7 @@ export const useCampaignCategories = () => {
 
   const loadCategories = useCallback(async () => {
     console.log('📊 Loading campaign categories:', { appClient: !!appClient })
-    
+
     setLoading(true)
     setError(null)
 
@@ -168,7 +168,7 @@ export const useCampaignCategories = () => {
         }
 
         const campaignResults = await Promise.all(campaignPromises)
-        
+
         const campaigns: CampaignCategory[] = campaignResults.map(result => {
           const campaign = result.return
           return {
@@ -192,7 +192,7 @@ export const useCampaignCategories = () => {
     } catch (error) {
       console.error('❌ Blockchain categories loading failed:', error)
       console.log('🎭 Using mock campaign data for demo')
-      
+
       // Fallback to mock data for hackathon demo
       const mockCategories: CampaignCategory[] = [
         {
@@ -275,7 +275,7 @@ export const useDonationDetail = (campaignId: number) => {
 
   const loadCampaignDetails = useCallback(async () => {
     console.log('📋 Loading campaign details:', { campaignId, appClient: !!appClient })
-    
+
     setState(prev => ({ ...prev, loading: true, error: null }))
 
     try {
@@ -300,11 +300,11 @@ export const useDonationDetail = (campaignId: number) => {
             'hurricane': '/assets/hurricane-aid.jpg',
             'orphan': '/assets/orphan-support.jpg'
           }
-          
-          const key = Object.keys(imageMap).find(k => 
+
+          const key = Object.keys(imageMap).find(k =>
             title.toLowerCase().includes(k)
           )
-          
+
           return key ? imageMap[key] : '/assets/default-aid.jpg'
         }
 
@@ -334,7 +334,7 @@ export const useDonationDetail = (campaignId: number) => {
     } catch (error) {
       console.error('❌ Blockchain loading failed:', error)
       console.log('🎭 Using mock campaign data for demo')
-      
+
       // Fallback to mock data for hackathon demo
       const mockCampaigns = [
         { id: 1, title: 'Afghanistan Emergency Relief', location: 'Afghanistan', raised: 245000, target: 500000 },
@@ -345,7 +345,7 @@ export const useDonationDetail = (campaignId: number) => {
       ]
 
       const mockCampaign = mockCampaigns.find(c => c.id === campaignId) || mockCampaigns[0]
-      
+
       const calculateUrgency = (raised: number, target: number): 'high' | 'medium' | 'low' => {
         const percentage = target > 0 ? (raised / target) * 100 : 0
         if (percentage < 25) return 'high'
@@ -370,18 +370,18 @@ export const useDonationDetail = (campaignId: number) => {
 
   const processDonation = async (amount: number): Promise<string | null> => {
     console.log('💰 Processing donation:', { amount, appClient: !!appClient, activeAddress })
-    
+
     setState(prev => ({ ...prev, processing: true, error: null }))
 
     try {
       // PRIORITY: Real blockchain transaction first
       if (appClient && activeAddress) {
         console.log('🔗 Processing REAL blockchain donation...')
-        
+
         // Validate donation first
         const validation = await appClient.send.validateDonation({
           args: {
-            amount: amount * 1_000_000, // Convert to microAlgos  
+            amount: amount * 1_000_000, // Convert to microAlgos
             donor: activeAddress
           }
         })
@@ -393,10 +393,10 @@ export const useDonationDetail = (campaignId: number) => {
         // Process real blockchain donation
         const result = await appClient.send.createDonation({ args: { campaignId } })
         console.log('✅ REAL blockchain donation successful:', result.return)
-        
+
         // Reload campaign details to get updated blockchain stats
         await loadCampaignDetails()
-        
+
         setState(prev => ({ ...prev, processing: false }))
         return result.return
       }
@@ -404,16 +404,16 @@ export const useDonationDetail = (campaignId: number) => {
       // Only use mock if no blockchain connection at all
       console.log('⚠️ No blockchain connection - using demo mode')
       throw new Error('No blockchain connection available')
-      
+
     } catch (error) {
       console.error('❌ Blockchain donation error:', error)
-      
+
       // Only fall back to mock after blockchain attempt fails
       console.log('🎭 Blockchain failed - falling back to mock for demo continuity')
-      
+
       // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 1500))
-      
+
       // Update campaign with mock data
       if (state.campaign) {
         const updatedCampaign = {
@@ -422,7 +422,7 @@ export const useDonationDetail = (campaignId: number) => {
         }
         setState(prev => ({ ...prev, campaign: updatedCampaign, processing: false }))
       }
-      
+
       return `fallback_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
     }
   }
