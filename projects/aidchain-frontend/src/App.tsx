@@ -5,24 +5,36 @@ import ErrorBoundary from './components/ErrorBoundary'
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import Home from './Home'
 
-// Force KMD wallet for development testing
-const kmdConfig = getKmdConfigFromViteEnvironment()
-const supportedWallets: SupportedWallet[] = [
-  {
-    id: WalletId.KMD,
-    options: {
-      baseServer: kmdConfig.server,
-      token: String(kmdConfig.token),
-      port: String(kmdConfig.port),
-    },
-  },
+// Configure KMD wallet only if env vars are present
+let supportedWallets: SupportedWallet[] = [
+  // Browser wallets (TestNet/MainNet)
+  { id: WalletId.PERA },
+  { id: WalletId.DEFLY },
+  { id: WalletId.EXODUS },
+  { id: WalletId.DAFFI },
 ]
+try {
+  const kmdConfig = getKmdConfigFromViteEnvironment()
+  supportedWallets = [
+    ...supportedWallets,
+    {
+      id: WalletId.KMD,
+      options: {
+        baseServer: kmdConfig.server,
+        token: String(kmdConfig.token),
+        port: String(kmdConfig.port),
+      },
+    },
+  ]
+  console.log('🔗 Configured KMD wallet:', {
+    server: kmdConfig.server,
+    port: kmdConfig.port,
+    network: import.meta.env.VITE_ALGOD_NETWORK,
+  })
+} catch (e) {
+  console.warn('KMD env vars not set; skipping KMD wallet configuration')
+}
 
-console.log('🔗 Configured KMD wallet:', {
-  server: kmdConfig.server,
-  port: kmdConfig.port,
-  network: import.meta.env.VITE_ALGOD_NETWORK
-})
 
 export default function App() {
   const algodConfig = getAlgodConfigFromViteEnvironment()

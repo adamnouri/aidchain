@@ -1,76 +1,102 @@
-# aidchain-frontend
+# AidChain Frontend
 
-This starter React project has been generated using AlgoKit. See below for default getting started instructions.
+AidChain is a transparent humanitarian aid platform. Donors fund campaigns, NGOs manage distribution, and everyone can trace impact end‑to‑end on Algorand.
 
-# Setup
+## What this app does
+- Landing page: explain mission, CTA to donate, live stats
+- Donation flow: browse categories, view campaign details, donate, confirmation
+- NGO portal: register organizations, create campaigns, view progress (demo and on-chain via app client)
+- Wallet integration: connect and transact with supported Algorand wallets
 
-### Initial Setup
+## Why it exists (purpose)
+Increase trust and efficiency in humanitarian aid by making funds traceable, verifiable, and fast. AidChain aims to reduce overhead, fraud, and opacity with a transparent, low-cost rails.
 
-#### 1. Clone the Repository
-Start by cloning this repository to your local machine.
+## Tech stack
+- React + TypeScript + Vite
+- Design system: CSS variables (tokens) with modular CSS (`home.css`, `donation.css`, `ngo.css`)
+- Wallets: `@txnlab/use-wallet-react`
+- Notifications: `notistack`
+- Testing/automation (repo includes): Playwright
+- Contracts/app client (monorepo): see `projects/aidchain-contracts`
 
-#### 2. Install Pre-requisites
-Ensure the following pre-requisites are installed and properly configured:
+## Notable frontend modules
+- `src/utils/network/getAlgoClientConfigs.ts`: Reads Algod/Indexer/KMD env configs
+- `src/context/AppClientContext.tsx`: Provides generated app client
+- `src/components/ui/`: Reusable UI primitives (`Button`, `Input`, `Card`, `Nav`)
+- `src/styles/tokens.css`: Design tokens (colors, type scale, spacing, radii, shadows, focus styles)
 
-- **npm**: Node package manager. Install from [Node.js Installation Guide](https://nodejs.org/en/download/). Verify with `npm -v` to see version `18.12`+.
-- **AlgoKit CLI**: Essential for project setup and operations. Install the latest version from [AlgoKit CLI Installation Guide](https://github.com/algorandfoundation/algokit-cli#install). Verify installation with `algokit --version`, expecting `2.0.0` or later.
+## Environment
+Create a `.env` based on `.env.template`. Minimum for Algod:
 
-#### 3. Bootstrap Your Local Environment
-Run the following commands within the project folder:
+```
+VITE_ALGOD_SERVER=
+VITE_ALGOD_PORT=
+VITE_ALGOD_TOKEN=
+VITE_ALGOD_NETWORK=localnet|testnet|mainnet
+```
 
-- **Install Project Dependencies**: With `algokit project bootstrap all`, ensure all dependencies are ready.
+Optional (only if using KMD for local wallets):
 
-### Development Workflow
+```
+VITE_KMD_SERVER=
+VITE_KMD_PORT=
+VITE_KMD_TOKEN=
+VITE_KMD_WALLET=
+VITE_KMD_PASSWORD=
+```
 
-#### Terminal
-Directly manage and interact with your project using AlgoKit commands:
+Indexer (optional):
 
-1. **Build Contracts**: `algokit project run build` builds react web app and links with smart contracts in workspace, if any.
-2. Remaining set of command for linting, testing and deployment can be found in respective [package.json](./package.json) file and [.algokit.toml](./.algokit.toml) files.
+```
+VITE_INDEXER_SERVER=
+VITE_INDEXER_PORT=
+VITE_INDEXER_TOKEN=
+```
 
-#### VS Code
-For a seamless experience with breakpoint debugging and other features:
+The app gracefully skips KMD configuration if these variables are not present.
 
-1. **Open Project**: In VS Code, open the repository root.
-2. **Install Extensions**: Follow prompts to install recommended extensions.
-3. **Debugging**:
-   - Use `F5` to start debugging.
-   - **Windows Users**: Select the Python interpreter at `./.venv/Scripts/python.exe` via `Ctrl/Cmd + Shift + P` > `Python: Select Interpreter` before the first run.
+## Getting started
+1) Install prerequisites: Node 18+, npm, AlgoKit CLI (optional)
+2) Install dependencies:
+```
+npm install
+```
+3) Create `.env` and configure Algod (and optionally KMD/Indexer)
+4) Start dev server:
+```
+npm run dev
+```
 
-#### Other IDEs
-While primarily optimized for VS Code, Jetbrains WebStorm has base support for this project:
+## Common scripts
+- `npm run dev`: Start Vite dev server
+- `npm run build`: Production build
+- `npm run preview`: Preview production build locally
 
-1. **Open Project**: In your JetBrains IDE, open the repository root.
-2. **Automatic Setup**: The IDE should configure the Python interpreter and virtual environment.
-3. **Debugging**: Use `Shift+F10` or `Ctrl+R` to start debugging. Note: Windows users may encounter issues with pre-launch tasks due to a known bug. See [JetBrains forums](https://youtrack.jetbrains.com/issue/IDEA-277486/Shell-script-configuration-cannot-run-as-before-launch-task) for workarounds.
+## Design system and accessibility
+- Centralized tokens in `src/styles/tokens.css` (brand gradient, neutrals, typography, spacing, radii, shadows)
+- Page styles: `home.css` (landing), `donation.css` (donation flow), `ngo.css` (NGO portal)
+- Global `:focus-visible` outline and reduced-motion rules
+- Inter font for consistent typographic scale
 
-## AlgoKit Workspaces and Project Management
-This project supports both standalone and monorepo setups through AlgoKit workspaces. Leverage [`algokit project run`](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/run.md) commands for efficient monorepo project orchestration and management across multiple projects within a workspace.
+## Project structure (frontend)
+```
+src/
+  components/
+    ui/              # Button, Input, Card, Nav
+    ...              # Feature components
+  context/           # App client provider
+  hooks/             # UI/data hooks
+  services/          # API/adapters
+  styles/            # tokens + page styles
+  utils/             # network configs, helpers
+```
 
-> Please note, by default frontend is pre configured to run against Algorand LocalNet. If you want to run against TestNet or MainNet, comment out the current environment variable and uncomment the relevant one in [`.env`](.env) file that is created after running bootstrap command and based on [`.env.template`](.env.template).
+## Contracts and typed clients
+This repository includes smart contracts in `projects/aidchain-contracts`. If an ARC-34 app spec is available, generate a TypeScript client and place it under `src/contracts/`, then wire it via `AppClientContext`.
 
-# Algorand Wallet integrations
+## Notes
+- KMD is optional; when env vars are absent, the app won’t crash and will skip KMD setup.
+- Demo states are shown when blockchain connectivity isn’t available.
 
-The template comes with [`use-wallet`](https://github.com/txnlab/use-wallet) integration, which provides a React hook for connecting to an Algorand wallet providers. The following wallet providers are included by default:
-- LocalNet:
-- - [KMD/Local Wallet](https://github.com/TxnLab/use-wallet#kmd-algorand-key-management-daemon) - Algorand's Key Management Daemon (KMD) is a service that manages Algorand private keys and signs transactions. Works best with AlgoKit LocalNet and allows you to easily test and interact with your dApps locally.
-- TestNet and others:
-- - [Pera Wallet](https://perawallet.app).
-- - [Defly Wallet](https://defly.app).
-- - [Exodus Wallet](https://www.exodus.com).
-- - [Daffi Wallet](https://www.daffi.me).
-
-Refer to official [`use-wallet`](https://github.com/txnlab/use-wallet) documentation for detailed guidelines on how to integrate with other wallet providers (such as WalletConnect v2). Too see implementation details on the use wallet hook and initialization of extra wallet providers refer to [`App.tsx`](./src/App.tsx).
-
-# Tools
-
-This project makes use of React and Tailwind to provider a base project configuration to develop frontends for your Algorand dApps and interactions with smart contracts. The following tools are in use:
-
-- [AlgoKit Utils](https://github.com/algorandfoundation/algokit-utils-ts) - Various TypeScript utilities to simplify interactions with Algorand and AlgoKit.
-- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
-- [use-wallet](https://github.com/txnlab/use-wallet) - A React hook for connecting to an Algorand wallet providers.
-- [npm](https://www.npmjs.com/): Node.js package manager
-It has also been configured to have a productive dev experience out of the box in [VS Code](https://code.visualstudio.com/), see the [.vscode](./.vscode) folder.
-# Integrating with smart contracts and application clients
-
-Refer to the detailed guidance on [integrating with smart contracts and application clients](./src/contracts/README.md). In essence, for any smart contract codebase generated with AlgoKit or other tools that produce compile contracts into ARC34 compliant app specifications, you can use the `algokit generate` command to generate TypeScript or Python typed client. Once generated simply drag and drop the generated client into `./src/contracts` and import it into your React components as you see fit.
+## License
+MIT (unless otherwise specified)

@@ -336,8 +336,8 @@ const Home: React.FC<HomeProps> = () => {
       </nav>
 
       {/* Hero Section */}
-      <div className="hero">
-        <div className="hero-content">
+      <div className="landing-hero">
+        <div className="landing-hero-content">
           
           {/* Left Content */}
           <div className="left-content">
