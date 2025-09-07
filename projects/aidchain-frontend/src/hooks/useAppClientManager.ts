@@ -32,25 +32,33 @@ export function useAppClientManager(): AppClientManagerHook {
   }, [activeAddress, algorandClient, contextError])
 
   const initializeAppClient = async () => {
-    if (!algorandClient || !activeAddress) return
+    console.log('🚀 initializeAppClient called')
+    if (!algorandClient || !activeAddress) {
+      console.log('❌ Missing prerequisites in initializeAppClient')
+      return
+    }
 
     setLoading(true)
     setError(null)
     
     try {
+      console.log('🏭 Creating AidchainContractsFactory...')
       const factory = new AidchainContractsFactory({
         defaultSender: activeAddress,
         algorand: algorandClient,
       })
 
-      const deployResult = await factory.deploy({
-        onSchemaBreak: OnSchemaBreak.ReplaceApp,
-        onUpdate: OnUpdate.ReplaceApp,
+      console.log('🔌 Connecting to deployed contract (App ID: 1184)...')
+      // Connect to existing deployed contract (App ID: 1184)
+      const appClient = factory.getAppClientByIdOrName({
+        appId: 1184, // The deployed contract ID from LocalNet
       })
 
-      setAppClient(deployResult.appClient)
+      console.log('✅ App client created successfully:', { appId: appClient.appId })
+      setAppClient(appClient)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to initialize app client')
+      console.error('❌ Error in initializeAppClient:', e)
+      setError(e instanceof Error ? e.message : 'Failed to connect to app client')
       setAppClient(null)
     } finally {
       setLoading(false)

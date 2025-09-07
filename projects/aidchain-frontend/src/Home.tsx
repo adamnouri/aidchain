@@ -13,6 +13,7 @@ import DeliveryTracker from './components/DeliveryTracker'
 import DonationCategoriesPage from './components/DonationCategoriesPage'
 import DonationDetailPage from './components/DonationDetailPage'
 import DonationConfirmationPage from './components/DonationConfirmationPage'
+import ContractTest from './components/ContractTest'
 import { useLandingPageStats } from './hooks/useAidChainUI'
 
 interface HomeProps { }
@@ -22,6 +23,7 @@ const Home: React.FC<HomeProps> = () => {
   const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
   const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false)
   const [openDonationForm, setOpenDonationForm] = useState<boolean>(false)
+  const [showContractTest, setShowContractTest] = useState<boolean>(false)
   const [currentView, setCurrentView] = useState<'landing' | 'donor' | 'ngo' | 'milestones' | 'vouchers' | 'deliveries' | 'about' | 'how-it-works' | 'get-involved' | 'donation-categories' | 'donation-detail' | 'donation-confirmation'>('landing')
   const [selectedCampaignId, setSelectedCampaignId] = useState<number>(1)
   const [transactionHash, setTransactionHash] = useState<string>('')
@@ -392,6 +394,9 @@ const Home: React.FC<HomeProps> = () => {
               <button onClick={() => setCurrentView('about')} style={landingStyles.secondaryButton}>
                 About Us
               </button>
+              <button onClick={() => setShowContractTest(true)} style={{...landingStyles.secondaryButton, backgroundColor: '#10b981', borderColor: '#10b981', color: 'white'}}>
+                🧪 Test Contract
+              </button>
             </div>
           </div>
 
@@ -476,6 +481,7 @@ const Home: React.FC<HomeProps> = () => {
       <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
       <Transact openModal={openDemoModal} setModalState={setOpenDemoModal} />
       <AppCalls openModal={appCallsDemoModal} setModalState={setAppCallsDemoModal} />
+      {showContractTest && <ContractTest onClose={() => setShowContractTest(false)} />}
 
       {/* Developer Tools (Hidden in bottom) */}
       <div style={landingStyles.devTools}>

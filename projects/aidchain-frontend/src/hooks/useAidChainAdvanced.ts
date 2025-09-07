@@ -36,7 +36,7 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
       
       for (let i = 1; i <= Number(campaignCount.return); i++) {
         try {
-          const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
+          const campaignDetails = await appClient.send.getCampaignDetails({ args: { campaignId: i } })
           if (campaignDetails.return) {
             const campaign = campaignDetails.return
             loadedCampaigns.push({
@@ -60,7 +60,7 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
       
       for (let i = 1; i <= Number(milestoneCount.return); i++) {
         try {
-          const milestoneDetails = await appClient.send.getMilestoneDetails({ milestoneId: i })
+          const milestoneDetails = await appClient.send.getMilestoneDetails({ args: { milestoneId: i } })
           if (milestoneDetails.return) {
             const milestone = milestoneDetails.return
             loadedMilestones.push({
@@ -98,9 +98,11 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
       const targetMicroAlgos = Math.round(parseFloat(targetAlgo) * 1_000_000)
       
       const result = await appClient.send.createMilestone({
-        campaignId,
-        targetAmount: targetMicroAlgos,
-        description: description.trim()
+        args: {
+          campaignId,
+          targetAmount: targetMicroAlgos,
+          description: description.trim()
+        }
       })
       
       await loadData() // Refresh data
@@ -124,8 +126,10 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
     
     try {
       const result = await appClient.send.completeMilestone({
-        milestoneId,
-        proof: proof.trim()
+        args: {
+          milestoneId,
+          proof: proof.trim()
+        }
       })
       
       await loadData() // Refresh data
@@ -151,9 +155,11 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
       const amountMicroAlgos = Math.round(parseFloat(amountAlgo) * 1_000_000)
       
       const result = await appClient.send.releaseMilestoneFunds({
-        milestoneId,
-        recipient: recipientAddress.trim(),
-        amount: amountMicroAlgos
+        args: {
+          milestoneId,
+          recipient: recipientAddress.trim(),
+          amount: amountMicroAlgos
+        }
       })
       
       await loadData() // Refresh data
@@ -202,7 +208,7 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
       
       for (let i = 1; i <= Number(voucherCount.return); i++) {
         try {
-          const voucherDetails = await appClient.send.getVoucherDetails({ voucherId: i })
+          const voucherDetails = await appClient.send.getVoucherDetails({ args: { voucherId: i } })
           if (voucherDetails.return) {
             const voucher = voucherDetails.return
             loadedVouchers.push({
@@ -239,8 +245,10 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
       const supply = parseInt(totalSupply)
       
       const result = await appClient.send.createVoucherAsset({
-        assetName: assetName.trim(),
-        totalSupply: supply
+        args: {
+          assetName: assetName.trim(),
+          totalSupply: supply
+        }
       })
       
       await loadVouchers() // Refresh data
@@ -266,9 +274,11 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
       const amountInt = parseInt(amount)
       
       const result = await appClient.send.distributeVouchers({
-        assetId,
-        recipient: recipientAddress.trim(),
-        amount: amountInt
+        args: {
+          assetId,
+          recipient: recipientAddress.trim(),
+          amount: amountInt
+        }
       })
       
       await loadVouchers() // Refresh data
@@ -294,9 +304,11 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
       const amountInt = parseInt(amount)
       
       const result = await appClient.send.redeemVoucher({
-        voucherId,
-        merchant: merchant.trim(),
-        amount: amountInt
+        args: {
+          voucherId,
+          merchant: merchant.trim(),
+          amount: amountInt
+        }
       })
       
       await loadVouchers() // Refresh data
@@ -344,7 +356,7 @@ export function useDeliveryTracker(appClient: AidchainContractsClient | null, ac
       
       for (let i = 1; i <= Number(deliveryCount.return); i++) {
         try {
-          const deliveryDetails = await appClient.send.getDeliveryDetails({ deliveryId: i })
+          const deliveryDetails = await appClient.send.getDeliveryDetails({ args: { deliveryId: i } })
           if (deliveryDetails.return) {
             const delivery = deliveryDetails.return
             loadedDeliveries.push({
@@ -379,8 +391,10 @@ export function useDeliveryTracker(appClient: AidchainContractsClient | null, ac
     
     try {
       const result = await appClient.send.logDelivery({
-        recipient: recipient.trim(),
-        location: location.trim()
+        args: {
+          recipient: recipient.trim(),
+          location: location.trim()
+        }
       })
       
       await loadDeliveries() // Refresh data
@@ -404,8 +418,10 @@ export function useDeliveryTracker(appClient: AidchainContractsClient | null, ac
     
     try {
       const result = await appClient.send.verifyDelivery({
-        deliveryId,
-        agent: agent.trim()
+        args: {
+          deliveryId,
+          agent: agent.trim()
+        }
       })
       
       await loadDeliveries() // Refresh data

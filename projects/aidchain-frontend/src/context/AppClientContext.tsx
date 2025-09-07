@@ -35,8 +35,14 @@ export const AppClientProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
+    console.log('🌐 AppClientContext effect triggered:', {
+      activeAddress: activeAddress?.slice(0, 8) + '...',
+      stableSigner: !!stableSigner
+    })
+    
     // This effect sets up the connection to the Algorand blockchain client
     if (!activeAddress || !stableSigner) {
+      console.log('⏳ AppClientContext - missing prerequisites')
       setAlgorandClient(null)
       return
     }
@@ -44,16 +50,21 @@ export const AppClientProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setError(null)
 
     try {
+      console.log('🔧 AppClientContext - creating AlgorandClient...')
       // Create a client for the Algorand blockchain using configuration from our environment
       const algodConfig = getAlgodConfigFromViteEnvironment()
       const indexerConfig = getIndexerConfigFromViteEnvironment()
+      console.log('🔧 Configs:', { algodConfig, indexerConfig })
+      
       const algorand = AlgorandClient.fromConfig({ algodConfig, indexerConfig })
 
       // Set the default signer for the Algorand client, so it knows how to sign transactions
       algorand.setDefaultSigner(stableSigner)
 
+      console.log('✅ AlgorandClient created successfully')
       setAlgorandClient(algorand)
     } catch (e) {
+      console.error('❌ Error creating AlgorandClient:', e)
       setError(e as Error)
       setAlgorandClient(null)
     }

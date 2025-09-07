@@ -43,7 +43,7 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
       const loadedCampaigns: Campaign[] = []
       for (let i = 1; i <= Number(totalCampaigns.return); i++) {
         try {
-          const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
+          const campaignDetails = await appClient.send.getCampaignDetails({ args: { campaignId: i } })
           if (campaignDetails.return) {
             const campaign = campaignDetails.return
             loadedCampaigns.push({
@@ -78,7 +78,7 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
     setError(null)
 
     try {
-      const result = await appClient.send.createDonation({ campaignId })
+      const result = await appClient.send.createDonation({ args: { campaignId } })
       await loadDashboardData() // Refresh data
       return true
     } catch (e) {
@@ -125,7 +125,7 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
       for (let i = 1; i <= Number(orgCount.return); i++) {
         try {
-          const orgDetails = await appClient.send.getOrganizationDetails({ orgId: i })
+          const orgDetails = await appClient.send.getOrganizationDetails({ args: { orgId: i } })
           if (orgDetails.return) {
             const org = orgDetails.return
             loadedOrgs.push({
@@ -147,7 +147,7 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
       for (let i = 1; i <= Number(campaignCount.return); i++) {
         try {
-          const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
+          const campaignDetails = await appClient.send.getCampaignDetails({ args: { campaignId: i } })
           if (campaignDetails.return) {
             const campaign = campaignDetails.return
             loadedCampaigns.push({
@@ -183,8 +183,10 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
     try {
       const result = await appClient.send.registerOrganization({
-        orgName: orgName.trim(),
-        walletAddress: walletAddress.trim() || activeAddress
+        args: {
+          orgName: orgName.trim(),
+          walletAddress: walletAddress.trim() || activeAddress
+        }
       })
 
       await loadData() // Refresh data
@@ -210,9 +212,11 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
       const targetMicroAlgos = Math.round(parseFloat(targetAlgo) * 1_000_000)
 
       const result = await appClient.send.createCampaign({
-        title: title.trim(),
-        target: targetMicroAlgos,
-        creator: creator.trim()
+        args: {
+          title: title.trim(),
+          target: targetMicroAlgos,
+          creator: creator.trim()
+        }
       })
 
       await loadData() // Refresh data
