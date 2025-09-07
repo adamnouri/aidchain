@@ -5,30 +5,30 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #38b2ac;
+  background-color: var(--color-primary);
 }
 
 .hero-content {
   text-align: center;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
   max-width: 24rem;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   margin: 0 auto;
 }
 
 .text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-4xl);
 }
 
 .font-bold {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
 }
 
 .grid {
@@ -40,12 +40,12 @@
 }
 
 .btn-primary {
-  background-color: #1a202c;
-  color: #fff;
+  background-color: var(--color-surface-contrast);
+  color: var(--color-text-on-primary);
 }
 
 .divider {
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
@@ -68,27 +68,27 @@
 
 .modal-box {
   margin: 2.5em auto;
-  background: #fff;
-  border-radius: 0.5em;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
   width: 40em;
   max-width: 90vw;
   padding: 1em;
 }
 
 .font-bold {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .text-2xl {
-  font-size: 1.5rem;
+  font-size: var(--font-size-2xl);
 }
 
 .m-2 {
-  margin: 0.5rem;
+  margin: var(--space-2);
 }
 
 .pt-5 {
-  padding-top: 1.25rem;
+  padding-top: var(--space-5);
 }
 
 .grid {
@@ -98,12 +98,12 @@
 .btn {
   margin: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #00aba2;
-  color: #fff;
+  background-color: var(--color-primary-strong);
+  color: var(--color-text-on-primary);
 }
 
 .btn-warning {
-  background-color: #d69e2e;
+  background-color: var(--color-warning);
 }
 
 .border-1 {
@@ -111,7 +111,7 @@
 }
 
 .border-teal-800 {
-  border-color: #2c7a7b;
+  border-color: var(--color-teal-800);
 }
 
 .modal-action {
@@ -120,7 +120,7 @@
 }
 
 .divider {
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
   margin-top: 1rem;
   margin-bottom: 1rem;
 }

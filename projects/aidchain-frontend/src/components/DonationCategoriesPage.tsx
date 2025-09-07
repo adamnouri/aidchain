@@ -1,5 +1,6 @@
 // components/DonationCategoriesPage.tsx - Design 2: Donation Categories Grid
 import React from 'react'
+import '../styles/donation.css'
 import { useCampaignCategories } from '../hooks/useAidChainUI'
 import LoadingSpinner from './LoadingSpinner'
 import logo from '../assets/logo.png'
@@ -16,181 +17,35 @@ const DonationCategoriesPage: React.FC<DonationCategoriesPageProps> = ({
   const { categories, loading, error } = useCampaignCategories()
 
   const styles = {
-    container: { 
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-      paddingBottom: '2rem'
-    },
-    nav: { 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      alignItems: 'center', 
-      padding: '1.5rem',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-    },
-    logo: { 
-      color: 'white', 
-      fontSize: '1.25rem', 
-      fontWeight: 'bold', 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '0.5rem', 
-      background: 'none', 
-      border: 'none', 
-      cursor: 'pointer' 
-    },
-    logoImage: { 
-      height: '1.5rem', 
-      width: 'auto', 
-      filter: 'brightness(0) saturate(100%) invert(100%)'
-    },
-    navButtons: { 
-      display: 'flex', 
-      gap: '1.5rem' 
-    },
-    navButton: { 
-      color: 'white', 
-      background: 'none', 
-      border: 'none', 
-      cursor: 'pointer',
-      fontSize: '1rem',
-      padding: '0.5rem'
-    },
-    main: { 
-      maxWidth: '1200px', 
-      margin: '0 auto', 
-      padding: '0 1.5rem', 
-      paddingTop: '3rem' 
-    },
-    header: {
-      textAlign: 'center' as const,
-      marginBottom: '3rem',
-      color: 'white'
-    },
-    title: {
-      fontSize: '2.5rem',
-      fontWeight: 'bold',
-      marginBottom: '1rem'
-    },
-    subtitle: {
-      fontSize: '1.125rem',
-      opacity: 0.9
-    },
-    grid: { 
-      display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
-      gap: '2rem',
-      marginBottom: '3rem'
-    },
-    card: { 
-      backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-      borderRadius: '1rem', 
-      overflow: 'hidden',
-      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-      cursor: 'pointer'
-    },
-    cardHover: {
-      transform: 'translateY(-5px)',
-      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)'
-    },
-    imageContainer: {
-      position: 'relative' as const,
-      height: '200px',
-      overflow: 'hidden'
-    },
-    image: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover' as const,
-      backgroundColor: '#e5e7eb'
-    },
-    placeholderImage: {
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#e5e7eb',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: '3rem'
-    },
-    urgencyBadge: {
-      position: 'absolute' as const,
-      top: '1rem',
-      right: '1rem',
-      padding: '0.25rem 0.75rem',
-      borderRadius: '2rem',
-      fontSize: '0.75rem',
-      fontWeight: '600',
-      textTransform: 'uppercase' as const
-    },
-    urgencyHigh: {
-      backgroundColor: '#ef4444',
-      color: 'white'
-    },
-    urgencyMedium: {
-      backgroundColor: '#f59e0b',
-      color: 'white'
-    },
-    urgencyLow: {
-      backgroundColor: '#10b981',
-      color: 'white'
-    },
-    cardContent: {
-      padding: '1.5rem'
-    },
-    cardTitle: {
-      fontSize: '1.25rem',
-      fontWeight: 'bold',
-      color: '#1f2937',
-      marginBottom: '0.5rem'
-    },
-    cardLocation: {
-      fontSize: '0.875rem',
-      color: '#6b7280',
-      marginBottom: '1rem',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.25rem'
-    },
-    progressContainer: {
-      marginBottom: '1.5rem'
-    },
-    progressBar: {
-      width: '100%',
-      height: '0.5rem',
-      backgroundColor: '#e5e7eb',
-      borderRadius: '0.25rem',
-      overflow: 'hidden',
-      marginBottom: '0.5rem'
-    },
-    progressFill: {
-      height: '100%',
-      backgroundColor: '#2563eb',
-      borderRadius: '0.25rem',
-      transition: 'width 0.3s ease'
-    },
-    progressText: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      fontSize: '0.75rem',
-      color: '#6b7280'
-    },
-    donateButton: {
-      width: '100%',
-      backgroundColor: '#1f2937',
-      color: 'white',
-      border: 'none',
-      borderRadius: '0.5rem',
-      padding: '0.75rem 1.5rem',
-      fontSize: '1rem',
-      fontWeight: '600',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease'
-    },
-    donateButtonHover: {
-      backgroundColor: '#374151'
-    },
+    container: { },
+    nav: { },
+    logo: { },
+    logoImage: { },
+    navButtons: { },
+    navButton: { },
+    main: { },
+    header: { },
+    title: { },
+    subtitle: { },
+    grid: { },
+    card: { },
+    cardHover: { },
+    imageContainer: { },
+    image: { },
+    placeholderImage: { },
+    urgencyBadge: { },
+    urgencyHigh: { },
+    urgencyMedium: { },
+    urgencyLow: { },
+    cardContent: { },
+    cardTitle: { },
+    cardLocation: { },
+    progressContainer: { },
+    progressBar: { },
+    progressFill: { },
+    progressText: { },
+    donateButton: { },
+    donateButtonHover: { },
     loadingContainer: {
       display: 'flex',
       justifyContent: 'center',
@@ -337,20 +192,20 @@ const DonationCategoriesPage: React.FC<DonationCategoriesPageProps> = ({
 
   if (loading) {
     return (
-      <div style={styles.container}>
-        <nav style={styles.nav}>
-          <button onClick={onBackToLanding} style={styles.logo}>
-            <img src={logo} alt="AidChain Logo" style={styles.logoImage} />
+      <div className="donation-container donation-gradient">
+        <nav className="donation-nav">
+          <button onClick={onBackToLanding} className="donation-logo">
+            <img src={logo} alt="AidChain Logo" />
             AIDCHAIN
           </button>
-          <div style={styles.navButtons}>
-            <button onClick={onBackToLanding} style={styles.navButton}>Get Involved</button>
-            <button onClick={onBackToLanding} style={styles.navButton}>How it works</button>
-            <button onClick={onBackToLanding} style={styles.navButton}>About Us</button>
+          <div className="donation-nav-buttons">
+            <button onClick={onBackToLanding} className="donation-nav-button">Get Involved</button>
+            <button onClick={onBackToLanding} className="donation-nav-button">How it works</button>
+            <button onClick={onBackToLanding} className="donation-nav-button">About Us</button>
           </div>
         </nav>
         
-        <div style={styles.loadingContainer}>
+        <div className="donation-main" style={{display:'flex',justifyContent:'center',alignItems:'center',minHeight:'400px',color:'#fff'}}>
           <LoadingSpinner />
         </div>
       </div>
@@ -359,17 +214,17 @@ const DonationCategoriesPage: React.FC<DonationCategoriesPageProps> = ({
 
   if (error) {
     return (
-      <div style={styles.container}>
-        <nav style={styles.nav}>
-          <button onClick={onBackToLanding} style={styles.logo}>
-            <img src={logo} alt="AidChain Logo" style={styles.logoImage} />
+      <div className="donation-container donation-gradient">
+        <nav className="donation-nav">
+          <button onClick={onBackToLanding} className="donation-logo">
+            <img src={logo} alt="AidChain Logo" />
             AIDCHAIN
           </button>
         </nav>
         
-        <div style={styles.errorContainer}>
-          <div style={styles.errorMessage}>Error loading campaigns: {error}</div>
-          <button onClick={() => window.location.reload()} style={styles.retryButton}>
+        <div className="donation-main" style={{textAlign:'center',color:'#fff',padding:'2rem'}}>
+          <div style={{fontSize:'1.125rem',marginBottom:'1rem'}}>Error loading campaigns: {error}</div>
+          <button onClick={() => window.location.reload()} className="btn btn-primary">
             Try Again
           </button>
         </div>
@@ -378,54 +233,37 @@ const DonationCategoriesPage: React.FC<DonationCategoriesPageProps> = ({
   }
 
   return (
-    <div style={styles.container}>
-      <nav style={styles.nav}>
-        <button onClick={onBackToLanding} style={styles.logo}>
-          <img src={logo} alt="AidChain Logo" style={styles.logoImage} />
+    <div className="donation-container donation-gradient">
+      <nav className="donation-nav">
+        <button onClick={onBackToLanding} className="donation-logo">
+          <img src={logo} alt="AidChain Logo" />
           AIDCHAIN
         </button>
-        <div style={styles.navButtons}>
-          <button onClick={onBackToLanding} style={styles.navButton}>Get Involved</button>
-          <button onClick={onBackToLanding} style={styles.navButton}>How it works</button>
-          <button onClick={onBackToLanding} style={styles.navButton}>About Us</button>
+        <div className="donation-nav-buttons">
+          <button onClick={onBackToLanding} className="donation-nav-button">Get Involved</button>
+          <button onClick={onBackToLanding} className="donation-nav-button">How it works</button>
+          <button onClick={onBackToLanding} className="donation-nav-button">About Us</button>
         </div>
       </nav>
 
-      <div style={styles.main}>
-        <div style={styles.header}>
-          <h1 style={styles.title}>Choose a Cause</h1>
-          <p style={styles.subtitle}>
-            Every donation is tracked on the blockchain for complete transparency
-          </p>
+      <div className="donation-main">
+        <div className="donation-header">
+          <h1 className="donation-title">Choose a Cause</h1>
+          <p className="donation-subtitle">Every donation is tracked on the blockchain for complete transparency</p>
         </div>
 
         {displayCampaigns.length === 0 ? (
-          <div style={styles.emptyCampaigns}>
-            <h2 style={styles.emptyTitle}>No Active Campaigns</h2>
-            <p style={styles.emptyText}>
-              Be the first to create a campaign and start making a difference
-            </p>
-            <button onClick={onBackToLanding} style={styles.createButton}>
-              Get Started
-            </button>
+          <div style={{textAlign:'center',color:'#fff',padding:'4rem 2rem'}}>
+            <h2 style={{fontSize:'1.5rem',fontWeight:'bold',marginBottom:'1rem'}}>No Active Campaigns</h2>
+            <p style={{fontSize:'1.125rem',marginBottom:'2rem',opacity:0.8}}>Be the first to create a campaign and start making a difference</p>
+            <button onClick={onBackToLanding} className="btn btn-primary">Get Started</button>
           </div>
         ) : (
-          <div style={styles.grid}>
+          <div className="donation-grid">
             {displayCampaigns.map((campaign) => (
-              <div
-                key={campaign.id}
-                style={styles.card}
-                onClick={() => onCampaignSelect(campaign.id)}
-                onMouseOver={(e) => {
-                  Object.assign(e.currentTarget.style, styles.cardHover)
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0px)'
-                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)'
-                }}
-              >
-                <div style={styles.imageContainer}>
-                  <div style={styles.placeholderImage}>
+              <div key={campaign.id} className="donation-card" onClick={() => onCampaignSelect(campaign.id)}>
+                <div className="donation-image">
+                  <div className="placeholder">
                     {campaign.location === 'Afghanistan' && '🏔️'}
                     {campaign.location === 'Sudan' && '🌍'}
                     {campaign.location === 'Pakistan' && '🌊'}
@@ -433,45 +271,26 @@ const DonationCategoriesPage: React.FC<DonationCategoriesPageProps> = ({
                     {campaign.location === 'Syria' && '🏛️'}
                     {campaign.location === 'Global' && '👶'}
                   </div>
-                  <div style={getUrgencyBadgeStyle(campaign.urgency)}>
+                  <div className={`donation-urgency ${campaign.urgency === 'high' ? 'urgency-high' : campaign.urgency === 'medium' ? 'urgency-medium' : 'urgency-low'}`}>
                     {campaign.urgency} Priority
                   </div>
                 </div>
-                
-                <div style={styles.cardContent}>
-                  <h3 style={styles.cardTitle}>{campaign.title}</h3>
-                  <div style={styles.cardLocation}>
-                    📍 {campaign.location}
-                  </div>
-                  
-                  <div style={styles.progressContainer}>
-                    <div style={styles.progressBar}>
-                      <div 
-                        style={{
-                          ...styles.progressFill,
-                          width: `${calculateProgress(campaign.raised, campaign.target)}%`
-                        }}
-                      ></div>
+
+                <div className="donation-card-content">
+                  <h3 className="donation-card-title">{campaign.title}</h3>
+                  <div className="donation-location">📍 {campaign.location}</div>
+
+                  <div className="donation-progress">
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{ width: `${calculateProgress(campaign.raised, campaign.target)}%` }}></div>
                     </div>
-                    <div style={styles.progressText}>
+                    <div className="progress-text">
                       <span>Raised: {formatAmount(campaign.raised)}</span>
                       <span>Goal: {formatAmount(campaign.target)}</span>
                     </div>
                   </div>
-                  
-                  <button 
-                    style={styles.donateButton}
-                    onMouseOver={(e) => {
-                      Object.assign(e.currentTarget.style, styles.donateButtonHover)
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = '#1f2937'
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onCampaignSelect(campaign.id)
-                    }}
-                  >
+
+                  <button className="donation-btn" onClick={(e) => { e.stopPropagation(); onCampaignSelect(campaign.id); }}>
                     Donate
                   </button>
                 </div>

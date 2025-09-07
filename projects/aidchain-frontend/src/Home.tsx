@@ -2,6 +2,7 @@
 import { useWallet } from '@txnlab/use-wallet-react'
 import { AppClientProvider } from './context/AppClientContext'
 import React, { useState } from 'react'
+import './styles/home.css'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import AppCalls from './components/AppCalls'
@@ -311,103 +312,61 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   // Main Landing Page
-  const landingStyles = {
-    container: { minHeight: '100vh', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)' },
-    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem' },
-    logo: { color: 'white', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' },
-    logoIcon: { width: '1.5rem', height: '1.5rem', backgroundColor: 'black', borderRadius: '0.25rem' },
-    navButtons: { display: 'flex', gap: '1.5rem' },
-    navButton: { color: 'white', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' },
-    hero: { maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', paddingTop: '4rem' },
-    heroContent: { display: 'flex', flexDirection: 'column' as const, alignItems: 'center', justifyContent: 'space-between', gap: '3rem' },
-    leftContent: { color: 'white', marginBottom: '3rem', textAlign: 'center' as const },
-    heroTitle: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '1.5rem', lineHeight: '1.2' },
-    buttonGroup: { display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap' as const },
-    primaryButton: { backgroundColor: '#374151', color: 'white', border: 'none', borderRadius: '0.375rem', padding: '1rem 2rem', fontSize: '1.125rem', cursor: 'pointer', fontWeight: '500' },
-    secondaryButton: { backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.3)', borderRadius: '0.375rem', padding: '1rem 2rem', fontSize: '1.125rem', cursor: 'pointer', fontWeight: '500' },
-    rightContent: { display: 'flex', justifyContent: 'center' },
-    illustration: { position: 'relative' as const },
-    mainCircle: { width: '20rem', height: '20rem', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-    mainIcon: { fontSize: '5rem' },
-    sparkle: { position: 'absolute' as const, bottom: '-1rem', right: '-1rem', width: '5rem', height: '5rem', backgroundColor: '#fbbf24', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-    sparkleIcon: { fontSize: '1.5rem' },
-    statsSection: { backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', marginTop: '3rem' },
-    statsContent: { maxWidth: '1200px', margin: '0 auto', padding: '3rem 1.5rem', textAlign: 'center' as const },
-    statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', color: 'white' },
-    statCard: { textAlign: 'center' as const },
-    statValue: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '0.5rem' },
-    statLabel: { fontSize: '1rem', opacity: 0.9, textTransform: 'uppercase' as const, letterSpacing: '0.1em' },
-    howItWorksSection: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', marginTop: '2rem' },
-    howItWorksContent: { maxWidth: '1200px', margin: '0 auto', padding: '4rem 1.5rem', textAlign: 'center' as const },
-    sectionTitle: { fontSize: '1.875rem', fontWeight: 'bold', color: 'white', marginBottom: '3rem' },
-    workflowCard: { backgroundColor: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '3rem', maxWidth: '64rem', margin: '0 auto' },
-    workflowTitle: { fontSize: '1.25rem', fontWeight: '600', color: 'white', marginBottom: '2rem' },
-    workflowText: { color: 'rgba(255, 255, 255, 0.8)' },
-    placeholder: { marginBottom: '1.5rem' },
-    workflowGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' as const },
-    workflowStep: { marginBottom: '1rem' },
-    stepIcon: { fontSize: '2.5rem', marginBottom: '1rem' },
-    stepTitle: { fontWeight: '600', marginBottom: '0.5rem' },
-    stepText: { fontSize: '0.875rem' },
-    devTools: { position: 'fixed' as const, bottom: '1rem', right: '1rem', opacity: 0.1, transition: 'opacity 0.2s' },
-    dropdown: { position: 'relative' as const },
-    dropdownButton: { width: '3rem', height: '3rem', borderRadius: '50%', backgroundColor: 'white', color: '#4b5563', border: 'none', cursor: 'pointer', fontSize: '1rem' },
-    dropdownMenu: { position: 'absolute' as const, bottom: '100%', right: '0', backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', padding: '0.5rem', minWidth: '13rem', display: 'none' }
-  }
+  const landingStyles = {}
 
   return (
-    <div style={landingStyles.container}>
+    <div className="landing">
       {/* Navigation */}
-      <nav style={landingStyles.nav}>
-        <div style={landingStyles.logo}>
-          <div style={landingStyles.logoIcon}></div>
+      <nav className="nav">
+        <div className="logo">
+          <div className="logo-icon"></div>
           Aidchain
         </div>
-        <div style={landingStyles.navButtons}>
-          <button onClick={() => setCurrentView('get-involved')} style={landingStyles.navButton}>
+        <div className="nav-buttons">
+          <button onClick={() => setCurrentView('get-involved')} className="nav-button">
             Get Involved
           </button>
-          <button onClick={() => setCurrentView('how-it-works')} style={landingStyles.navButton}>
+          <button onClick={() => setCurrentView('how-it-works')} className="nav-button">
             How it works
           </button>
-          <button onClick={() => setCurrentView('about')} style={landingStyles.navButton}>
+          <button onClick={() => setCurrentView('about')} className="nav-button">
             About Us
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div style={landingStyles.hero}>
-        <div style={landingStyles.heroContent}>
+      <div className="hero">
+        <div className="hero-content">
           
           {/* Left Content */}
-          <div style={landingStyles.leftContent}>
-            <h1 style={landingStyles.heroTitle}>
+          <div className="left-content">
+            <h1 className="hero-title">
               Every token visible,<br />
               every hand accounted for.
             </h1>
             
-            <div style={landingStyles.buttonGroup}>
-              <button onClick={handleDonateNow} style={landingStyles.primaryButton}>
+            <div className="button-group">
+              <button onClick={handleDonateNow} className="btn-primary">
                 Donate Now
               </button>
-              <button onClick={() => setCurrentView('about')} style={landingStyles.secondaryButton}>
+              <button onClick={() => setCurrentView('about')} className="btn-secondary">
                 About Us
               </button>
-              <button onClick={() => setShowContractTest(true)} style={{...landingStyles.secondaryButton, backgroundColor: '#10b981', borderColor: '#10b981', color: 'white'}}>
+              <button onClick={() => setShowContractTest(true)} className="btn-secondary" style={{ backgroundColor: '#10b981', borderColor: '#10b981', color: 'white' }}>
                 🧪 Test Contract
               </button>
             </div>
           </div>
 
           {/* Right Illustration */}
-          <div style={landingStyles.rightContent}>
-            <div style={landingStyles.illustration}>
-              <div style={landingStyles.mainCircle}>
-                <div style={landingStyles.mainIcon}>🤝</div>
+          <div className="right-content">
+            <div className="illustration">
+              <div className="main-circle">
+                <div className="main-icon">🤝</div>
               </div>
-              <div style={landingStyles.sparkle}>
-                <div style={landingStyles.sparkleIcon}>✨</div>
+              <div className="sparkle">
+                <div className="sparkle-icon">✨</div>
               </div>
             </div>
           </div>
@@ -415,61 +374,61 @@ const Home: React.FC<HomeProps> = () => {
       </div>
 
       {/* Live Stats Section */}
-      <div style={landingStyles.statsSection}>
-        <div style={landingStyles.statsContent}>
-          <div style={landingStyles.statsGrid}>
-            <div style={landingStyles.statCard}>
-              <div style={landingStyles.statValue}>
+      <div className="stats-section">
+        <div className="stats-content">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-value">
                 {stats?.loading ? '...' : stats?.totalDonations ? `$${(stats.totalDonations / 1000000).toFixed(1)}M` : '$0'}
               </div>
-              <div style={landingStyles.statLabel}>Total Donated</div>
+              <div className="stat-label">Total Donated</div>
             </div>
-            <div style={landingStyles.statCard}>
-              <div style={landingStyles.statValue}>
+            <div className="stat-card">
+              <div className="stat-value">
                 {stats?.loading ? '...' : stats?.activeCampaigns || 0}
               </div>
-              <div style={landingStyles.statLabel}>Active Campaigns</div>
+              <div className="stat-label">Active Campaigns</div>
             </div>
-            <div style={landingStyles.statCard}>
-              <div style={landingStyles.statValue}>
+            <div className="stat-card">
+              <div className="stat-value">
                 {stats?.loading ? '...' : stats?.totalOrganizations || 0}
               </div>
-              <div style={landingStyles.statLabel}>Partner NGOs</div>
+              <div className="stat-label">Partner NGOs</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* How It Works Section */}
-      <div style={landingStyles.howItWorksSection}>
-        <div style={landingStyles.howItWorksContent}>
-          <h2 style={landingStyles.sectionTitle}>See how it works</h2>
+      <div className="how-section">
+        <div className="how-content">
+          <h2 className="section-title">See how it works</h2>
           
-          <div style={landingStyles.workflowCard}>
-            <h3 style={landingStyles.workflowTitle}>How does it work?</h3>
+          <div className="workflow-card">
+            <h3 className="workflow-title">How does it work?</h3>
             
-            <div style={landingStyles.workflowText}>
-              <p style={landingStyles.placeholder}>
+            <div className="workflow-text">
+              <p className="placeholder">
                 <em>This section will contain your detailed workflow content. For now, here's a placeholder:</em>
               </p>
               
-              <div style={landingStyles.workflowGrid}>
-                <div style={landingStyles.workflowStep}>
-                  <div style={landingStyles.stepIcon}>💝</div>
-                  <h4 style={landingStyles.stepTitle}>Transparent Donations</h4>
-                  <p style={landingStyles.stepText}>Every donation is recorded on the blockchain</p>
+              <div className="workflow-grid">
+                <div className="workflow-step">
+                  <div className="step-icon">💝</div>
+                  <h4 className="step-title">Transparent Donations</h4>
+                  <p className="step-text">Every donation is recorded on the blockchain</p>
                 </div>
                 
-                <div style={landingStyles.workflowStep}>
-                  <div style={landingStyles.stepIcon}>🔍</div>
-                  <h4 style={landingStyles.stepTitle}>Real-Time Tracking</h4>
-                  <p style={landingStyles.stepText}>Follow your contribution from donor to beneficiary</p>
+                <div className="workflow-step">
+                  <div className="step-icon">🔍</div>
+                  <h4 className="step-title">Real-Time Tracking</h4>
+                  <p className="step-text">Follow your contribution from donor to beneficiary</p>
                 </div>
                 
-                <div style={landingStyles.workflowStep}>
-                  <div style={landingStyles.stepIcon}>📊</div>
-                  <h4 style={landingStyles.stepTitle}>Impact Reporting</h4>
-                  <p style={landingStyles.stepText}>See the measurable difference you've made</p>
+                <div className="workflow-step">
+                  <div className="step-icon">📊</div>
+                  <h4 className="step-title">Impact Reporting</h4>
+                  <p className="step-text">See the measurable difference you've made</p>
                 </div>
               </div>
             </div>
@@ -484,10 +443,10 @@ const Home: React.FC<HomeProps> = () => {
       {showContractTest && <ContractTest onClose={() => setShowContractTest(false)} />}
 
       {/* Developer Tools (Hidden in bottom) */}
-      <div style={landingStyles.devTools}>
-        <div style={landingStyles.dropdown}>
-          <button style={landingStyles.dropdownButton}>⚙️</button>
-          <div style={landingStyles.dropdownMenu}>
+      <div className="dev-tools">
+        <div className="dropdown">
+          <button className="dropdown-button">⚙️</button>
+          <div className="dropdown-menu">
             <button onClick={toggleDemoModal}>Transaction Demo</button>
             <button onClick={toggleAppCallsModal}>Contract Demo</button>
           </div>

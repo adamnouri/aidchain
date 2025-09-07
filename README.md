@@ -2,6 +2,9 @@
 
 This starter full stack project has been generated using AlgoKit. See below for default getting started instructions.
 
+Watch the video below
+(https://www.loom.com/share/5eee836d6f7e4474ab644277bf44fd07?sid=d583e535-abb7-4dd7-ad8b-e2d23e7640c9)
+
 ## Setup
 
 ### Initial setup

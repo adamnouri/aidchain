@@ -1,0 +1,41 @@
+/* NGO Portal styles using design tokens */
+
+.ngo-container { min-height: 100vh; background: var(--color-neutral-50); }
+.ngo-header { background: #fff; box-shadow: var(--shadow-sm); }
+.ngo-header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem; }
+.ngo-logo { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-surface-contrast); display: flex; align-items: center; gap: 0.5rem; }
+.ngo-back { background: var(--color-neutral-500); color: #fff; border: none; border-radius: var(--radius-sm); padding: 0.5rem 1rem; cursor: pointer; }
+
+.ngo-main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+.ngo-title { font-size: var(--font-size-2xl); line-height: var(--line-height-2xl); font-weight: var(--font-weight-bold); color: var(--color-surface-contrast); margin-bottom: 0.5rem; }
+.ngo-subtitle { color: var(--color-neutral-500); margin-bottom: 2rem; }
+
+.ngo-status { padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: var(--font-size-sm); }
+.ngo-status.connected { background: #d1fae5; border: 1px solid #10b981; }
+.ngo-status.demo { background: #fef3c7; border: 1px solid #f59e0b; }
+
+.ngo-actions { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.ngo-btn-primary { background: #3b82f6; color: #fff; border: none; border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; cursor: pointer; font-weight: var(--font-weight-medium); }
+.ngo-btn-secondary { background: #10b981; color: #fff; border: none; border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; cursor: pointer; font-weight: var(--font-weight-medium); }
+
+.ngo-section { background: #fff; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); }
+.ngo-section-title { font-size: var(--font-size-xl); font-weight: 600; color: var(--color-surface-contrast); margin-bottom: 1rem; }
+.ngo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.ngo-card { border: 1px solid var(--color-neutral-200); border-radius: var(--radius-md); padding: 1rem; background: #fff; }
+.ngo-card-title { font-size: var(--font-size-lg); font-weight: 600; margin-bottom: 0.5rem; }
+.ngo-card-muted { font-size: var(--font-size-sm); color: var(--color-neutral-500); margin-bottom: 0.5rem; }
+.ngo-badge { display: inline-flex; align-items: center; gap: 0.25rem; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: var(--font-weight-medium); }
+
+.ngo-progress { width: 100%; height: 0.5rem; background: var(--color-neutral-200); border-radius: var(--radius-sm); overflow: hidden; }
+.ngo-progress-fill { height: 100%; background: #3b82f6; }
+
+.ngo-loading { text-align: center; padding: 2rem; color: var(--color-neutral-500); }
+
+/* Modals */
+.ngo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.ngo-modal-content { background: #fff; border-radius: var(--radius-md); padding: 2rem; min-width: 320px; max-width: 520px; width: 92vw; }
+.ngo-modal-title { font-size: var(--font-size-xl); font-weight: 600; margin-bottom: 1rem; }
+.ngo-input { width: 100%; border: 1px solid #d1d5db; border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 1rem; font-size: 1rem; }
+.ngo-modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+.ngo-cancel { background: var(--color-neutral-500); color: #fff; border: none; border-radius: var(--radius-sm); padding: 0.5rem 1rem; cursor: pointer; }
+
