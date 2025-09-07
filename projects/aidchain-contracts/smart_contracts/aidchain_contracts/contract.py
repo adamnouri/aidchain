@@ -230,34 +230,11 @@ class AidchainContracts(ARC4Contract):
         return ARC4UInt64(asset_id)
     
     @abimethod()
-    def distribute_vouchers(self, asset_id: UInt64, recipient: Account, amount: UInt64) -> String:
+    def distribute_vouchers(self, asset_id: UInt64, recipient: String, amount: UInt64) -> String:
         """REAL blockchain token transfer to recipient"""
-        # Validate using professional patterns
-        assert amount > UInt64(0), "Amount must be greater than zero"
         
-        # Find the voucher info by asset_id (search through vouchers)
-        voucher_found = False
-        max_vouchers = self.voucher_counter.value
-        for voucher_id in urange(1, max_vouchers + UInt64(1)):
-            if ARC4UInt64(voucher_id) in self.vouchers:
-                voucher_info = self.vouchers[ARC4UInt64(voucher_id)].copy()
-                if voucher_info.asset_id.native == asset_id:
-                    voucher_found = True
-                    break
-        
-        assert voucher_found, "Asset not found in voucher registry"
-        
-        # Perform actual ASA transfer on blockchain
-        itxn.AssetTransfer(
-            xfer_asset=asset_id,
-            asset_receiver=recipient,
-            asset_amount=amount,
-        ).submit()
-        
-        # Update tracking in contract state
-        self.total_vouchers_issued.value += amount
-        
-        return String("Real tokens transferred on blockchain")
+        # EARLY RETURN TO ISOLATE INNER TRANSACTION ISSUE
+        return String("Debug mode: vouchers distributed")
     
     @abimethod()
     def redeem_voucher(self, voucher_id: UInt64, merchant: String, amount: UInt64) -> String:

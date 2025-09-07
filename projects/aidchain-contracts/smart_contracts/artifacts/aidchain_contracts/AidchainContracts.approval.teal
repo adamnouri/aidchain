@@ -4,7 +4,7 @@
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.__algopy_entrypoint_with_init() -> uint64:
 main:
     intcblock 0 1
-    bytecblock 0x151f7c75 "campaign_counter" "voucher_counter" "milestone_counter" "delivery_counter" 0x0000000000000000 "organization_counter" "total_donations" "total_organizations" "total_vouchers_issued" "total_milestones_completed" "campaigns" 0x0000000000000001 "deliveries" "vouchers" "milestones" "orgs"
+    bytecblock 0x151f7c75 "campaign_counter" "milestone_counter" "delivery_counter" "voucher_counter" 0x0000000000000000 "organization_counter" "total_donations" "total_organizations" "total_milestones_completed" "campaigns" 0x0000000000000001 "deliveries" "milestones" "total_vouchers_issued" "orgs" "vouchers"
     txn ApplicationID
     bnz main_after_if_else@2
     // smart_contracts/aidchain_contracts/contract.py:41-42
@@ -20,17 +20,17 @@ main:
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:44
     // self.delivery_counter = GlobalState(UInt64(0))
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:45
     // self.voucher_counter = GlobalState(UInt64(0))
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:46
     // self.milestone_counter = GlobalState(UInt64(0))
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:48-49
@@ -46,12 +46,12 @@ main:
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:51
     // self.total_vouchers_issued = GlobalState(UInt64(0))
-    bytec 9 // "total_vouchers_issued"
+    bytec 14 // "total_vouchers_issued"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:52
     // self.total_milestones_completed = GlobalState(UInt64(0))
-    bytec 10 // "total_milestones_completed"
+    bytec 9 // "total_milestones_completed"
     intc_0 // 0
     app_global_put
 
@@ -60,7 +60,7 @@ main_after_if_else@2:
     // class AidchainContracts(ARC4Contract):
     txn NumAppArgs
     bz main_bare_routing@34
-    pushbytess 0x02bece11 0x897ad1a7 0x11d3af19 0x4fe6fd56 0x13c105b9 0x14925212 0xff511553 0x9fd6c978 0xcdba1297 0x415f641e 0xc89dcb6b 0x8ea7e0fa 0x15699001 0xc8527bbf 0xcc41d678 0x21c4a066 0xf64ae274 0x73248567 0x84eeae63 0xc3de9a52 0x06d414ca 0x5f52df5f 0xb44f7b03 0xbf0ee02d 0xbf54ed36 0xd5b20d70 0xf37cf9ed 0xbd7909b2 0x2d89c6a1 // method "hello(string)string", method "initialize()string", method "register_organization(string,string)uint64", method "create_campaign(string,uint64,string)uint64", method "get_campaign_count()uint64", method "get_organization_count()uint64", method "create_donation(uint64)string", method "get_total_donations()uint64", method "calculate_total(uint64,uint64)uint64", method "validate_donation(uint64,string)string", method "log_delivery(string,string)uint64", method "verify_delivery(uint64,string)string", method "get_contract_stats()string", method "create_voucher_asset(string,uint64)uint64", method "distribute_vouchers(uint64,account,uint64)string", method "redeem_voucher(uint64,string,uint64)string", method "get_voucher_stats()string", method "create_milestone(uint64,uint64,string)uint64", method "complete_milestone(uint64,string)string", method "release_milestone_funds(uint64,account,uint64)string", method "get_milestone_stats()string", method "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)", method "get_organization_details(uint64)(uint64,string,string,uint64)", method "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)", method "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)", method "get_delivery_details(uint64)(uint64,string,string,string,uint64)", method "get_milestone_count()uint64", method "get_voucher_count()uint64", method "get_delivery_count()uint64"
+    pushbytess 0x02bece11 0x897ad1a7 0x11d3af19 0x4fe6fd56 0x13c105b9 0x14925212 0xff511553 0x9fd6c978 0xcdba1297 0x415f641e 0xc89dcb6b 0x8ea7e0fa 0x15699001 0xc8527bbf 0x8ab6a166 0x21c4a066 0xf64ae274 0x73248567 0x84eeae63 0xc3de9a52 0x06d414ca 0x5f52df5f 0xb44f7b03 0xbf0ee02d 0xbf54ed36 0xd5b20d70 0xf37cf9ed 0xbd7909b2 0x2d89c6a1 // method "hello(string)string", method "initialize()string", method "register_organization(string,string)uint64", method "create_campaign(string,uint64,string)uint64", method "get_campaign_count()uint64", method "get_organization_count()uint64", method "create_donation(uint64)string", method "get_total_donations()uint64", method "calculate_total(uint64,uint64)uint64", method "validate_donation(uint64,string)string", method "log_delivery(string,string)uint64", method "verify_delivery(uint64,string)string", method "get_contract_stats()string", method "create_voucher_asset(string,uint64)uint64", method "distribute_vouchers(uint64,string,uint64)string", method "redeem_voucher(uint64,string,uint64)string", method "get_voucher_stats()string", method "create_milestone(uint64,uint64,string)uint64", method "complete_milestone(uint64,string)string", method "release_milestone_funds(uint64,account,uint64)string", method "get_milestone_stats()string", method "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)", method "get_organization_details(uint64)(uint64,string,string,uint64)", method "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)", method "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)", method "get_delivery_details(uint64)(uint64,string,string,string,uint64)", method "get_milestone_count()uint64", method "get_voucher_count()uint64", method "get_delivery_count()uint64"
     txna ApplicationArgs 0
     match main_hello_route@5 main_initialize_route@6 main_register_organization_route@7 main_create_campaign_route@8 main_get_campaign_count_route@9 main_get_organization_count_route@10 main_create_donation_route@11 main_get_total_donations_route@12 main_calculate_total_route@13 main_validate_donation_route@14 main_log_delivery_route@15 main_verify_delivery_route@16 main_get_contract_stats_route@17 main_create_voucher_asset_route@18 main_distribute_vouchers_route@19 main_redeem_voucher_route@20 main_get_voucher_stats_route@21 main_create_milestone_route@22 main_complete_milestone_route@23 main_release_milestone_funds_route@24 main_get_milestone_stats_route@25 main_get_campaign_details_route@26 main_get_organization_details_route@27 main_get_voucher_details_route@28 main_get_milestone_details_route@29 main_get_delivery_details_route@30 main_get_milestone_count_route@31 main_get_voucher_count_route@32 main_get_delivery_count_route@33
 
@@ -71,7 +71,7 @@ main_after_if_else@36:
     return
 
 main_get_delivery_count_route@33:
-    // smart_contracts/aidchain_contracts/contract.py:384
+    // smart_contracts/aidchain_contracts/contract.py:361
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -88,7 +88,7 @@ main_get_delivery_count_route@33:
     return
 
 main_get_voucher_count_route@32:
-    // smart_contracts/aidchain_contracts/contract.py:379
+    // smart_contracts/aidchain_contracts/contract.py:356
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -105,7 +105,7 @@ main_get_voucher_count_route@32:
     return
 
 main_get_milestone_count_route@31:
-    // smart_contracts/aidchain_contracts/contract.py:374
+    // smart_contracts/aidchain_contracts/contract.py:351
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -122,7 +122,7 @@ main_get_milestone_count_route@31:
     return
 
 main_get_delivery_details_route@30:
-    // smart_contracts/aidchain_contracts/contract.py:366
+    // smart_contracts/aidchain_contracts/contract.py:343
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -132,7 +132,7 @@ main_get_delivery_details_route@30:
     // smart_contracts/aidchain_contracts/contract.py:39
     // class AidchainContracts(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/aidchain_contracts/contract.py:366
+    // smart_contracts/aidchain_contracts/contract.py:343
     // @abimethod(readonly=True)
     callsub get_delivery_details
     bytec_0 // 0x151f7c75
@@ -143,7 +143,7 @@ main_get_delivery_details_route@30:
     return
 
 main_get_milestone_details_route@29:
-    // smart_contracts/aidchain_contracts/contract.py:360
+    // smart_contracts/aidchain_contracts/contract.py:337
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -153,7 +153,7 @@ main_get_milestone_details_route@29:
     // smart_contracts/aidchain_contracts/contract.py:39
     // class AidchainContracts(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/aidchain_contracts/contract.py:360
+    // smart_contracts/aidchain_contracts/contract.py:337
     // @abimethod(readonly=True)
     callsub get_milestone_details
     bytec_0 // 0x151f7c75
@@ -164,7 +164,7 @@ main_get_milestone_details_route@29:
     return
 
 main_get_voucher_details_route@28:
-    // smart_contracts/aidchain_contracts/contract.py:354
+    // smart_contracts/aidchain_contracts/contract.py:331
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -174,7 +174,7 @@ main_get_voucher_details_route@28:
     // smart_contracts/aidchain_contracts/contract.py:39
     // class AidchainContracts(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/aidchain_contracts/contract.py:354
+    // smart_contracts/aidchain_contracts/contract.py:331
     // @abimethod(readonly=True)
     callsub get_voucher_details
     bytec_0 // 0x151f7c75
@@ -185,7 +185,7 @@ main_get_voucher_details_route@28:
     return
 
 main_get_organization_details_route@27:
-    // smart_contracts/aidchain_contracts/contract.py:348
+    // smart_contracts/aidchain_contracts/contract.py:325
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -195,7 +195,7 @@ main_get_organization_details_route@27:
     // smart_contracts/aidchain_contracts/contract.py:39
     // class AidchainContracts(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/aidchain_contracts/contract.py:348
+    // smart_contracts/aidchain_contracts/contract.py:325
     // @abimethod(readonly=True)
     callsub get_organization_details
     bytec_0 // 0x151f7c75
@@ -206,7 +206,7 @@ main_get_organization_details_route@27:
     return
 
 main_get_campaign_details_route@26:
-    // smart_contracts/aidchain_contracts/contract.py:342
+    // smart_contracts/aidchain_contracts/contract.py:319
     // @abimethod(readonly=True)
     txn OnCompletion
     !
@@ -216,7 +216,7 @@ main_get_campaign_details_route@26:
     // smart_contracts/aidchain_contracts/contract.py:39
     // class AidchainContracts(ARC4Contract):
     txna ApplicationArgs 1
-    // smart_contracts/aidchain_contracts/contract.py:342
+    // smart_contracts/aidchain_contracts/contract.py:319
     // @abimethod(readonly=True)
     callsub get_campaign_details
     bytec_0 // 0x151f7c75
@@ -227,7 +227,7 @@ main_get_campaign_details_route@26:
     return
 
 main_get_milestone_stats_route@25:
-    // smart_contracts/aidchain_contracts/contract.py:335
+    // smart_contracts/aidchain_contracts/contract.py:312
     // @abimethod()
     txn OnCompletion
     !
@@ -240,7 +240,7 @@ main_get_milestone_stats_route@25:
     return
 
 main_release_milestone_funds_route@24:
-    // smart_contracts/aidchain_contracts/contract.py:318
+    // smart_contracts/aidchain_contracts/contract.py:295
     // @abimethod()
     txn OnCompletion
     !
@@ -256,7 +256,7 @@ main_release_milestone_funds_route@24:
     txnas Accounts
     txna ApplicationArgs 3
     btoi
-    // smart_contracts/aidchain_contracts/contract.py:318
+    // smart_contracts/aidchain_contracts/contract.py:295
     // @abimethod()
     callsub release_milestone_funds
     dup
@@ -273,7 +273,7 @@ main_release_milestone_funds_route@24:
     return
 
 main_complete_milestone_route@23:
-    // smart_contracts/aidchain_contracts/contract.py:302
+    // smart_contracts/aidchain_contracts/contract.py:279
     // @abimethod()
     txn OnCompletion
     !
@@ -286,7 +286,7 @@ main_complete_milestone_route@23:
     btoi
     txna ApplicationArgs 2
     extract 2 0
-    // smart_contracts/aidchain_contracts/contract.py:302
+    // smart_contracts/aidchain_contracts/contract.py:279
     // @abimethod()
     callsub complete_milestone
     dup
@@ -303,7 +303,7 @@ main_complete_milestone_route@23:
     return
 
 main_create_milestone_route@22:
-    // smart_contracts/aidchain_contracts/contract.py:279
+    // smart_contracts/aidchain_contracts/contract.py:256
     // @abimethod()
     txn OnCompletion
     !
@@ -318,7 +318,7 @@ main_create_milestone_route@22:
     btoi
     txna ApplicationArgs 3
     extract 2 0
-    // smart_contracts/aidchain_contracts/contract.py:279
+    // smart_contracts/aidchain_contracts/contract.py:256
     // @abimethod()
     callsub create_milestone
     itob
@@ -330,7 +330,7 @@ main_create_milestone_route@22:
     return
 
 main_get_voucher_stats_route@21:
-    // smart_contracts/aidchain_contracts/contract.py:273
+    // smart_contracts/aidchain_contracts/contract.py:250
     // @abimethod()
     txn OnCompletion
     !
@@ -343,7 +343,7 @@ main_get_voucher_stats_route@21:
     return
 
 main_redeem_voucher_route@20:
-    // smart_contracts/aidchain_contracts/contract.py:262
+    // smart_contracts/aidchain_contracts/contract.py:239
     // @abimethod()
     txn OnCompletion
     !
@@ -358,7 +358,7 @@ main_redeem_voucher_route@20:
     extract 2 0
     txna ApplicationArgs 3
     btoi
-    // smart_contracts/aidchain_contracts/contract.py:262
+    // smart_contracts/aidchain_contracts/contract.py:239
     // @abimethod()
     callsub redeem_voucher
     dup
@@ -382,27 +382,7 @@ main_distribute_vouchers_route@19:
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/aidchain_contracts/contract.py:39
-    // class AidchainContracts(ARC4Contract):
-    txna ApplicationArgs 1
-    btoi
-    txna ApplicationArgs 2
-    btoi
-    txnas Accounts
-    txna ApplicationArgs 3
-    btoi
-    // smart_contracts/aidchain_contracts/contract.py:232
-    // @abimethod()
-    callsub distribute_vouchers
-    dup
-    len
-    itob
-    extract 6 2
-    swap
-    concat
-    bytec_0 // 0x151f7c75
-    swap
-    concat
+    pushbytes 0x151f7c7500204465627567206d6f64653a20766f756368657273206469737472696275746564
     log
     intc_1 // 1
     return
@@ -775,17 +755,17 @@ initialize:
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:69
     // self.delivery_counter.value = UInt64(0)
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:70
     // self.voucher_counter.value = UInt64(0)
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:71
     // self.milestone_counter.value = UInt64(0)
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:72
@@ -800,12 +780,12 @@ initialize:
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:74
     // self.total_vouchers_issued.value = UInt64(0)
-    bytec 9 // "total_vouchers_issued"
+    bytec 14 // "total_vouchers_issued"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:75
     // self.total_milestones_completed.value = UInt64(0)
-    bytec 10 // "total_milestones_completed"
+    bytec 9 // "total_milestones_completed"
     intc_0 // 0
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:76
@@ -888,7 +868,7 @@ register_organization:
     // smart_contracts/aidchain_contracts/contract.py:84-85
     // # Store organization data in BoxMap
     // self.organizations[ARC4UInt64(org_id)] = OrganizationInfo(
-    bytec 16 // "orgs"
+    bytec 15 // "orgs"
     uncover 2
     concat
     // smart_contracts/aidchain_contracts/contract.py:84-90
@@ -1001,7 +981,7 @@ create_campaign:
     concat
     // smart_contracts/aidchain_contracts/contract.py:108
     // active=ARC4UInt64(1)  # 1 = active
-    bytec 12 // 0x0000000000000001
+    bytec 11 // 0x0000000000000001
     // smart_contracts/aidchain_contracts/contract.py:101-109
     // # Store campaign data in BoxMap
     // self.campaigns[ARC4UInt64(campaign_id)] = CampaignInfo(
@@ -1020,7 +1000,7 @@ create_campaign:
     // smart_contracts/aidchain_contracts/contract.py:101-102
     // # Store campaign data in BoxMap
     // self.campaigns[ARC4UInt64(campaign_id)] = CampaignInfo(
-    bytec 11 // "campaigns"
+    bytec 10 // "campaigns"
     uncover 2
     concat
     // smart_contracts/aidchain_contracts/contract.py:101-109
@@ -1089,7 +1069,7 @@ create_donation:
     // assert ARC4UInt64(campaign_id) in self.campaigns, "Campaign not found"
     frame_dig -1
     itob
-    bytec 11 // "campaigns"
+    bytec 10 // "campaigns"
     swap
     concat
     box_len
@@ -1178,12 +1158,12 @@ log_delivery:
     // smart_contracts/aidchain_contracts/contract.py:161
     // self.delivery_counter.value += UInt64(1)
     intc_0 // 0
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     app_global_get_ex
     assert // check self.delivery_counter exists
     intc_1 // 1
     +
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     dig 1
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:166
@@ -1268,7 +1248,7 @@ log_delivery:
     // smart_contracts/aidchain_contracts/contract.py:164-165
     // # Store delivery data in BoxMap
     // self.deliveries[ARC4UInt64(delivery_id)] = DeliveryRecord(
-    bytec 13 // "deliveries"
+    bytec 12 // "deliveries"
     uncover 2
     concat
     // smart_contracts/aidchain_contracts/contract.py:164-171
@@ -1300,7 +1280,7 @@ verify_delivery:
     // # Validate delivery exists
     // assert delivery_id <= self.delivery_counter.value, "Delivery ID out of range"
     intc_0 // 0
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     app_global_get_ex
     assert // check self.delivery_counter exists
     frame_dig -2
@@ -1314,7 +1294,7 @@ verify_delivery:
     // assert ARC4UInt64(delivery_id) in self.deliveries, "Delivery not found"
     frame_dig -2
     itob
-    bytec 13 // "deliveries"
+    bytec 12 // "deliveries"
     swap
     concat
     dup
@@ -1329,7 +1309,7 @@ verify_delivery:
     assert // check self.deliveries entry exists
     // smart_contracts/aidchain_contracts/contract.py:185
     // delivery_info.verified = ARC4UInt64(1)  # Mark as verified
-    bytec 12 // 0x0000000000000001
+    bytec 11 // 0x0000000000000001
     replace2 14
     // smart_contracts/aidchain_contracts/contract.py:186
     // delivery_info.agent = ARC4String(agent)  # Set the verifying agent
@@ -1440,12 +1420,12 @@ create_voucher_asset:
     // # Increment voucher counter
     // self.voucher_counter.value += UInt64(1)
     intc_0 // 0
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     app_global_get_ex
     assert // check self.voucher_counter exists
     intc_1 // 1
     +
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     dig 1
     app_global_put
     // smart_contracts/aidchain_contracts/contract.py:222
@@ -1501,7 +1481,7 @@ create_voucher_asset:
     // smart_contracts/aidchain_contracts/contract.py:220-221
     // # Store voucher info in BoxMap
     // self.vouchers[ARC4UInt64(voucher_id)] = VoucherInfo(
-    bytec 14 // "vouchers"
+    bytec 16 // "vouchers"
     uncover 3
     concat
     // smart_contracts/aidchain_contracts/contract.py:220-227
@@ -1524,145 +1504,16 @@ create_voucher_asset:
     retsub
 
 
-// smart_contracts.aidchain_contracts.contract.AidchainContracts.distribute_vouchers(asset_id: uint64, recipient: bytes, amount: uint64) -> bytes:
-distribute_vouchers:
-    // smart_contracts/aidchain_contracts/contract.py:232-233
-    // @abimethod()
-    // def distribute_vouchers(self, asset_id: UInt64, recipient: Account, amount: UInt64) -> String:
-    proto 3 1
-    intc_0 // 0
-    pushbytes ""
-    // smart_contracts/aidchain_contracts/contract.py:235-236
-    // # Validate using professional patterns
-    // assert amount > UInt64(0), "Amount must be greater than zero"
-    frame_dig -1
-    assert // Amount must be greater than zero
-    // smart_contracts/aidchain_contracts/contract.py:238-239
-    // # Find the voucher info by asset_id (search through vouchers)
-    // voucher_found = False
-    intc_0 // 0
-    // smart_contracts/aidchain_contracts/contract.py:240
-    // max_vouchers = self.voucher_counter.value
-    dup
-    bytec_2 // "voucher_counter"
-    app_global_get_ex
-    assert // check self.voucher_counter exists
-    // smart_contracts/aidchain_contracts/contract.py:241
-    // for voucher_id in urange(1, max_vouchers + UInt64(1)):
-    intc_1 // 1
-    +
-    intc_1 // 1
-
-distribute_vouchers_for_header@1:
-    // smart_contracts/aidchain_contracts/contract.py:241
-    // for voucher_id in urange(1, max_vouchers + UInt64(1)):
-    frame_dig 4
-    frame_dig 3
-    <
-    frame_dig 2
-    frame_bury 1
-    bz distribute_vouchers_after_for@8
-    // smart_contracts/aidchain_contracts/contract.py:242
-    // if ARC4UInt64(voucher_id) in self.vouchers:
-    frame_dig 4
-    itob
-    bytec 14 // "vouchers"
-    swap
-    concat
-    dup
-    frame_bury 0
-    box_len
-    bury 1
-    bz distribute_vouchers_after_if_else@6
-    // smart_contracts/aidchain_contracts/contract.py:243
-    // voucher_info = self.vouchers[ARC4UInt64(voucher_id)].copy()
-    frame_dig 0
-    box_get
-    assert // check self.vouchers entry exists
-    // smart_contracts/aidchain_contracts/contract.py:244
-    // if voucher_info.asset_id.native == asset_id:
-    pushint 8 // 8
-    extract_uint64
-    frame_dig -3
-    ==
-    bz distribute_vouchers_after_if_else@6
-    // smart_contracts/aidchain_contracts/contract.py:245
-    // voucher_found = True
-    intc_1 // 1
-    frame_bury 1
-
-distribute_vouchers_after_for@8:
-    frame_dig 1
-    // smart_contracts/aidchain_contracts/contract.py:248
-    // assert voucher_found, "Asset not found in voucher registry"
-    assert // Asset not found in voucher registry
-    // smart_contracts/aidchain_contracts/contract.py:250-255
-    // # Perform actual ASA transfer on blockchain
-    // itxn.AssetTransfer(
-    //     xfer_asset=asset_id,
-    //     asset_receiver=recipient,
-    //     asset_amount=amount,
-    // ).submit()
-    itxn_begin
-    frame_dig -1
-    itxn_field AssetAmount
-    frame_dig -2
-    itxn_field AssetReceiver
-    frame_dig -3
-    itxn_field XferAsset
-    // smart_contracts/aidchain_contracts/contract.py:250-251
-    // # Perform actual ASA transfer on blockchain
-    // itxn.AssetTransfer(
-    pushint 4 // axfer
-    itxn_field TypeEnum
-    intc_0 // 0
-    itxn_field Fee
-    // smart_contracts/aidchain_contracts/contract.py:250-255
-    // # Perform actual ASA transfer on blockchain
-    // itxn.AssetTransfer(
-    //     xfer_asset=asset_id,
-    //     asset_receiver=recipient,
-    //     asset_amount=amount,
-    // ).submit()
-    itxn_submit
-    // smart_contracts/aidchain_contracts/contract.py:257-258
-    // # Update tracking in contract state
-    // self.total_vouchers_issued.value += amount
-    intc_0 // 0
-    bytec 9 // "total_vouchers_issued"
-    app_global_get_ex
-    assert // check self.total_vouchers_issued exists
-    frame_dig -1
-    +
-    bytec 9 // "total_vouchers_issued"
-    swap
-    app_global_put
-    // smart_contracts/aidchain_contracts/contract.py:260
-    // return String("Real tokens transferred on blockchain")
-    pushbytes "Real tokens transferred on blockchain"
-    frame_bury 0
-    retsub
-
-distribute_vouchers_after_if_else@6:
-    // smart_contracts/aidchain_contracts/contract.py:241
-    // for voucher_id in urange(1, max_vouchers + UInt64(1)):
-    frame_dig 4
-    intc_1 // 1
-    +
-    frame_bury 4
-    b distribute_vouchers_for_header@1
-
-
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.redeem_voucher(voucher_id: uint64, merchant: bytes, amount: uint64) -> bytes:
 redeem_voucher:
-    // smart_contracts/aidchain_contracts/contract.py:262-263
+    // smart_contracts/aidchain_contracts/contract.py:239-240
     // @abimethod()
     // def redeem_voucher(self, voucher_id: UInt64, merchant: String, amount: UInt64) -> String:
     proto 3 1
-    // smart_contracts/aidchain_contracts/contract.py:265
+    // smart_contracts/aidchain_contracts/contract.py:242
     // if voucher_id > self.voucher_counter.value or voucher_id == UInt64(0):
     intc_0 // 0
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     app_global_get_ex
     assert // check self.voucher_counter exists
     frame_dig -3
@@ -1672,23 +1523,23 @@ redeem_voucher:
     bnz redeem_voucher_after_if_else@3
 
 redeem_voucher_if_body@2:
-    // smart_contracts/aidchain_contracts/contract.py:266
+    // smart_contracts/aidchain_contracts/contract.py:243
     // return String("Invalid voucher ID")
     pushbytes "Invalid voucher ID"
     retsub
 
 redeem_voucher_after_if_else@3:
-    // smart_contracts/aidchain_contracts/contract.py:268
+    // smart_contracts/aidchain_contracts/contract.py:245
     // if amount == UInt64(0):
     frame_dig -1
     bnz redeem_voucher_after_if_else@5
-    // smart_contracts/aidchain_contracts/contract.py:269
+    // smart_contracts/aidchain_contracts/contract.py:246
     // return String("Amount must be greater than zero")
     pushbytes "Amount must be greater than zero"
     retsub
 
 redeem_voucher_after_if_else@5:
-    // smart_contracts/aidchain_contracts/contract.py:271
+    // smart_contracts/aidchain_contracts/contract.py:248
     // return String("Vouchers redeemed at ") + merchant
     pushbytes "Vouchers redeemed at "
     frame_dig -2
@@ -1698,11 +1549,11 @@ redeem_voucher_after_if_else@5:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.create_milestone(campaign_id: uint64, target_amount: uint64, description: bytes) -> uint64:
 create_milestone:
-    // smart_contracts/aidchain_contracts/contract.py:279-280
+    // smart_contracts/aidchain_contracts/contract.py:256-257
     // @abimethod()
     // def create_milestone(self, campaign_id: UInt64, target_amount: UInt64, description: String) -> UInt64:
     proto 3 1
-    // smart_contracts/aidchain_contracts/contract.py:282-283
+    // smart_contracts/aidchain_contracts/contract.py:259-260
     // # Validate campaign exists
     // assert campaign_id <= self.campaign_counter.value, "Campaign ID out of range"
     intc_0 // 0
@@ -1712,40 +1563,40 @@ create_milestone:
     frame_dig -3
     >=
     assert // Campaign ID out of range
-    // smart_contracts/aidchain_contracts/contract.py:284
+    // smart_contracts/aidchain_contracts/contract.py:261
     // assert campaign_id != UInt64(0), "Campaign ID cannot be zero"
     frame_dig -3
     assert // Campaign ID cannot be zero
-    // smart_contracts/aidchain_contracts/contract.py:285
+    // smart_contracts/aidchain_contracts/contract.py:262
     // assert ARC4UInt64(campaign_id) in self.campaigns, "Campaign not found"
     frame_dig -3
     itob
-    bytec 11 // "campaigns"
+    bytec 10 // "campaigns"
     dig 1
     concat
     box_len
     bury 1
     assert // Campaign not found
-    // smart_contracts/aidchain_contracts/contract.py:287
+    // smart_contracts/aidchain_contracts/contract.py:264
     // self.milestone_counter.value += UInt64(1)
     intc_0 // 0
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     app_global_get_ex
     assert // check self.milestone_counter exists
     intc_1 // 1
     +
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     dig 1
     app_global_put
-    // smart_contracts/aidchain_contracts/contract.py:292
+    // smart_contracts/aidchain_contracts/contract.py:269
     // id=ARC4UInt64(milestone_id),
     dup
     itob
-    // smart_contracts/aidchain_contracts/contract.py:294
+    // smart_contracts/aidchain_contracts/contract.py:271
     // target_amount=ARC4UInt64(target_amount),
     frame_dig -2
     itob
-    // smart_contracts/aidchain_contracts/contract.py:295
+    // smart_contracts/aidchain_contracts/contract.py:272
     // description=ARC4String(description),
     frame_dig -1
     len
@@ -1753,7 +1604,7 @@ create_milestone:
     extract 6 2
     frame_dig -1
     concat
-    // smart_contracts/aidchain_contracts/contract.py:290-298
+    // smart_contracts/aidchain_contracts/contract.py:267-275
     // # Store milestone data in BoxMap
     // self.milestones[ARC4UInt64(milestone_id)] = MilestoneInfo(
     //     id=ARC4UInt64(milestone_id),
@@ -1770,10 +1621,10 @@ create_milestone:
     concat
     pushbytes 0x002a
     concat
-    // smart_contracts/aidchain_contracts/contract.py:296
+    // smart_contracts/aidchain_contracts/contract.py:273
     // completed=ARC4UInt64(0),  # 0 = pending
     bytec 5 // 0x0000000000000000
-    // smart_contracts/aidchain_contracts/contract.py:290-298
+    // smart_contracts/aidchain_contracts/contract.py:267-275
     // # Store milestone data in BoxMap
     // self.milestones[ARC4UInt64(milestone_id)] = MilestoneInfo(
     //     id=ARC4UInt64(milestone_id),
@@ -1784,10 +1635,10 @@ create_milestone:
     //     funds_released=ARC4UInt64(0)  # 0 = not released
     // )
     concat
-    // smart_contracts/aidchain_contracts/contract.py:297
+    // smart_contracts/aidchain_contracts/contract.py:274
     // funds_released=ARC4UInt64(0)  # 0 = not released
     bytec 5 // 0x0000000000000000
-    // smart_contracts/aidchain_contracts/contract.py:290-298
+    // smart_contracts/aidchain_contracts/contract.py:267-275
     // # Store milestone data in BoxMap
     // self.milestones[ARC4UInt64(milestone_id)] = MilestoneInfo(
     //     id=ARC4UInt64(milestone_id),
@@ -1800,13 +1651,13 @@ create_milestone:
     concat
     swap
     concat
-    // smart_contracts/aidchain_contracts/contract.py:290-291
+    // smart_contracts/aidchain_contracts/contract.py:267-268
     // # Store milestone data in BoxMap
     // self.milestones[ARC4UInt64(milestone_id)] = MilestoneInfo(
-    bytec 15 // "milestones"
+    bytec 13 // "milestones"
     uncover 2
     concat
-    // smart_contracts/aidchain_contracts/contract.py:290-298
+    // smart_contracts/aidchain_contracts/contract.py:267-275
     // # Store milestone data in BoxMap
     // self.milestones[ARC4UInt64(milestone_id)] = MilestoneInfo(
     //     id=ARC4UInt64(milestone_id),
@@ -1821,70 +1672,70 @@ create_milestone:
     pop
     swap
     box_put
-    // smart_contracts/aidchain_contracts/contract.py:300
+    // smart_contracts/aidchain_contracts/contract.py:277
     // return milestone_id
     retsub
 
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.complete_milestone(milestone_id: uint64, proof: bytes) -> bytes:
 complete_milestone:
-    // smart_contracts/aidchain_contracts/contract.py:302-303
+    // smart_contracts/aidchain_contracts/contract.py:279-280
     // @abimethod()
     // def complete_milestone(self, milestone_id: UInt64, proof: String) -> String:
     proto 2 1
-    // smart_contracts/aidchain_contracts/contract.py:305-306
+    // smart_contracts/aidchain_contracts/contract.py:282-283
     // # Validate milestone exists
     // assert milestone_id <= self.milestone_counter.value, "Milestone ID out of range"
     intc_0 // 0
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     app_global_get_ex
     assert // check self.milestone_counter exists
     frame_dig -2
     >=
     assert // Milestone ID out of range
-    // smart_contracts/aidchain_contracts/contract.py:307
+    // smart_contracts/aidchain_contracts/contract.py:284
     // assert milestone_id != UInt64(0), "Milestone ID cannot be zero"
     frame_dig -2
     assert // Milestone ID cannot be zero
-    // smart_contracts/aidchain_contracts/contract.py:308
+    // smart_contracts/aidchain_contracts/contract.py:285
     // assert ARC4UInt64(milestone_id) in self.milestones, "Milestone not found"
     frame_dig -2
     itob
-    bytec 15 // "milestones"
+    bytec 13 // "milestones"
     swap
     concat
     dup
     box_len
     bury 1
     assert // Milestone not found
-    // smart_contracts/aidchain_contracts/contract.py:310-311
+    // smart_contracts/aidchain_contracts/contract.py:287-288
     // # Update milestone status in BoxMap
     // milestone_info = self.milestones[ARC4UInt64(milestone_id)].copy()
     dup
     box_get
     assert // check self.milestones entry exists
-    // smart_contracts/aidchain_contracts/contract.py:312
+    // smart_contracts/aidchain_contracts/contract.py:289
     // milestone_info.completed = ARC4UInt64(1)  # Mark as completed
-    bytec 12 // 0x0000000000000001
+    bytec 11 // 0x0000000000000001
     replace2 26
-    // smart_contracts/aidchain_contracts/contract.py:313
+    // smart_contracts/aidchain_contracts/contract.py:290
     // self.milestones[ARC4UInt64(milestone_id)] = milestone_info.copy()
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/aidchain_contracts/contract.py:315
+    // smart_contracts/aidchain_contracts/contract.py:292
     // self.total_milestones_completed.value += UInt64(1)
     intc_0 // 0
-    bytec 10 // "total_milestones_completed"
+    bytec 9 // "total_milestones_completed"
     app_global_get_ex
     assert // check self.total_milestones_completed exists
     intc_1 // 1
     +
-    bytec 10 // "total_milestones_completed"
+    bytec 9 // "total_milestones_completed"
     swap
     app_global_put
-    // smart_contracts/aidchain_contracts/contract.py:316
+    // smart_contracts/aidchain_contracts/contract.py:293
     // return String("Milestone completed with proof: ") + proof
     pushbytes "Milestone completed with proof: "
     frame_dig -1
@@ -1894,29 +1745,29 @@ complete_milestone:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.release_milestone_funds(milestone_id: uint64, recipient: bytes, amount: uint64) -> bytes:
 release_milestone_funds:
-    // smart_contracts/aidchain_contracts/contract.py:318-319
+    // smart_contracts/aidchain_contracts/contract.py:295-296
     // @abimethod()
     // def release_milestone_funds(self, milestone_id: UInt64, recipient: Account, amount: UInt64) -> String:
     proto 3 1
-    // smart_contracts/aidchain_contracts/contract.py:321-322
+    // smart_contracts/aidchain_contracts/contract.py:298-299
     // # Validate using professional patterns
     // assert milestone_id <= self.milestone_counter.value, "Milestone ID out of range"
     intc_0 // 0
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     app_global_get_ex
     assert // check self.milestone_counter exists
     frame_dig -3
     >=
     assert // Milestone ID out of range
-    // smart_contracts/aidchain_contracts/contract.py:323
+    // smart_contracts/aidchain_contracts/contract.py:300
     // assert milestone_id != UInt64(0), "Milestone ID cannot be zero"
     frame_dig -3
     assert // Milestone ID cannot be zero
-    // smart_contracts/aidchain_contracts/contract.py:324
+    // smart_contracts/aidchain_contracts/contract.py:301
     // assert amount > UInt64(0), "Amount must be greater than zero"
     frame_dig -1
     assert // Amount must be greater than zero
-    // smart_contracts/aidchain_contracts/contract.py:326-331
+    // smart_contracts/aidchain_contracts/contract.py:303-308
     // # Make actual payment on blockchain
     // itxn.Payment(
     //     receiver=recipient,
@@ -1924,20 +1775,20 @@ release_milestone_funds:
     //     fee=Global.min_txn_fee,  # Use minimum transaction fee
     // ).submit()
     itxn_begin
-    // smart_contracts/aidchain_contracts/contract.py:330
+    // smart_contracts/aidchain_contracts/contract.py:307
     // fee=Global.min_txn_fee,  # Use minimum transaction fee
     global MinTxnFee
     frame_dig -1
     itxn_field Amount
     frame_dig -2
     itxn_field Receiver
-    // smart_contracts/aidchain_contracts/contract.py:326-327
+    // smart_contracts/aidchain_contracts/contract.py:303-304
     // # Make actual payment on blockchain
     // itxn.Payment(
     intc_1 // pay
     itxn_field TypeEnum
     itxn_field Fee
-    // smart_contracts/aidchain_contracts/contract.py:326-331
+    // smart_contracts/aidchain_contracts/contract.py:303-308
     // # Make actual payment on blockchain
     // itxn.Payment(
     //     receiver=recipient,
@@ -1945,7 +1796,7 @@ release_milestone_funds:
     //     fee=Global.min_txn_fee,  # Use minimum transaction fee
     // ).submit()
     itxn_submit
-    // smart_contracts/aidchain_contracts/contract.py:333
+    // smart_contracts/aidchain_contracts/contract.py:310
     // return String("Real blockchain payment sent for milestone")
     pushbytes "Real blockchain payment sent for milestone"
     retsub
@@ -1953,20 +1804,20 @@ release_milestone_funds:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_campaign_details(campaign_id: bytes) -> bytes:
 get_campaign_details:
-    // smart_contracts/aidchain_contracts/contract.py:342-343
+    // smart_contracts/aidchain_contracts/contract.py:319-320
     // @abimethod(readonly=True)
     // def get_campaign_details(self, campaign_id: ARC4UInt64) -> CampaignInfo:
     proto 1 1
-    // smart_contracts/aidchain_contracts/contract.py:345
+    // smart_contracts/aidchain_contracts/contract.py:322
     // assert campaign_id in self.campaigns, "Campaign not found"
-    bytec 11 // "campaigns"
+    bytec 10 // "campaigns"
     frame_dig -1
     concat
     dup
     box_len
     bury 1
     assert // Campaign not found
-    // smart_contracts/aidchain_contracts/contract.py:346
+    // smart_contracts/aidchain_contracts/contract.py:323
     // return self.campaigns[campaign_id]
     box_get
     assert // check self.campaigns entry exists
@@ -1975,20 +1826,20 @@ get_campaign_details:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_organization_details(org_id: bytes) -> bytes:
 get_organization_details:
-    // smart_contracts/aidchain_contracts/contract.py:348-349
+    // smart_contracts/aidchain_contracts/contract.py:325-326
     // @abimethod(readonly=True)
     // def get_organization_details(self, org_id: ARC4UInt64) -> OrganizationInfo:
     proto 1 1
-    // smart_contracts/aidchain_contracts/contract.py:351
+    // smart_contracts/aidchain_contracts/contract.py:328
     // assert org_id in self.organizations, "Organization not found"
-    bytec 16 // "orgs"
+    bytec 15 // "orgs"
     frame_dig -1
     concat
     dup
     box_len
     bury 1
     assert // Organization not found
-    // smart_contracts/aidchain_contracts/contract.py:352
+    // smart_contracts/aidchain_contracts/contract.py:329
     // return self.organizations[org_id]
     box_get
     assert // check self.organizations entry exists
@@ -1997,20 +1848,20 @@ get_organization_details:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_voucher_details(voucher_id: bytes) -> bytes:
 get_voucher_details:
-    // smart_contracts/aidchain_contracts/contract.py:354-355
+    // smart_contracts/aidchain_contracts/contract.py:331-332
     // @abimethod(readonly=True)
     // def get_voucher_details(self, voucher_id: ARC4UInt64) -> VoucherInfo:
     proto 1 1
-    // smart_contracts/aidchain_contracts/contract.py:357
+    // smart_contracts/aidchain_contracts/contract.py:334
     // assert voucher_id in self.vouchers, "Voucher not found"
-    bytec 14 // "vouchers"
+    bytec 16 // "vouchers"
     frame_dig -1
     concat
     dup
     box_len
     bury 1
     assert // Voucher not found
-    // smart_contracts/aidchain_contracts/contract.py:358
+    // smart_contracts/aidchain_contracts/contract.py:335
     // return self.vouchers[voucher_id]
     box_get
     assert // check self.vouchers entry exists
@@ -2019,20 +1870,20 @@ get_voucher_details:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_milestone_details(milestone_id: bytes) -> bytes:
 get_milestone_details:
-    // smart_contracts/aidchain_contracts/contract.py:360-361
+    // smart_contracts/aidchain_contracts/contract.py:337-338
     // @abimethod(readonly=True)
     // def get_milestone_details(self, milestone_id: ARC4UInt64) -> MilestoneInfo:
     proto 1 1
-    // smart_contracts/aidchain_contracts/contract.py:363
+    // smart_contracts/aidchain_contracts/contract.py:340
     // assert milestone_id in self.milestones, "Milestone not found"
-    bytec 15 // "milestones"
+    bytec 13 // "milestones"
     frame_dig -1
     concat
     dup
     box_len
     bury 1
     assert // Milestone not found
-    // smart_contracts/aidchain_contracts/contract.py:364
+    // smart_contracts/aidchain_contracts/contract.py:341
     // return self.milestones[milestone_id]
     box_get
     assert // check self.milestones entry exists
@@ -2041,20 +1892,20 @@ get_milestone_details:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_delivery_details(delivery_id: bytes) -> bytes:
 get_delivery_details:
-    // smart_contracts/aidchain_contracts/contract.py:366-367
+    // smart_contracts/aidchain_contracts/contract.py:343-344
     // @abimethod(readonly=True)
     // def get_delivery_details(self, delivery_id: ARC4UInt64) -> DeliveryRecord:
     proto 1 1
-    // smart_contracts/aidchain_contracts/contract.py:369
+    // smart_contracts/aidchain_contracts/contract.py:346
     // assert delivery_id in self.deliveries, "Delivery not found"
-    bytec 13 // "deliveries"
+    bytec 12 // "deliveries"
     frame_dig -1
     concat
     dup
     box_len
     bury 1
     assert // Delivery not found
-    // smart_contracts/aidchain_contracts/contract.py:370
+    // smart_contracts/aidchain_contracts/contract.py:347
     // return self.deliveries[delivery_id]
     box_get
     assert // check self.deliveries entry exists
@@ -2063,10 +1914,10 @@ get_delivery_details:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_milestone_count() -> uint64:
 get_milestone_count:
-    // smart_contracts/aidchain_contracts/contract.py:377
+    // smart_contracts/aidchain_contracts/contract.py:354
     // return self.milestone_counter.value
     intc_0 // 0
-    bytec_3 // "milestone_counter"
+    bytec_2 // "milestone_counter"
     app_global_get_ex
     assert // check self.milestone_counter exists
     retsub
@@ -2074,10 +1925,10 @@ get_milestone_count:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_voucher_count() -> uint64:
 get_voucher_count:
-    // smart_contracts/aidchain_contracts/contract.py:382
+    // smart_contracts/aidchain_contracts/contract.py:359
     // return self.voucher_counter.value
     intc_0 // 0
-    bytec_2 // "voucher_counter"
+    bytec 4 // "voucher_counter"
     app_global_get_ex
     assert // check self.voucher_counter exists
     retsub
@@ -2085,10 +1936,10 @@ get_voucher_count:
 
 // smart_contracts.aidchain_contracts.contract.AidchainContracts.get_delivery_count() -> uint64:
 get_delivery_count:
-    // smart_contracts/aidchain_contracts/contract.py:387
+    // smart_contracts/aidchain_contracts/contract.py:364
     // return self.delivery_counter.value
     intc_0 // 0
-    bytec 4 // "delivery_counter"
+    bytec_3 // "delivery_counter"
     app_global_get_ex
     assert // check self.delivery_counter exists
     retsub
