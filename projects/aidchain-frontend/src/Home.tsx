@@ -10,6 +10,10 @@ import OrganizationPortal from './components/OrganizationPortal'
 import MilestoneTracker from './components/MilestoneTracker'
 import VoucherSystem from './components/VoucherSystem'
 import DeliveryTracker from './components/DeliveryTracker'
+import DonationCategoriesPage from './components/DonationCategoriesPage'
+import DonationDetailPage from './components/DonationDetailPage'
+import DonationConfirmationPage from './components/DonationConfirmationPage'
+import { useLandingPageStats } from './hooks/useAidChainUI'
 
 interface HomeProps { }
 
@@ -18,8 +22,11 @@ const Home: React.FC<HomeProps> = () => {
   const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
   const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false)
   const [openDonationForm, setOpenDonationForm] = useState<boolean>(false)
-  const [currentView, setCurrentView] = useState<'landing' | 'donor' | 'ngo' | 'milestones' | 'vouchers' | 'deliveries' | 'about' | 'how-it-works' | 'get-involved'>('landing')
+  const [currentView, setCurrentView] = useState<'landing' | 'donor' | 'ngo' | 'milestones' | 'vouchers' | 'deliveries' | 'about' | 'how-it-works' | 'get-involved' | 'donation-categories' | 'donation-detail' | 'donation-confirmation'>('landing')
+  const [selectedCampaignId, setSelectedCampaignId] = useState<number>(1)
+  const [transactionHash, setTransactionHash] = useState<string>('')
   const { activeAddress } = useWallet()
+  const { stats } = useLandingPageStats()
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
@@ -38,9 +45,19 @@ const Home: React.FC<HomeProps> = () => {
       // If wallet not connected, prompt connection first
       setOpenWalletModal(true)
     } else {
-      // If wallet connected, go to donor portal
-      setCurrentView('donor')
+      // If wallet connected, go to donation categories
+      setCurrentView('donation-categories')
     }
+  }
+
+  const handleCampaignSelect = (campaignId: number) => {
+    setSelectedCampaignId(campaignId)
+    setCurrentView('donation-detail')
+  }
+
+  const handleDonationComplete = (txnHash: string) => {
+    setTransactionHash(txnHash)
+    setCurrentView('donation-confirmation')
   }
 
   // Donor Portal View - Functional Dashboard
@@ -66,6 +83,40 @@ const Home: React.FC<HomeProps> = () => {
   // Delivery Tracker View
   if (currentView === 'deliveries') {
     return <DeliveryTracker onBackToLanding={() => setCurrentView('landing')} />
+  }
+
+  // New Figma Design Views
+  // Donation Categories View (Design 2)
+  if (currentView === 'donation-categories') {
+    return (
+      <DonationCategoriesPage 
+        onCampaignSelect={handleCampaignSelect}
+        onBackToLanding={() => setCurrentView('landing')}
+      />
+    )
+  }
+
+  // Donation Detail View (Design 3)
+  if (currentView === 'donation-detail') {
+    return (
+      <DonationDetailPage 
+        campaignId={selectedCampaignId}
+        onBackToCategories={() => setCurrentView('donation-categories')}
+        onDonationComplete={handleDonationComplete}
+        onBackToLanding={() => setCurrentView('landing')}
+      />
+    )
+  }
+
+  // Donation Confirmation View (Design 4)
+  if (currentView === 'donation-confirmation') {
+    return (
+      <DonationConfirmationPage 
+        transactionHash={transactionHash}
+        onBackToLanding={() => setCurrentView('landing')}
+        onBackToCategories={() => setCurrentView('donation-categories')}
+      />
+    )
   }
 
   // About Us View
@@ -278,7 +329,13 @@ const Home: React.FC<HomeProps> = () => {
     mainIcon: { fontSize: '5rem' },
     sparkle: { position: 'absolute' as const, bottom: '-1rem', right: '-1rem', width: '5rem', height: '5rem', backgroundColor: '#fbbf24', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
     sparkleIcon: { fontSize: '1.5rem' },
-    howItWorksSection: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', marginTop: '4rem' },
+    statsSection: { backgroundColor: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)', marginTop: '3rem' },
+    statsContent: { maxWidth: '1200px', margin: '0 auto', padding: '3rem 1.5rem', textAlign: 'center' as const },
+    statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', color: 'white' },
+    statCard: { textAlign: 'center' as const },
+    statValue: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '0.5rem' },
+    statLabel: { fontSize: '1rem', opacity: 0.9, textTransform: 'uppercase' as const, letterSpacing: '0.1em' },
+    howItWorksSection: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', marginTop: '2rem' },
     howItWorksContent: { maxWidth: '1200px', margin: '0 auto', padding: '4rem 1.5rem', textAlign: 'center' as const },
     sectionTitle: { fontSize: '1.875rem', fontWeight: 'bold', color: 'white', marginBottom: '3rem' },
     workflowCard: { backgroundColor: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '3rem', maxWidth: '64rem', margin: '0 auto' },
@@ -347,6 +404,32 @@ const Home: React.FC<HomeProps> = () => {
               <div style={landingStyles.sparkle}>
                 <div style={landingStyles.sparkleIcon}>✨</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Live Stats Section */}
+      <div style={landingStyles.statsSection}>
+        <div style={landingStyles.statsContent}>
+          <div style={landingStyles.statsGrid}>
+            <div style={landingStyles.statCard}>
+              <div style={landingStyles.statValue}>
+                {stats?.loading ? '...' : stats?.totalDonations ? `$${(stats.totalDonations / 1000000).toFixed(1)}M` : '$0'}
+              </div>
+              <div style={landingStyles.statLabel}>Total Donated</div>
+            </div>
+            <div style={landingStyles.statCard}>
+              <div style={landingStyles.statValue}>
+                {stats?.loading ? '...' : stats?.activeCampaigns || 0}
+              </div>
+              <div style={landingStyles.statLabel}>Active Campaigns</div>
+            </div>
+            <div style={landingStyles.statCard}>
+              <div style={landingStyles.statValue}>
+                {stats?.loading ? '...' : stats?.totalOrganizations || 0}
+              </div>
+              <div style={landingStyles.statLabel}>Partner NGOs</div>
             </div>
           </div>
         </div>

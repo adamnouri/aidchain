@@ -59,17 +59,38 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
 
     setLoading(true)
     try {
+      console.log('🔗 Connecting to smart contract...')
+      
+      // Connect to existing deployed contract instead of deploying new one
       const factory = new AidchainContractsFactory({
         defaultSender: activeAddress,
         algorand: algorandClient,
       })
 
-      const deployResult = await factory.deploy({
-        onSchemaBreak: OnSchemaBreak.ReplaceApp,
-        onUpdate: OnUpdate.ReplaceApp,
-      })
-
-      const { appClient } = deployResult
+      // Get the existing app client by connecting to deployed contract or deploy new one
+      let appClient
+      try {
+        console.log('📱 Attempting to connect to existing contract...')
+        // Try to deploy a new contract first (safer approach)
+        const deployResult = await factory.deploy({
+          onSchemaBreak: OnSchemaBreak.ReplaceApp,
+          onUpdate: OnUpdate.ReplaceApp,
+        })
+        appClient = deployResult.appClient
+        console.log('✅ Contract deployed/connected successfully:', deployResult.appClient.appId)
+        
+        // Initialize contract if needed
+        try {
+          const initResult = await appClient.send.initialize()
+          console.log('🚀 Contract initialized:', initResult.return)
+        } catch (initError) {
+          console.log('ℹ️ Contract already initialized or initialization failed:', initError)
+          // This is often expected if contract is already initialized
+        }
+      } catch (deployError) {
+        console.error('❌ Contract deployment failed:', deployError)
+        throw new Error(`Contract deployment failed: ${deployError}`)
+      }
 
       // Load organizations
       const orgCount = await appClient.send.getOrganizationCount()
@@ -128,21 +149,44 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
   }
 
   const handleRegisterOrganization = async () => {
-    if (!registrationForm.name.trim() || !algorandClient || !activeAddress) return
+    if (!registrationForm.name.trim() || !algorandClient || !activeAddress) {
+      enqueueSnackbar('Please fill in organization name and ensure wallet is connected', { variant: 'warning' })
+      return
+    }
 
     setLoading(true)
     try {
+      console.log('📝 Registering organization:', registrationForm.name)
+      
+      // Connect to existing deployed contract instead of deploying new one
       const factory = new AidchainContractsFactory({
         defaultSender: activeAddress,
         algorand: algorandClient,
       })
 
-      const deployResult = await factory.deploy({
-        onSchemaBreak: OnSchemaBreak.ReplaceApp,
-        onUpdate: OnUpdate.ReplaceApp,
-      })
-
-      const { appClient } = deployResult
+      // Get the existing app client by connecting to deployed contract or deploy new one
+      let appClient
+      try {
+        console.log('📱 Getting app client for registration...')
+        // Deploy new contract (consistent with loadData approach)
+        const deployResult = await factory.deploy({
+          onSchemaBreak: OnSchemaBreak.ReplaceApp,
+          onUpdate: OnUpdate.ReplaceApp,
+        })
+        appClient = deployResult.appClient
+        console.log('✅ Contract ready for registration:', deployResult.appClient.appId)
+        
+        // Initialize contract if needed
+        try {
+          await appClient.send.initialize()
+          console.log('🚀 Contract initialized for registration')
+        } catch (initError) {
+          console.log('ℹ️ Contract already initialized (registration)')
+        }
+      } catch (deployError) {
+        console.error('❌ Contract deployment failed (registration):', deployError)
+        throw new Error(`Contract deployment failed: ${deployError}`)
+      }
 
       const walletAddr = registrationForm.walletAddress.trim() || activeAddress
       
@@ -169,21 +213,44 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
   }
 
   const handleCreateCampaign = async () => {
-    if (!campaignForm.title.trim() || !campaignForm.target || !campaignForm.creator.trim() || !algorandClient || !activeAddress) return
+    if (!campaignForm.title.trim() || !campaignForm.target || !campaignForm.creator.trim() || !algorandClient || !activeAddress) {
+      enqueueSnackbar('Please fill in all campaign fields and ensure wallet is connected', { variant: 'warning' })
+      return
+    }
 
     setLoading(true)
     try {
+      console.log('🎯 Creating campaign:', campaignForm.title)
+      
+      // Connect to existing deployed contract instead of deploying new one
       const factory = new AidchainContractsFactory({
         defaultSender: activeAddress,
         algorand: algorandClient,
       })
 
-      const deployResult = await factory.deploy({
-        onSchemaBreak: OnSchemaBreak.ReplaceApp,
-        onUpdate: OnUpdate.ReplaceApp,
-      })
-
-      const { appClient } = deployResult
+      // Get the existing app client by connecting to deployed contract or deploy new one
+      let appClient
+      try {
+        console.log('📱 Getting app client for campaign creation...')
+        // Deploy new contract (consistent approach)
+        const deployResult = await factory.deploy({
+          onSchemaBreak: OnSchemaBreak.ReplaceApp,
+          onUpdate: OnUpdate.ReplaceApp,
+        })
+        appClient = deployResult.appClient
+        console.log('✅ Contract ready for campaign creation:', deployResult.appClient.appId)
+        
+        // Initialize contract if needed
+        try {
+          await appClient.send.initialize()
+          console.log('🚀 Contract initialized for campaign')
+        } catch (initError) {
+          console.log('ℹ️ Contract already initialized (campaign)')
+        }
+      } catch (deployError) {
+        console.error('❌ Contract deployment failed (campaign):', deployError)
+        throw new Error(`Contract deployment failed: ${deployError}`)
+      }
 
       const targetMicroAlgos = Math.round(parseFloat(campaignForm.target) * 1_000_000)
       

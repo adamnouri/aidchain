@@ -155,6 +155,9 @@ export type ViewType =
   | 'about' 
   | 'how-it-works' 
   | 'get-involved'
+  | 'donation-categories'
+  | 'donation-detail'
+  | 'donation-confirmation'
 
 export type LoadingState = 'idle' | 'loading' | 'success' | 'error'
 

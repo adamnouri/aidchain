@@ -64,12 +64,12 @@ const DeliveryTracker: React.FC<DeliveryTrackerProps> = ({ onBackToLanding }) =>
       const { appClient } = deployResult
 
       // Load deliveries
-      const deliveryCount = await appClient.send.get_delivery_count()
+      const deliveryCount = await appClient.send.getDeliveryCount()
       const loadedDeliveries: Delivery[] = []
       
       for (let i = 1; i <= Number(deliveryCount.return); i++) {
         try {
-          const deliveryDetails = await appClient.send.get_delivery_details({ delivery_id: i })
+          const deliveryDetails = await appClient.send.getDeliveryDetails({ deliveryId: i })
           if (deliveryDetails.return) {
             const [id, recipient, location, agent, verified] = deliveryDetails.return
             loadedDeliveries.push({
@@ -113,7 +113,7 @@ const DeliveryTracker: React.FC<DeliveryTrackerProps> = ({ onBackToLanding }) =>
 
       const { appClient } = deployResult
       
-      const result = await appClient.send.log_delivery({
+      const result = await appClient.send.logDelivery({
         recipient: logForm.recipient.trim(),
         location: logForm.location.trim()
       })
@@ -149,8 +149,8 @@ const DeliveryTracker: React.FC<DeliveryTrackerProps> = ({ onBackToLanding }) =>
 
       const { appClient } = deployResult
       
-      const result = await appClient.send.verify_delivery({
-        delivery_id: selectedDelivery.id,
+      const result = await appClient.send.verifyDelivery({
+        deliveryId: selectedDelivery.id,
         agent: verifyForm.agent.trim()
       })
 
