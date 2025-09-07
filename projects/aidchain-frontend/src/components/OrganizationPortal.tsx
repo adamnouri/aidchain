@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import '../styles/ngo.css'
 import { useWallet } from '@txnlab/use-wallet-react'
 import { useSnackbar } from 'notistack'
 import { useAppClientManager } from '../hooks/useAppClientManager'
@@ -334,8 +335,8 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
 
   if (loading) {
     return (
-      <div style={styles.container}>
-        <div style={styles.loading}>
+      <div className="ngo-container">
+        <div className="ngo-loading">
           <div>Loading NGO Portal...</div>
           <div style={{ marginTop: '0.5rem', fontSize: '0.75rem' }}>
             {appClient ? 'Connected to blockchain' : 'Using demo mode'}
@@ -346,67 +347,44 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
   }
 
   return (
-    <div style={styles.container}>
+    <div className="ngo-container">
       {/* Header */}
-      <div style={styles.header}>
-        <div style={styles.headerContent}>
-          <div style={styles.logo}>🏥 NGO Portal</div>
-          <button onClick={onBackToLanding} style={styles.backButton}>
-            ← Back to Home
-          </button>
+      <div className="ngo-header">
+        <div className="ngo-header-inner">
+          <div className="ngo-logo">🏥 NGO Portal</div>
+          <button onClick={onBackToLanding} className="ngo-back">← Back to Home</button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div style={styles.main}>
-        <h1 style={styles.title}>Organization Management Portal</h1>
-        <p style={styles.subtitle}>
-          Register your NGO and manage humanitarian campaigns on the blockchain
-        </p>
+      <div className="ngo-main">
+        <h1 className="ngo-title">Organization Management Portal</h1>
+        <p className="ngo-subtitle">Register your NGO and manage humanitarian campaigns on the blockchain</p>
 
         {/* Status */}
-        <div style={{
-          ...styles.status,
-          backgroundColor: appClient ? '#d1fae5' : '#fef3c7',
-          border: `1px solid ${appClient ? '#10b981' : '#f59e0b'}`
-        }}>
-          {appClient ? '🔗 Connected to blockchain' : '🎭 Demo mode (blockchain unavailable)'}
-          {activeAddress && ` • Wallet: ${activeAddress.slice(0, 8)}...`}
+        <div className={`ngo-status ${appClient ? 'connected' : 'demo'}`}>
+          {appClient ? '🔗 Connected to blockchain' : '🎭 Demo mode (blockchain unavailable)'}{activeAddress && ` • Wallet: ${activeAddress.slice(0, 8)}...`}
         </div>
 
         {/* Action Buttons */}
-        <div style={styles.buttonGroup}>
-          <button 
-            onClick={() => setShowRegisterModal(true)}
-            style={styles.primaryButton}
-          >
-            Register New NGO
-          </button>
-          <button 
-            onClick={() => setShowCreateCampaignModal(true)}
-            style={styles.secondaryButton}
-          >
-            Create Campaign
-          </button>
+        <div className="ngo-actions">
+          <button onClick={() => setShowRegisterModal(true)} className="ngo-btn-primary">Register New NGO</button>
+          <button onClick={() => setShowCreateCampaignModal(true)} className="ngo-btn-secondary">Create Campaign</button>
         </div>
 
         {/* Organizations Section */}
-        <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Registered Organizations ({organizations.length})</h2>
-          <div style={styles.grid}>
+        <div className="ngo-section">
+          <h2 className="ngo-section-title">Registered Organizations ({organizations.length})</h2>
+          <div className="ngo-grid">
             {organizations.map(org => {
               const badge = getVerificationBadge(org.verificationLevel)
               return (
-                <div key={org.id} style={styles.card}>
-                  <div style={styles.cardTitle}>{org.name}</div>
-                  <div style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '0.5rem' }}>
+                <div key={org.id} className="ngo-card">
+                  <div className="ngo-card-title">{org.name}</div>
+                  <div className="ngo-card-muted">
                     {org.walletAddress}
                   </div>
-                  <div style={{
-                    ...styles.badge,
-                    backgroundColor: badge.color + '20',
-                    color: badge.color
-                  }}>
+                  <div className="ngo-badge" style={{ backgroundColor: badge.color + '20', color: badge.color }}>
                     {badge.emoji} {badge.text}
                   </div>
                 </div>
@@ -416,31 +394,21 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
         </div>
 
         {/* Campaigns Section */}
-        <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Active Campaigns ({campaigns.length})</h2>
-          <div style={styles.grid}>
+        <div className="ngo-section">
+          <h2 className="ngo-section-title">Active Campaigns ({campaigns.length})</h2>
+          <div className="ngo-grid">
             {campaigns.map(campaign => (
-              <div key={campaign.id} style={styles.card}>
-                <div style={styles.cardTitle}>{campaign.title}</div>
-                <div style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '0.5rem' }}>
+              <div key={campaign.id} className="ngo-card">
+                <div className="ngo-card-title">{campaign.title}</div>
+                <div className="ngo-card-muted">
                   By: {campaign.creator}
                 </div>
                 <div style={{ marginBottom: '0.5rem' }}>
                   <strong>{formatAmount(campaign.raised)}</strong> raised of{' '}
                   <strong>{formatAmount(campaign.target)}</strong> goal
                 </div>
-                <div style={{ 
-                  width: '100%', 
-                  height: '0.5rem', 
-                  backgroundColor: '#e5e7eb', 
-                  borderRadius: '0.25rem',
-                  overflow: 'hidden'
-                }}>
-                  <div style={{
-                    width: `${Math.min((campaign.raised / campaign.target) * 100, 100)}%`,
-                    height: '100%',
-                    backgroundColor: '#3b82f6'
-                  }}></div>
+                <div className="ngo-progress">
+                  <div className="ngo-progress-fill" style={{ width: `${Math.min((campaign.raised / campaign.target) * 100, 100)}%` }}></div>
                 </div>
               </div>
             ))}
@@ -450,36 +418,26 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
 
       {/* Register Modal */}
       {showRegisterModal && (
-        <div style={styles.modal}>
-          <div style={styles.modalContent}>
-            <h3 style={styles.modalTitle}>Register New Organization</h3>
+        <div className="ngo-modal">
+          <div className="ngo-modal-content">
+            <h3 className="ngo-modal-title">Register New Organization</h3>
             <input
               type="text"
               placeholder="Organization Name"
               value={registrationForm.name}
               onChange={(e) => setRegistrationForm(prev => ({ ...prev, name: e.target.value }))}
-              style={styles.input}
+              className="ngo-input"
             />
             <input
               type="text"
               placeholder="Wallet Address (optional - will use connected wallet)"
               value={registrationForm.walletAddress}
               onChange={(e) => setRegistrationForm(prev => ({ ...prev, walletAddress: e.target.value }))}
-              style={styles.input}
+              className="ngo-input"
             />
-            <div style={styles.modalButtons}>
-              <button 
-                onClick={() => setShowRegisterModal(false)}
-                style={styles.cancelButton}
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleRegisterOrganization}
-                style={styles.primaryButton}
-              >
-                Register
-              </button>
+            <div className="ngo-modal-actions">
+              <button onClick={() => setShowRegisterModal(false)} className="ngo-cancel">Cancel</button>
+              <button onClick={handleRegisterOrganization} className="ngo-btn-primary">Register</button>
             </div>
           </div>
         </div>
@@ -487,43 +445,33 @@ const OrganizationPortal: React.FC<OrganizationPortalProps> = ({ onBackToLanding
 
       {/* Create Campaign Modal */}
       {showCreateCampaignModal && (
-        <div style={styles.modal}>
-          <div style={styles.modalContent}>
-            <h3 style={styles.modalTitle}>Create New Campaign</h3>
+        <div className="ngo-modal">
+          <div className="ngo-modal-content">
+            <h3 className="ngo-modal-title">Create New Campaign</h3>
             <input
               type="text"
               placeholder="Campaign Title"
               value={campaignForm.title}
               onChange={(e) => setCampaignForm(prev => ({ ...prev, title: e.target.value }))}
-              style={styles.input}
+              className="ngo-input"
             />
             <input
               type="number"
               placeholder="Target Amount (USD)"
               value={campaignForm.target}
               onChange={(e) => setCampaignForm(prev => ({ ...prev, target: e.target.value }))}
-              style={styles.input}
+              className="ngo-input"
             />
             <input
               type="text"
               placeholder="Creator Organization (optional)"
               value={campaignForm.creator}
               onChange={(e) => setCampaignForm(prev => ({ ...prev, creator: e.target.value }))}
-              style={styles.input}
+              className="ngo-input"
             />
-            <div style={styles.modalButtons}>
-              <button 
-                onClick={() => setShowCreateCampaignModal(false)}
-                style={styles.cancelButton}
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleCreateCampaign}
-                style={styles.secondaryButton}
-              >
-                Create Campaign
-              </button>
+            <div className="ngo-modal-actions">
+              <button onClick={() => setShowCreateCampaignModal(false)} className="ngo-cancel">Cancel</button>
+              <button onClick={handleCreateCampaign} className="ngo-btn-secondary">Create Campaign</button>
             </div>
           </div>
         </div>

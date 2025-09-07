@@ -13,7 +13,7 @@ export function useAppClientManager(): AppClientManagerHook {
   const [appClient, setAppClient] = useState<AidchainContractsClient | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
+  
   const { activeAddress } = useWallet()
   const { algorandClient, error: contextError } = useAppClient()
 
@@ -40,7 +40,7 @@ export function useAppClientManager(): AppClientManagerHook {
 
     setLoading(true)
     setError(null)
-
+    
     try {
       console.log('🏭 Creating AidchainContractsFactory...')
       const factory = new AidchainContractsFactory({
@@ -50,8 +50,8 @@ export function useAppClientManager(): AppClientManagerHook {
 
       console.log('🔌 Connecting to deployed contract (App ID: 1184)...')
       // Connect to existing deployed contract (App ID: 1184)
-      const appClient = factory.getAppClientById({
-        appId: 1184n, // The deployed contract ID from LocalNet
+      const appClient = factory.getAppClientByIdOrName({
+        appId: 1184, // The deployed contract ID from LocalNet
       })
 
       console.log('✅ App client created successfully:', { appId: appClient.appId })

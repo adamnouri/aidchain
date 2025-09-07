@@ -1,0 +1,83 @@
+/* Landing page styles based on Figma, using tokens */
+
+.landing { min-height: 100vh; background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%); }
+
+.landing .nav { display: flex; justify-content: space-between; align-items: center; padding: var(--space-6); }
+
+.landing .logo { color: #fff; font-size: 1.25rem; font-weight: var(--font-weight-bold); display: flex; align-items: center; gap: 0.5rem; }
+
+.landing .logo-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #000;
+  border-radius: 0.25rem;
+}
+
+.landing .nav-buttons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.landing .nav-button { color: #fff; background: none; border: none; cursor: pointer; transition: opacity 0.2s ease; }
+
+.landing .nav-button:hover {
+  opacity: 0.8;
+}
+
+.landing .hero { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem 0 1.5rem; }
+
+.landing .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+@media (min-width: 900px) {
+  .landing .hero-content { flex-direction: row; align-items: center; }
+}
+
+.landing .left-content { color: #fff; text-align: center; margin-bottom: 2.5rem; }
+
+.landing .hero-title { font-size: var(--font-size-5xl); line-height: var(--line-height-5xl); font-weight: var(--font-weight-bold); margin-bottom: 1.25rem; letter-spacing: -0.01em; }
+
+.landing .button-group { display: flex; gap: 0.75rem; margin-bottom: 1.75rem; justify-content: center; flex-wrap: wrap; }
+
+.landing .btn-primary { background-color: var(--color-neutral-700); color: #fff; border: none; border-radius: var(--radius-sm); padding: 1rem 2rem; font-size: var(--font-size-lg); line-height: var(--line-height-lg); cursor: pointer; font-weight: var(--font-weight-medium); box-shadow: var(--shadow-sm); }
+
+.landing .btn-secondary { background-color: rgba(255, 255, 255, 0.2); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-sm); padding: 1rem 2rem; font-size: var(--font-size-lg); line-height: var(--line-height-lg); cursor: pointer; font-weight: var(--font-weight-medium); box-shadow: var(--shadow-sm); backdrop-filter: blur(2px); }
+
+.landing .right-content { display: flex; justify-content: center; }
+
+.landing .illustration { position: relative; }
+.landing .main-circle { width: 20rem; height: 20rem; background-color: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.landing .main-icon { font-size: 5rem; }
+.landing .sparkle { position: absolute; bottom: -1rem; right: -1rem; width: 5rem; height: 5rem; background-color: #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.landing .sparkle-icon { font-size: 1.5rem; }
+
+.landing .stats-section { background-color: rgba(255,255,255,0.05); backdrop-filter: blur(10px); margin-top: 3rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+.landing .stats-content { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center; }
+.landing .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; color: #fff; }
+.landing .stat-card { text-align: center; }
+.landing .stat-value { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); font-weight: var(--font-weight-bold); margin-bottom: 0.25rem; }
+.landing .stat-label { font-size: 1rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.1em; }
+
+.landing .how-section { background-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px); margin-top: 2rem; }
+.landing .how-content { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
+.landing .section-title { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); font-weight: var(--font-weight-bold); color: #fff; margin-bottom: 2.25rem; }
+.landing .workflow-card { background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: var(--radius-md); padding: 3rem; max-width: 64rem; margin: 0 auto; box-shadow: var(--shadow-lg); }
+.landing .workflow-title { font-size: 1.25rem; font-weight: 600; color: #fff; margin-bottom: 2rem; }
+.landing .workflow-text { color: rgba(255,255,255,0.85); }
+.landing .placeholder { margin-bottom: 1.5rem; }
+.landing .workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
+.landing .workflow-step { margin-bottom: 1rem; }
+.landing .step-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.landing .step-title { font-weight: 600; margin-bottom: 0.5rem; }
+.landing .step-text { font-size: 0.875rem; }
+
+.landing .dev-tools { position: fixed; bottom: 1rem; right: 1rem; opacity: 0.1; transition: opacity 0.2s ease; }
+.landing .dropdown { position: relative; }
+.landing .dropdown-button { width: 3rem; height: 3rem; border-radius: 50%; background-color: #fff; color: #4b5563; border: none; cursor: pointer; font-size: 1rem; }
+.landing .dropdown-menu { position: absolute; bottom: 100%; right: 0; background-color: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 0.5rem; min-width: 13rem; display: none; }
+

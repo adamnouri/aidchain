@@ -1,0 +1,93 @@
+/* Donation flow shared styles */
+
+.donation-gradient { background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%); }
+.donation-container { min-height: 100vh; padding-bottom: 2rem; }
+.donation-nav { display: flex; justify-content: space-between; align-items: center; padding: var(--space-6); border-bottom: 1px solid rgba(255,255,255,0.12); }
+.donation-logo { color: #fff; font-size: 1.25rem; font-weight: var(--font-weight-bold); display: flex; align-items: center; gap: 0.5rem; background: none; border: none; cursor: pointer; }
+.donation-logo img { height: 1.5rem; width: auto; filter: brightness(0) saturate(100%) invert(100%); }
+.donation-nav-buttons { display: flex; gap: 1.5rem; }
+.donation-nav-button { color: #fff; background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0.5rem; }
+
+.donation-main { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; padding-top: 3rem; }
+.donation-header { text-align: center; margin-bottom: 3rem; color: #fff; }
+.donation-title { font-size: var(--font-size-3xl); line-height: var(--line-height-3xl); font-weight: var(--font-weight-bold); margin-bottom: 1rem; }
+.donation-subtitle { font-size: var(--font-size-lg); opacity: 0.9; }
+
+.donation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+.donation-card { background: rgba(255,255,255,0.97); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: pointer; }
+.donation-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.18); }
+.donation-image { position: relative; height: 200px; overflow: hidden; background: var(--color-neutral-100); }
+.donation-image .placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.donation-urgency { position: absolute; top: 1rem; right: 1rem; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.urgency-high { background: #ef4444; color: #fff; }
+.urgency-medium { background: #f59e0b; color: #fff; }
+.urgency-low { background: #10b981; color: #fff; }
+.donation-card-content { padding: 1.5rem; }
+.donation-card-title { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--color-surface-contrast); margin-bottom: 0.5rem; }
+.donation-location { font-size: var(--font-size-sm); color: var(--color-neutral-500); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.25rem; }
+.donation-progress { margin-bottom: 1.25rem; }
+.progress-bar { width: 100%; height: 0.5rem; background: var(--color-neutral-200); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 0.5rem; }
+.progress-fill { height: 100%; background: #2563eb; border-radius: var(--radius-sm); transition: width 0.3s ease; }
+.progress-text { display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-neutral-500); }
+.donation-btn { width: 100%; background: var(--color-neutral-700); color: #fff; border: none; border-radius: var(--radius-md); padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; }
+.donation-btn:hover { background: #374151; }
+
+/* Detail page */
+.detail-hero { position: relative; height: 400px; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0 3rem; }
+.detail-hero-image { position: absolute; inset: 0; background: var(--color-neutral-700); display: flex; align-items: center; justify-content: center; }
+.detail-hero-placeholder { font-size: 6rem; opacity: 0.7; }
+.detail-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); display: flex; align-items: flex-end; }
+.detail-hero-content { padding: 2rem; color: #fff; }
+.detail-hero-kicker { font-size: var(--font-size-lg); color: #fbbf24; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+.detail-hero-title { font-size: var(--font-size-4xl); line-height: var(--line-height-4xl); font-weight: var(--font-weight-bold); margin: 0.5rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.detail-section { background: rgba(255,255,255,0.97); border-radius: var(--radius-lg); padding: 3rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); }
+.detail-section-title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); color: var(--color-surface-contrast); margin-bottom: 1rem; text-align: center; }
+.detail-description { font-size: var(--font-size-lg); line-height: 1.7; color: #374151; margin-bottom: 2rem; text-align: center; }
+.detail-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+.detail-stat { text-align: center; padding: 1rem; background: #f8fafc; border-radius: var(--radius-md); }
+.detail-stat-value { font-size: 2rem; font-weight: var(--font-weight-bold); color: #2563eb; margin-bottom: 0.25rem; }
+.detail-stat-label { font-size: var(--font-size-sm); color: var(--color-neutral-500); text-transform: uppercase; }
+.detail-progress { margin-bottom: 2rem; }
+.detail-progress-bar { width: 100%; height: 1rem; background: var(--color-neutral-200); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 0.5rem; }
+.detail-progress-fill { height: 100%; background: #2563eb; border-radius: var(--radius-md); transition: width 0.3s ease; }
+.detail-progress-text { text-align: center; font-size: var(--font-size-sm); color: var(--color-neutral-500); }
+.detail-amount-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.detail-amount { padding: 1rem; border: 2px solid var(--color-neutral-200); border-radius: var(--radius-md); background: #fff; font-size: var(--font-size-xl); font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+.detail-amount.selected { border-color: #2563eb; background: #2563eb; color: #fff; }
+.detail-input-label { display: block; font-size: 1rem; font-weight: 600; color: #374151; margin-bottom: 0.5rem; }
+.detail-input { width: 100%; padding: 1rem; border: 2px solid var(--color-neutral-200); border-radius: var(--radius-md); font-size: var(--font-size-xl); text-align: center; }
+.detail-input:focus { border-color: #2563eb; outline: none; }
+.detail-cta { width: 100%; background: var(--color-neutral-700); color: #fff; border: none; border-radius: var(--radius-md); padding: 1.25rem 2rem; font-size: var(--font-size-xl); font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; margin-bottom: 1rem; }
+.detail-cta:hover { background: #374151; }
+.detail-cta:disabled { background: #9ca3af; cursor: not-allowed; }
+.detail-warning { text-align: center; color: #dc2626; font-size: var(--font-size-sm); margin-top: 0.5rem; }
+
+/* Confirmation */
+.confirm-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%); }
+.confirm-card { max-width: 600px; width: 100%; background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+.confirm-header { background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%); padding: 3rem 2rem; text-align: center; color: #fff; position: relative; }
+.confirm-logo { display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+.confirm-logo img { height: 3rem; width: auto; filter: brightness(0) saturate(100%) invert(100%); margin-right: 1rem; }
+.confirm-logo-text { font-size: 2rem; font-weight: var(--font-weight-bold); }
+.confirm-title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); margin-bottom: 1rem; }
+.confirm-message { font-size: var(--font-size-lg); line-height: 1.7; opacity: 0.95; }
+.confirm-content { padding: 3rem 2rem; }
+.confirm-section-title { font-size: var(--font-size-sm); font-weight: 600; color: var(--color-neutral-500); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; text-align: center; }
+.confirm-details { background: #f8fafc; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; }
+.confirm-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--color-neutral-200); }
+.confirm-row.last { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.confirm-label { color: var(--color-neutral-500); font-size: var(--font-size-sm); }
+.confirm-value { font-weight: 600; color: var(--color-surface-contrast); }
+.confirm-amount { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: #2563eb; }
+.confirm-map { background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%); border-radius: var(--radius-lg); padding: 2rem; position: relative; overflow: hidden; margin-bottom: 2rem; }
+.confirm-map-content { display: flex; align-items: center; justify-content: space-between; color: #fff; position: relative; z-index: 1; }
+.confirm-node { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.confirm-node-circle { width: 4rem; height: 4rem; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid rgba(255,255,255,0.3); }
+.confirm-node-label { font-size: var(--font-size-sm); text-align: center; font-weight: 600; }
+.confirm-arrow { font-size: 2rem; opacity: 0.7; margin: 0 1rem; }
+.confirm-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.confirm-primary { flex: 1; background: #2563eb; color: #fff; border: none; border-radius: var(--radius-lg); padding: 1rem 2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; min-width: 150px; }
+.confirm-primary:hover { background: #1d4ed8; }
+.confirm-secondary { flex: 1; background: transparent; color: var(--color-neutral-500); border: 2px solid var(--color-neutral-200); border-radius: var(--radius-lg); padding: 1rem 2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; min-width: 150px; }
+.confirm-secondary:hover { border-color: #9ca3af; color: #374151; }
+
