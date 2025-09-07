@@ -68,34 +68,46 @@ const Home: React.FC<HomeProps> = () => {
     return <DeliveryTracker onBackToLanding={() => setCurrentView('landing')} />
   }
 
-  // Placeholder Pages
+  // About Us View
   if (currentView === 'about') {
+    const aboutStyles = {
+      container: { minHeight: '100vh', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)' },
+      nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem' },
+      logo: { color: 'white', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', cursor: 'pointer' },
+      logoIcon: { width: '1.5rem', height: '1.5rem', backgroundColor: 'black', borderRadius: '0.25rem' },
+      navButtons: { display: 'flex', gap: '1.5rem' },
+      navButton: { color: 'white', background: 'none', border: 'none', cursor: 'pointer' },
+      main: { maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', paddingTop: '4rem' },
+      content: { maxWidth: '64rem', margin: '0 auto', textAlign: 'center' as const, color: 'white' },
+      title: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem' },
+      card: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '2rem' },
+      text: { fontSize: '1.25rem', marginBottom: '1.5rem' },
+      smallText: { fontSize: '1.125rem' }
+    }
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
-        <nav className="flex justify-between items-center p-6">
-          <button 
-            onClick={() => setCurrentView('landing')}
-            className="text-white text-xl font-bold flex items-center gap-2"
-          >
-            <div className="w-6 h-6 bg-black rounded"></div>
+      <div style={aboutStyles.container}>
+        <nav style={aboutStyles.nav}>
+          <button onClick={() => setCurrentView('landing')} style={aboutStyles.logo}>
+            <div style={aboutStyles.logoIcon}></div>
             Aidchain
           </button>
-          <div className="flex gap-6">
-            <button onClick={() => setCurrentView('get-involved')} className="text-white hover:text-blue-200">Get Involved</button>
-            <button onClick={() => setCurrentView('how-it-works')} className="text-white hover:text-blue-200">How it works</button>
-            <button onClick={() => setCurrentView('about')} className="text-white hover:text-blue-200">About Us</button>
+          <div style={aboutStyles.navButtons}>
+            <button onClick={() => setCurrentView('get-involved')} style={aboutStyles.navButton}>Get Involved</button>
+            <button onClick={() => setCurrentView('how-it-works')} style={aboutStyles.navButton}>How it works</button>
+            <button onClick={() => setCurrentView('about')} style={aboutStyles.navButton}>About Us</button>
           </div>
         </nav>
         
-        <div className="container mx-auto px-6 py-16">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl font-bold mb-8">About Aidchain</h1>
-            <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
-              <p className="text-xl mb-6">
+        <div style={aboutStyles.main}>
+          <div style={aboutStyles.content}>
+            <h1 style={aboutStyles.title}>About Aidchain</h1>
+            <div style={aboutStyles.card}>
+              <p style={aboutStyles.text}>
                 Aidchain revolutionizes humanitarian aid through blockchain transparency. 
                 Every donation is tracked from donor to beneficiary, ensuring complete accountability.
               </p>
-              <p className="text-lg">
+              <p style={aboutStyles.smallText}>
                 Built on Algorand for fast, low-cost transactions that make every token count 
                 in the fight against poverty and humanitarian crises.
               </p>
@@ -107,52 +119,68 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   if (currentView === 'how-it-works') {
+    const howItWorksStyles = {
+      container: { minHeight: '100vh', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)' },
+      nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem' },
+      logo: { color: 'white', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', cursor: 'pointer' },
+      logoIcon: { width: '1.5rem', height: '1.5rem', backgroundColor: 'black', borderRadius: '0.25rem' },
+      navButtons: { display: 'flex', gap: '1.5rem' },
+      navButton: { color: 'white', background: 'none', border: 'none', cursor: 'pointer' },
+      main: { maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', paddingTop: '4rem' },
+      content: { maxWidth: '64rem', margin: '0 auto', textAlign: 'center' as const, color: 'white' },
+      title: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem' },
+      card: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '2rem' },
+      text: { fontSize: '1.25rem', marginBottom: '2rem' },
+      grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center' as const },
+      stepCard: { backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '0.5rem', padding: '1.5rem' },
+      stepIcon: { fontSize: '2.5rem', marginBottom: '1rem' },
+      stepTitle: { fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' },
+      placeholder: { marginTop: '2rem', fontSize: '1.125rem', fontStyle: 'italic' }
+    }
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
-        <nav className="flex justify-between items-center p-6">
-          <button 
-            onClick={() => setCurrentView('landing')}
-            className="text-white text-xl font-bold flex items-center gap-2"
-          >
-            <div className="w-6 h-6 bg-black rounded"></div>
+      <div style={howItWorksStyles.container}>
+        <nav style={howItWorksStyles.nav}>
+          <button onClick={() => setCurrentView('landing')} style={howItWorksStyles.logo}>
+            <div style={howItWorksStyles.logoIcon}></div>
             Aidchain
           </button>
-          <div className="flex gap-6">
-            <button onClick={() => setCurrentView('get-involved')} className="text-white hover:text-blue-200">Get Involved</button>
-            <button onClick={() => setCurrentView('how-it-works')} className="text-white hover:text-blue-200">How it works</button>
-            <button onClick={() => setCurrentView('about')} className="text-white hover:text-blue-200">About Us</button>
+          <div style={howItWorksStyles.navButtons}>
+            <button onClick={() => setCurrentView('get-involved')} style={howItWorksStyles.navButton}>Get Involved</button>
+            <button onClick={() => setCurrentView('how-it-works')} style={howItWorksStyles.navButton}>How it works</button>
+            <button onClick={() => setCurrentView('about')} style={howItWorksStyles.navButton}>About Us</button>
           </div>
         </nav>
         
-        <div className="container mx-auto px-6 py-16">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl font-bold mb-8">How It Works</h1>
-            <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
-              <p className="text-xl mb-8">
+        <div style={howItWorksStyles.main}>
+          <div style={howItWorksStyles.content}>
+            <h1 style={howItWorksStyles.title}>How It Works</h1>
+            <div style={howItWorksStyles.card}>
+              <p style={howItWorksStyles.text}>
                 Transparent humanitarian aid in three simple steps:
               </p>
               
-              <div className="grid md:grid-cols-3 gap-8 text-center">
-                <div className="bg-white bg-opacity-10 rounded-lg p-6">
-                  <div className="text-4xl mb-4">💝</div>
-                  <h3 className="text-xl font-bold mb-2">1. Donate</h3>
+              <div style={howItWorksStyles.grid}>
+                <div style={howItWorksStyles.stepCard}>
+                  <div style={howItWorksStyles.stepIcon}>💝</div>
+                  <h3 style={howItWorksStyles.stepTitle}>1. Donate</h3>
                   <p>Make secure donations using ALGO or USDC cryptocurrency</p>
                 </div>
                 
-                <div className="bg-white bg-opacity-10 rounded-lg p-6">
-                  <div className="text-4xl mb-4">🏥</div>
-                  <h3 className="text-xl font-bold mb-2">2. Track</h3>
+                <div style={howItWorksStyles.stepCard}>
+                  <div style={howItWorksStyles.stepIcon}>🏥</div>
+                  <h3 style={howItWorksStyles.stepTitle}>2. Track</h3>
                   <p>Follow your donation's journey from NGO to beneficiary in real-time</p>
                 </div>
                 
-                <div className="bg-white bg-opacity-10 rounded-lg p-6">
-                  <div className="text-4xl mb-4">🤝</div>
-                  <h3 className="text-xl font-bold mb-2">3. Impact</h3>
+                <div style={howItWorksStyles.stepCard}>
+                  <div style={howItWorksStyles.stepIcon}>🤝</div>
+                  <h3 style={howItWorksStyles.stepTitle}>3. Impact</h3>
                   <p>See the direct impact of your contribution on real lives</p>
                 </div>
               </div>
               
-              <p className="mt-8 text-lg">
+              <p style={howItWorksStyles.placeholder}>
                 <em>Content placeholder - you can provide detailed workflow information later</em>
               </p>
             </div>
@@ -163,57 +191,63 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   if (currentView === 'get-involved') {
+    const getInvolvedStyles = {
+      container: { minHeight: '100vh', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)' },
+      nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem' },
+      logo: { color: 'white', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', cursor: 'pointer' },
+      logoIcon: { width: '1.5rem', height: '1.5rem', backgroundColor: 'black', borderRadius: '0.25rem' },
+      navButtons: { display: 'flex', gap: '1.5rem' },
+      navButton: { color: 'white', background: 'none', border: 'none', cursor: 'pointer' },
+      main: { maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', paddingTop: '4rem' },
+      content: { maxWidth: '64rem', margin: '0 auto', textAlign: 'center' as const, color: 'white' },
+      title: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem' },
+      grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' },
+      card: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '2rem' },
+      cardTitle: { fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' },
+      cardText: { marginBottom: '1.5rem' },
+      button: { backgroundColor: 'white', color: '#2563eb', border: 'none', borderRadius: '0.375rem', padding: '0.75rem 1.5rem', fontSize: '1rem', cursor: 'pointer', fontWeight: '500' },
+      bigButton: { backgroundColor: 'white', color: '#2563eb', border: 'none', borderRadius: '0.375rem', padding: '1rem 2rem', fontSize: '1.125rem', cursor: 'pointer', fontWeight: '500' }
+    }
+
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
-        <nav className="flex justify-between items-center p-6">
-          <button 
-            onClick={() => setCurrentView('landing')}
-            className="text-white text-xl font-bold flex items-center gap-2"
-          >
-            <div className="w-6 h-6 bg-black rounded"></div>
+      <div style={getInvolvedStyles.container}>
+        <nav style={getInvolvedStyles.nav}>
+          <button onClick={() => setCurrentView('landing')} style={getInvolvedStyles.logo}>
+            <div style={getInvolvedStyles.logoIcon}></div>
             Aidchain
           </button>
-          <div className="flex gap-6">
-            <button onClick={() => setCurrentView('get-involved')} className="text-white hover:text-blue-200">Get Involved</button>
-            <button onClick={() => setCurrentView('how-it-works')} className="text-white hover:text-blue-200">How it works</button>
-            <button onClick={() => setCurrentView('about')} className="text-white hover:text-blue-200">About Us</button>
+          <div style={getInvolvedStyles.navButtons}>
+            <button onClick={() => setCurrentView('get-involved')} style={getInvolvedStyles.navButton}>Get Involved</button>
+            <button onClick={() => setCurrentView('how-it-works')} style={getInvolvedStyles.navButton}>How it works</button>
+            <button onClick={() => setCurrentView('about')} style={getInvolvedStyles.navButton}>About Us</button>
           </div>
         </nav>
         
-        <div className="container mx-auto px-6 py-16">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl font-bold mb-8">Get Involved</h1>
+        <div style={getInvolvedStyles.main}>
+          <div style={getInvolvedStyles.content}>
+            <h1 style={getInvolvedStyles.title}>Get Involved</h1>
             
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
-                <h3 className="text-2xl font-bold mb-4">🎯 For Donors</h3>
-                <p className="mb-6">Make transparent donations and track their real-world impact</p>
-                <button 
-                  onClick={handleDonateNow}
-                  className="btn bg-white text-blue-600 border-none hover:bg-blue-50"
-                >
+            <div style={getInvolvedStyles.grid}>
+              <div style={getInvolvedStyles.card}>
+                <h3 style={getInvolvedStyles.cardTitle}>🎯 For Donors</h3>
+                <p style={getInvolvedStyles.cardText}>Make transparent donations and track their real-world impact</p>
+                <button onClick={handleDonateNow} style={getInvolvedStyles.button}>
                   Start Donating
                 </button>
               </div>
               
-              <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
-                <h3 className="text-2xl font-bold mb-4">🏥 For NGOs</h3>
-                <p className="mb-6">Manage campaigns and distribute aid with full transparency</p>
-                <button 
-                  onClick={() => setCurrentView('ngo')}
-                  className="btn bg-white text-blue-600 border-none hover:bg-blue-50"
-                >
+              <div style={getInvolvedStyles.card}>
+                <h3 style={getInvolvedStyles.cardTitle}>🏥 For NGOs</h3>
+                <p style={getInvolvedStyles.cardText}>Manage campaigns and distribute aid with full transparency</p>
+                <button onClick={() => setCurrentView('ngo')} style={getInvolvedStyles.button}>
                   NGO Portal
                 </button>
               </div>
             </div>
             
-            <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
-              <h3 className="text-xl font-bold mb-4">Ready to make a difference?</h3>
-              <button 
-                onClick={toggleWalletModal}
-                className="btn bg-white text-blue-600 border-none hover:bg-blue-50 btn-lg"
-              >
+            <div style={getInvolvedStyles.card}>
+              <h3 style={getInvolvedStyles.cardTitle}>Ready to make a difference?</h3>
+              <button onClick={toggleWalletModal} style={getInvolvedStyles.bigButton}>
                 Connect Your Wallet
               </button>
             </div>
@@ -224,62 +258,94 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   // Main Landing Page
+  const landingStyles = {
+    container: { minHeight: '100vh', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)' },
+    nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem' },
+    logo: { color: 'white', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' },
+    logoIcon: { width: '1.5rem', height: '1.5rem', backgroundColor: 'black', borderRadius: '0.25rem' },
+    navButtons: { display: 'flex', gap: '1.5rem' },
+    navButton: { color: 'white', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' },
+    hero: { maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', paddingTop: '4rem' },
+    heroContent: { display: 'flex', flexDirection: 'column' as const, alignItems: 'center', justifyContent: 'space-between', gap: '3rem' },
+    leftContent: { color: 'white', marginBottom: '3rem', textAlign: 'center' as const },
+    heroTitle: { fontSize: '3rem', fontWeight: 'bold', marginBottom: '1.5rem', lineHeight: '1.2' },
+    buttonGroup: { display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap' as const },
+    primaryButton: { backgroundColor: '#374151', color: 'white', border: 'none', borderRadius: '0.375rem', padding: '1rem 2rem', fontSize: '1.125rem', cursor: 'pointer', fontWeight: '500' },
+    secondaryButton: { backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white', border: '1px solid rgba(255, 255, 255, 0.3)', borderRadius: '0.375rem', padding: '1rem 2rem', fontSize: '1.125rem', cursor: 'pointer', fontWeight: '500' },
+    rightContent: { display: 'flex', justifyContent: 'center' },
+    illustration: { position: 'relative' as const },
+    mainCircle: { width: '20rem', height: '20rem', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+    mainIcon: { fontSize: '5rem' },
+    sparkle: { position: 'absolute' as const, bottom: '-1rem', right: '-1rem', width: '5rem', height: '5rem', backgroundColor: '#fbbf24', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+    sparkleIcon: { fontSize: '1.5rem' },
+    howItWorksSection: { backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', marginTop: '4rem' },
+    howItWorksContent: { maxWidth: '1200px', margin: '0 auto', padding: '4rem 1.5rem', textAlign: 'center' as const },
+    sectionTitle: { fontSize: '1.875rem', fontWeight: 'bold', color: 'white', marginBottom: '3rem' },
+    workflowCard: { backgroundColor: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', borderRadius: '0.5rem', padding: '3rem', maxWidth: '64rem', margin: '0 auto' },
+    workflowTitle: { fontSize: '1.25rem', fontWeight: '600', color: 'white', marginBottom: '2rem' },
+    workflowText: { color: 'rgba(255, 255, 255, 0.8)' },
+    placeholder: { marginBottom: '1.5rem' },
+    workflowGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' as const },
+    workflowStep: { marginBottom: '1rem' },
+    stepIcon: { fontSize: '2.5rem', marginBottom: '1rem' },
+    stepTitle: { fontWeight: '600', marginBottom: '0.5rem' },
+    stepText: { fontSize: '0.875rem' },
+    devTools: { position: 'fixed' as const, bottom: '1rem', right: '1rem', opacity: 0.1, transition: 'opacity 0.2s' },
+    dropdown: { position: 'relative' as const },
+    dropdownButton: { width: '3rem', height: '3rem', borderRadius: '50%', backgroundColor: 'white', color: '#4b5563', border: 'none', cursor: 'pointer', fontSize: '1rem' },
+    dropdownMenu: { position: 'absolute' as const, bottom: '100%', right: '0', backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', padding: '0.5rem', minWidth: '13rem', display: 'none' }
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
+    <div style={landingStyles.container}>
       {/* Navigation */}
-      <nav className="flex justify-between items-center p-6">
-        <div className="text-white text-xl font-bold flex items-center gap-2">
-          <div className="w-6 h-6 bg-black rounded"></div>
+      <nav style={landingStyles.nav}>
+        <div style={landingStyles.logo}>
+          <div style={landingStyles.logoIcon}></div>
           Aidchain
         </div>
-        <div className="flex gap-6">
-          <button onClick={() => setCurrentView('get-involved')} className="text-white hover:text-blue-200 transition-colors">
+        <div style={landingStyles.navButtons}>
+          <button onClick={() => setCurrentView('get-involved')} style={landingStyles.navButton}>
             Get Involved
           </button>
-          <button onClick={() => setCurrentView('how-it-works')} className="text-white hover:text-blue-200 transition-colors">
+          <button onClick={() => setCurrentView('how-it-works')} style={landingStyles.navButton}>
             How it works
           </button>
-          <button onClick={() => setCurrentView('about')} className="text-white hover:text-blue-200 transition-colors">
+          <button onClick={() => setCurrentView('about')} style={landingStyles.navButton}>
             About Us
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <div className="container mx-auto px-6 py-16">
-        <div className="flex flex-col lg:flex-row items-center justify-between">
+      <div style={landingStyles.hero}>
+        <div style={landingStyles.heroContent}>
           
           {/* Left Content */}
-          <div className="lg:w-1/2 text-white mb-12 lg:mb-0">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          <div style={landingStyles.leftContent}>
+            <h1 style={landingStyles.heroTitle}>
               Every token visible,<br />
               every hand accounted for.
             </h1>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <button 
-                onClick={handleDonateNow}
-                className="btn bg-gray-800 text-white border-none hover:bg-gray-700 btn-lg px-8"
-              >
+            <div style={landingStyles.buttonGroup}>
+              <button onClick={handleDonateNow} style={landingStyles.primaryButton}>
                 Donate Now
               </button>
-              <button 
-                onClick={() => setCurrentView('about')}
-                className="btn bg-white bg-opacity-20 text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-30 btn-lg px-8"
-              >
+              <button onClick={() => setCurrentView('about')} style={landingStyles.secondaryButton}>
                 About Us
               </button>
             </div>
           </div>
 
           {/* Right Illustration */}
-          <div className="lg:w-1/2 flex justify-center">
-            <div className="relative">
-              <div className="w-80 h-80 bg-white bg-opacity-10 rounded-full flex items-center justify-center">
-                <div className="text-8xl">🤝</div>
+          <div style={landingStyles.rightContent}>
+            <div style={landingStyles.illustration}>
+              <div style={landingStyles.mainCircle}>
+                <div style={landingStyles.mainIcon}>🤝</div>
               </div>
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center">
-                <div className="text-2xl">✨</div>
+              <div style={landingStyles.sparkle}>
+                <div style={landingStyles.sparkleIcon}>✨</div>
               </div>
             </div>
           </div>
@@ -287,37 +353,35 @@ const Home: React.FC<HomeProps> = () => {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-white bg-opacity-10 backdrop-blur mt-16">
-        <div className="container mx-auto px-6 py-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-12">See how it works</h2>
+      <div style={landingStyles.howItWorksSection}>
+        <div style={landingStyles.howItWorksContent}>
+          <h2 style={landingStyles.sectionTitle}>See how it works</h2>
+          
+          <div style={landingStyles.workflowCard}>
+            <h3 style={landingStyles.workflowTitle}>How does it work?</h3>
             
-            <div className="bg-white bg-opacity-20 backdrop-blur rounded-lg p-12 max-w-4xl mx-auto">
-              <h3 className="text-xl font-semibold text-white mb-8">How does it work?</h3>
+            <div style={landingStyles.workflowText}>
+              <p style={landingStyles.placeholder}>
+                <em>This section will contain your detailed workflow content. For now, here's a placeholder:</em>
+              </p>
               
-              <div className="text-white text-opacity-80">
-                <p className="mb-6">
-                  <em>This section will contain your detailed workflow content. For now, here's a placeholder:</em>
-                </p>
+              <div style={landingStyles.workflowGrid}>
+                <div style={landingStyles.workflowStep}>
+                  <div style={landingStyles.stepIcon}>💝</div>
+                  <h4 style={landingStyles.stepTitle}>Transparent Donations</h4>
+                  <p style={landingStyles.stepText}>Every donation is recorded on the blockchain</p>
+                </div>
                 
-                <div className="grid md:grid-cols-3 gap-8 text-center">
-                  <div>
-                    <div className="text-4xl mb-4">💝</div>
-                    <h4 className="font-semibold mb-2">Transparent Donations</h4>
-                    <p className="text-sm">Every donation is recorded on the blockchain</p>
-                  </div>
-                  
-                  <div>
-                    <div className="text-4xl mb-4">🔍</div>
-                    <h4 className="font-semibold mb-2">Real-Time Tracking</h4>
-                    <p className="text-sm">Follow your contribution from donor to beneficiary</p>
-                  </div>
-                  
-                  <div>
-                    <div className="text-4xl mb-4">📊</div>
-                    <h4 className="font-semibold mb-2">Impact Reporting</h4>
-                    <p className="text-sm">See the measurable difference you've made</p>
-                  </div>
+                <div style={landingStyles.workflowStep}>
+                  <div style={landingStyles.stepIcon}>🔍</div>
+                  <h4 style={landingStyles.stepTitle}>Real-Time Tracking</h4>
+                  <p style={landingStyles.stepText}>Follow your contribution from donor to beneficiary</p>
+                </div>
+                
+                <div style={landingStyles.workflowStep}>
+                  <div style={landingStyles.stepIcon}>📊</div>
+                  <h4 style={landingStyles.stepTitle}>Impact Reporting</h4>
+                  <p style={landingStyles.stepText}>See the measurable difference you've made</p>
                 </div>
               </div>
             </div>
@@ -331,13 +395,13 @@ const Home: React.FC<HomeProps> = () => {
       <AppCalls openModal={appCallsDemoModal} setModalState={setAppCallsDemoModal} />
 
       {/* Developer Tools (Hidden in bottom) */}
-      <div className="fixed bottom-4 right-4 opacity-10 hover:opacity-100 transition-opacity">
-        <div className="dropdown dropdown-top dropdown-end">
-          <label tabIndex={0} className="btn btn-sm btn-circle bg-white text-gray-600">⚙️</label>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><button onClick={toggleDemoModal}>Transaction Demo</button></li>
-            <li><button onClick={toggleAppCallsModal}>Contract Demo</button></li>
-          </ul>
+      <div style={landingStyles.devTools}>
+        <div style={landingStyles.dropdown}>
+          <button style={landingStyles.dropdownButton}>⚙️</button>
+          <div style={landingStyles.dropdownMenu}>
+            <button onClick={toggleDemoModal}>Transaction Demo</button>
+            <button onClick={toggleAppCallsModal}>Contract Demo</button>
+          </div>
         </div>
       </div>
     </div>

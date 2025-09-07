@@ -1,32 +1,18 @@
 import { useState } from 'react'
 import { AidchainContractsClient } from '../contracts/AidchainContracts'
-
-interface Campaign {
-  id: number
-  title: string
-  target: number
-  raised: number
-  creator: string
-  active: boolean
-}
-
-interface Organization {
-  id: number
-  name: string
-  walletAddress: string
-  verificationLevel: number
-}
-
-interface ContractStats {
-  totalDonations: number
-  totalCampaigns: number
-  totalOrganizations: number
-}
+import {
+  Campaign,
+  Organization,
+  ContractStats,
+  DonorDashboardHook,
+  OrganizationManagementHook,
+  MICRO_ALGOS_PER_ALGO
+} from '../types'
 
 /**
  * Custom hook for donor dashboard operations
  */
-export function useDonorDashboard(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined) {
+export function useDonorDashboard(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined): DonorDashboardHook {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [stats, setStats] = useState<ContractStats | null>(null)
@@ -40,13 +26,13 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
 
     setLoading(true)
     setError(null)
-    
+
     try {
       // Load contract statistics
       const totalDonations = await appClient.send.getTotalDonations()
       const totalCampaigns = await appClient.send.getCampaignCount()
       const totalOrganizations = await appClient.send.getOrganizationCount()
-      
+
       setStats({
         totalDonations: Number(totalDonations.return),
         totalCampaigns: Number(totalCampaigns.return),
@@ -59,14 +45,14 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
         try {
           const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
           if (campaignDetails.return) {
-            const [id, title, target, raised, creator, active] = campaignDetails.return
+            const campaign = campaignDetails.return
             loadedCampaigns.push({
-              id: Number(id),
-              title: title,
-              target: Number(target),
-              raised: Number(raised),
-              creator: creator,
-              active: Number(active) === 1
+              id: Number(campaign.id),
+              title: campaign.title,
+              target: Number(campaign.target),
+              raised: Number(campaign.raised),
+              creator: campaign.creator,
+              active: Number(campaign.active) === 1
             })
           }
         } catch (error) {
@@ -74,7 +60,7 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
         }
       }
       setCampaigns(loadedCampaigns)
-      
+
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load dashboard data')
     } finally {
@@ -90,7 +76,7 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
 
     setLoading(true)
     setError(null)
-    
+
     try {
       const result = await appClient.send.createDonation({ campaignId })
       await loadDashboardData() // Refresh data
@@ -103,21 +89,21 @@ export function useDonorDashboard(appClient: AidchainContractsClient | null, act
     }
   }
 
-  return { 
-    loadDashboardData, 
-    makeDonation, 
-    loading, 
-    error, 
-    stats, 
+  return {
+    loadDashboardData,
+    makeDonation,
+    loading,
+    error,
+    stats,
     campaigns,
-    setError 
+    setError
   }
 }
 
 /**
  * Custom hook for organization management operations
  */
-export function useOrganizationManagement(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined) {
+export function useOrganizationManagement(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined): OrganizationManagementHook {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [organizations, setOrganizations] = useState<Organization[]>([])
@@ -131,22 +117,22 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
     setLoading(true)
     setError(null)
-    
+
     try {
       // Load organizations
       const orgCount = await appClient.send.getOrganizationCount()
       const loadedOrgs: Organization[] = []
-      
+
       for (let i = 1; i <= Number(orgCount.return); i++) {
         try {
           const orgDetails = await appClient.send.getOrganizationDetails({ orgId: i })
           if (orgDetails.return) {
-            const [id, name, walletAddress, verificationLevel] = orgDetails.return
+            const org = orgDetails.return
             loadedOrgs.push({
-              id: Number(id),
-              name: name,
-              walletAddress: walletAddress,
-              verificationLevel: Number(verificationLevel)
+              id: Number(org.id),
+              name: org.name,
+              walletAddress: org.walletAddress,
+              verificationLevel: Number(org.verificationLevel)
             })
           }
         } catch (error) {
@@ -158,19 +144,19 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
       // Load campaigns
       const campaignCount = await appClient.send.getCampaignCount()
       const loadedCampaigns: Campaign[] = []
-      
+
       for (let i = 1; i <= Number(campaignCount.return); i++) {
         try {
           const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
           if (campaignDetails.return) {
-            const [id, title, target, raised, creator, active] = campaignDetails.return
+            const campaign = campaignDetails.return
             loadedCampaigns.push({
-              id: Number(id),
-              title: title,
-              target: Number(target),
-              raised: Number(raised),
-              creator: creator,
-              active: Number(active) === 1
+              id: Number(campaign.id),
+              title: campaign.title,
+              target: Number(campaign.target),
+              raised: Number(campaign.raised),
+              creator: campaign.creator,
+              active: Number(campaign.active) === 1
             })
           }
         } catch (error) {
@@ -178,7 +164,7 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
         }
       }
       setCampaigns(loadedCampaigns)
-      
+
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load data')
     } finally {
@@ -194,13 +180,13 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
     setLoading(true)
     setError(null)
-    
+
     try {
       const result = await appClient.send.registerOrganization({
         orgName: orgName.trim(),
         walletAddress: walletAddress.trim() || activeAddress
       })
-      
+
       await loadData() // Refresh data
       return Number(result.return)
     } catch (e) {
@@ -219,16 +205,16 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
 
     setLoading(true)
     setError(null)
-    
+
     try {
       const targetMicroAlgos = Math.round(parseFloat(targetAlgo) * 1_000_000)
-      
+
       const result = await appClient.send.createCampaign({
         title: title.trim(),
         target: targetMicroAlgos,
         creator: creator.trim()
       })
-      
+
       await loadData() // Refresh data
       return Number(result.return)
     } catch (e) {
@@ -239,14 +225,14 @@ export function useOrganizationManagement(appClient: AidchainContractsClient | n
     }
   }
 
-  return { 
-    loadData, 
-    registerOrganization, 
-    createCampaign, 
-    loading, 
-    error, 
-    organizations, 
+  return {
+    loadData,
+    registerOrganization,
+    createCampaign,
+    loading,
+    error,
+    organizations,
     campaigns,
-    setError 
+    setError
   }
 }

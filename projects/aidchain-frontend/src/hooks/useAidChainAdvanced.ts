@@ -1,44 +1,20 @@
 import { useState } from 'react'
 import { AidchainContractsClient } from '../contracts/AidchainContracts'
-
-interface Milestone {
-  id: number
-  campaignId: number
-  targetAmount: number
-  description: string
-  completed: boolean
-  fundsReleased: boolean
-}
-
-interface Voucher {
-  id: number
-  assetId: number
-  name: string
-  totalSupply: number
-  issued: number
-}
-
-interface Delivery {
-  id: number
-  recipient: string
-  location: string
-  agent: string
-  verified: boolean
-}
-
-interface Campaign {
-  id: number
-  title: string
-  target: number
-  raised: number
-  creator: string
-  active: boolean
-}
+import { 
+  Milestone, 
+  Voucher, 
+  Delivery, 
+  Campaign, 
+  MilestoneTrackerHook, 
+  VoucherSystemHook, 
+  DeliveryTrackerHook,
+  MICRO_ALGOS_PER_ALGO
+} from '../types'
 
 /**
  * Custom hook for milestone management operations
  */
-export function useMilestoneTracker(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined) {
+export function useMilestoneTracker(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined): MilestoneTrackerHook {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [milestones, setMilestones] = useState<Milestone[]>([])
@@ -62,14 +38,14 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
         try {
           const campaignDetails = await appClient.send.getCampaignDetails({ campaignId: i })
           if (campaignDetails.return) {
-            const [id, title, target, raised, creator, active] = campaignDetails.return
+            const campaign = campaignDetails.return
             loadedCampaigns.push({
-              id: Number(id),
-              title: title,
-              target: Number(target),
-              raised: Number(raised),
-              creator: creator,
-              active: Number(active) === 1
+              id: Number(campaign.id),
+              title: campaign.title,
+              target: Number(campaign.target),
+              raised: Number(campaign.raised),
+              creator: campaign.creator,
+              active: Number(campaign.active) === 1
             })
           }
         } catch (error) {
@@ -86,14 +62,14 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
         try {
           const milestoneDetails = await appClient.send.getMilestoneDetails({ milestoneId: i })
           if (milestoneDetails.return) {
-            const [id, campaignId, targetAmount, description, completed, fundsReleased] = milestoneDetails.return
+            const milestone = milestoneDetails.return
             loadedMilestones.push({
-              id: Number(id),
-              campaignId: Number(campaignId),
-              targetAmount: Number(targetAmount),
-              description: description,
-              completed: Number(completed) === 1,
-              fundsReleased: Number(fundsReleased) === 1
+              id: Number(milestone.id),
+              campaignId: Number(milestone.campaignId),
+              targetAmount: Number(milestone.targetAmount),
+              description: milestone.description,
+              completed: Number(milestone.completed) === 1,
+              fundsReleased: Number(milestone.fundsReleased) === 1
             })
           }
         } catch (error) {
@@ -206,7 +182,7 @@ export function useMilestoneTracker(appClient: AidchainContractsClient | null, a
 /**
  * Custom hook for voucher system operations
  */
-export function useVoucherSystem(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined) {
+export function useVoucherSystem(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined): VoucherSystemHook {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [vouchers, setVouchers] = useState<Voucher[]>([])
@@ -228,13 +204,13 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
         try {
           const voucherDetails = await appClient.send.getVoucherDetails({ voucherId: i })
           if (voucherDetails.return) {
-            const [id, assetId, name, totalSupply, issued] = voucherDetails.return
+            const voucher = voucherDetails.return
             loadedVouchers.push({
-              id: Number(id),
-              assetId: Number(assetId),
-              name: name,
-              totalSupply: Number(totalSupply),
-              issued: Number(issued)
+              id: Number(voucher.id),
+              assetId: Number(voucher.assetId),
+              name: voucher.name,
+              totalSupply: Number(voucher.totalSupply),
+              issued: Number(voucher.issued)
             })
           }
         } catch (error) {
@@ -348,7 +324,7 @@ export function useVoucherSystem(appClient: AidchainContractsClient | null, acti
 /**
  * Custom hook for delivery tracking operations
  */
-export function useDeliveryTracker(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined) {
+export function useDeliveryTracker(appClient: AidchainContractsClient | null, activeAddress: string | null | undefined): DeliveryTrackerHook {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deliveries, setDeliveries] = useState<Delivery[]>([])
@@ -370,13 +346,13 @@ export function useDeliveryTracker(appClient: AidchainContractsClient | null, ac
         try {
           const deliveryDetails = await appClient.send.getDeliveryDetails({ deliveryId: i })
           if (deliveryDetails.return) {
-            const [id, recipient, location, agent, verified] = deliveryDetails.return
+            const delivery = deliveryDetails.return
             loadedDeliveries.push({
-              id: Number(id),
-              recipient: recipient,
-              location: location,
-              agent: agent,
-              verified: Number(verified) === 1
+              id: Number(delivery.id),
+              recipient: delivery.recipient,
+              location: delivery.location,
+              agent: delivery.agent,
+              verified: Number(delivery.verified) === 1
             })
           }
         } catch (error) {

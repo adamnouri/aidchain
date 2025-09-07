@@ -3,12 +3,13 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { useAppClient } from '../context/AppClientContext'
 import { AidchainContractsFactory, AidchainContractsClient } from '../contracts/AidchainContracts'
 import { OnSchemaBreak, OnUpdate } from '@algorandfoundation/algokit-utils/types/app'
+import { AppClientManagerHook } from '../types'
 
 /**
  * Custom hook to manage the AidchainContracts client instance
  * This hook handles the deployment/connection and provides a ready-to-use client
  */
-export function useAppClientManager() {
+export function useAppClientManager(): AppClientManagerHook {
   const [appClient, setAppClient] = useState<AidchainContractsClient | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
