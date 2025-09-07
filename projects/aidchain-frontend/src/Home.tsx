@@ -5,6 +5,11 @@ import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import AppCalls from './components/AppCalls'
+import DonorDashboard from './components/DonorDashboardRefactored'
+import OrganizationPortal from './components/OrganizationPortal'
+import MilestoneTracker from './components/MilestoneTracker'
+import VoucherSystem from './components/VoucherSystem'
+import DeliveryTracker from './components/DeliveryTracker'
 
 interface HomeProps { }
 
@@ -13,7 +18,7 @@ const Home: React.FC<HomeProps> = () => {
   const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
   const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false)
   const [openDonationForm, setOpenDonationForm] = useState<boolean>(false)
-  const [currentView, setCurrentView] = useState<'landing' | 'donor' | 'about' | 'how-it-works' | 'get-involved'>('landing')
+  const [currentView, setCurrentView] = useState<'landing' | 'donor' | 'ngo' | 'milestones' | 'vouchers' | 'deliveries' | 'about' | 'how-it-works' | 'get-involved'>('landing')
   const { activeAddress } = useWallet()
 
   const toggleWalletModal = () => {
@@ -38,54 +43,29 @@ const Home: React.FC<HomeProps> = () => {
     }
   }
 
-  // Donor Portal View - Placeholder for Figma implementation
+  // Donor Portal View - Functional Dashboard
   if (currentView === 'donor') {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="navbar bg-white shadow-sm">
-          <div className="navbar-start">
-            <button 
-              className="btn btn-ghost normal-case text-xl text-blue-600 font-bold"
-              onClick={() => setCurrentView('landing')}
-            >
-              ■ Aidchain
-            </button>
-          </div>
-          <div className="navbar-end">
-            <button 
-              className="btn btn-ghost text-blue-600"
-              onClick={toggleWalletModal}
-            >
-              {activeAddress ? `${activeAddress.slice(0, 8)}...` : 'Connect Wallet'}
-            </button>
-          </div>
-        </div>
+    return <DonorDashboard onBackToLanding={() => setCurrentView('landing')} />
+  }
 
-        <div className="container mx-auto p-6">
-          <div className="text-center py-16">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">Donor Dashboard</h1>
-            <p className="text-gray-600 mb-8">
-              This is a placeholder for your Figma donor dashboard design.
-            </p>
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-              <h3 className="text-xl font-semibold mb-4">Ready to Implement Your Design!</h3>
-              <p className="text-gray-600 mb-6">
-                Once you share more Figma designs, I'll implement the donor dashboard, 
-                donation forms, and all the interactive elements here.
-              </p>
-              <button 
-                onClick={() => setOpenDonationForm(true)}
-                className="btn bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Test Donation Form (Coming Soon)
-              </button>
-            </div>
-          </div>
-        </div>
+  // NGO Portal View - Organization Management
+  if (currentView === 'ngo') {
+    return <OrganizationPortal onBackToLanding={() => setCurrentView('landing')} />
+  }
 
-        <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-      </div>
-    )
+  // Milestone Tracker View
+  if (currentView === 'milestones') {
+    return <MilestoneTracker onBackToLanding={() => setCurrentView('landing')} />
+  }
+
+  // Voucher System View
+  if (currentView === 'vouchers') {
+    return <VoucherSystem onBackToLanding={() => setCurrentView('landing')} />
+  }
+
+  // Delivery Tracker View
+  if (currentView === 'deliveries') {
+    return <DeliveryTracker onBackToLanding={() => setCurrentView('landing')} />
   }
 
   // Placeholder Pages
@@ -219,8 +199,11 @@ const Home: React.FC<HomeProps> = () => {
               <div className="bg-white bg-opacity-10 backdrop-blur rounded-lg p-8">
                 <h3 className="text-2xl font-bold mb-4">🏥 For NGOs</h3>
                 <p className="mb-6">Manage campaigns and distribute aid with full transparency</p>
-                <button className="btn bg-white text-blue-600 border-none hover:bg-blue-50">
-                  Partner With Us
+                <button 
+                  onClick={() => setCurrentView('ngo')}
+                  className="btn bg-white text-blue-600 border-none hover:bg-blue-50"
+                >
+                  NGO Portal
                 </button>
               </div>
             </div>
