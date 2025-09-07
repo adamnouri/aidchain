@@ -28,9 +28,10 @@ def deploy() -> None:
         algokit_utils.OperationPerformed.Create,
         algokit_utils.OperationPerformed.Replace,
     ]:
+        # Fund contract with enough Algos for inner transactions (ASA creation, payments)
         algorand.send.payment(
             algokit_utils.PaymentParams(
-                amount=algokit_utils.AlgoAmount(algo=1),
+                amount=algokit_utils.AlgoAmount(algo=10),  # 10 Algos for inner transaction fees
                 sender=deployer_.address,
                 receiver=app_client.app_address,
             )

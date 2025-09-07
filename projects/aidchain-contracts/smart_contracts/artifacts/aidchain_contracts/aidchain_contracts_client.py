@@ -19,7 +19,7 @@ from algosdk.v2client.models import SimulateTraceConfig
 import algokit_utils
 from algokit_utils import AlgorandClient as _AlgoKitAlgorandClient
 
-_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "name"}], "name": "hello", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "amount"}], "name": "create_donation", "returns": {"type": "string"}, "desc": "Create a new donation and return confirmation", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "amount"}, {"type": "string", "name": "donor"}], "name": "get_donation_info", "returns": {"type": "string"}, "desc": "Get donation information", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "amount1"}, {"type": "uint64", "name": "amount2"}], "name": "calculate_total", "returns": {"type": "uint64"}, "desc": "Calculate total of two amounts", "events": [], "readonly": false, "recommendations": {}}], "name": "AidchainContracts", "state": {"keys": {"box": {}, "global": {}, "local": {}}, "maps": {"box": {}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 0, "ints": 0}, "local": {"bytes": 0, "ints": 0}}}, "structs": {}, "byteCode": {"approval": "CiABASYBBBUffHUxG0EAroIEBAK+zhEE/1EVUwSiDd0jBM26Epc2GgCOBABtAD4AHAADgQBDMRkURDEYRDYaARc2GgIXiAC9FihMULAiQzEZFEQxGEQ2GgEXNhoCVwIAiAB2SRUWVwYCTFAoTFCwIkMxGRREMRhEgCMVH3x1AB1Eb25hdGlvbiBjcmVhdGVkIHN1Y2Nlc3NmdWxsebAiQzEZFEQxGEQ2GgFXAgCIABlJFRZXBgJMUChMULAiQzEZQP9wMRgURCJDigEBgAdIZWxsbywgi/9QiYoCAYAjRG9uYXRpb24gaW5mbyByZXRyaWV2ZWQgZm9yIGRvbm9yOiCL/1CJigIBi/6L/wiJ", "clear": "CoEBQw=="}, "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAxCiAgICBieXRlY2Jsb2NrIDB4MTUxZjdjNzUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX2JhcmVfcm91dGluZ0A5CiAgICBwdXNoYnl0ZXNzIDB4MDJiZWNlMTEgMHhmZjUxMTU1MyAweGEyMGRkZDIzIDB4Y2RiYTEyOTcgLy8gbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIiwgbWV0aG9kICJjcmVhdGVfZG9uYXRpb24odWludDY0KXN0cmluZyIsIG1ldGhvZCAiZ2V0X2RvbmF0aW9uX2luZm8odWludDY0LHN0cmluZylzdHJpbmciLCBtZXRob2QgImNhbGN1bGF0ZV90b3RhbCh1aW50NjQsdWludDY0KXVpbnQ2NCIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5faGVsbG9fcm91dGVAMyBtYWluX2NyZWF0ZV9kb25hdGlvbl9yb3V0ZUA0IG1haW5fZ2V0X2RvbmF0aW9uX2luZm9fcm91dGVANSBtYWluX2NhbGN1bGF0ZV90b3RhbF9yb3V0ZUA2CgptYWluX2FmdGVyX2lmX2Vsc2VAMTM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICBwdXNoaW50IDAgLy8gMAogICAgcmV0dXJuCgptYWluX2NhbGN1bGF0ZV90b3RhbF9yb3V0ZUA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGJ0b2kKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjAKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBjYWxjdWxhdGVfdG90YWwKICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X2RvbmF0aW9uX2luZm9fcm91dGVANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTUKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIGdldF9kb25hdGlvbl9pbmZvCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKbWFpbl9jcmVhdGVfZG9uYXRpb25fcm91dGVANDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTAKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NTAwMWQ0NDZmNmU2MTc0Njk2ZjZlMjA2MzcyNjU2MTc0NjU2NDIwNzM3NTYzNjM2NTczNzM2Njc1NmM2Yzc5CiAgICBsb2cKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5faGVsbG9fcm91dGVAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjYKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBoZWxsbwogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMCAvLyAxCiAgICByZXR1cm4KCm1haW5fYmFyZV9yb3V0aW5nQDk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBibnogbWFpbl9hZnRlcl9pZl9lbHNlQDEzCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuaGVsbG8obmFtZTogYnl0ZXMpIC0+IGJ5dGVzOgpoZWxsbzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6Ni03CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBoZWxsbyhzZWxmLCBuYW1lOiBTdHJpbmcpIC0+IFN0cmluZzoKICAgIHByb3RvIDEgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo4CiAgICAvLyByZXR1cm4gIkhlbGxvLCAiICsgbmFtZQogICAgcHVzaGJ5dGVzICJIZWxsbywgIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuZ2V0X2RvbmF0aW9uX2luZm8oYW1vdW50OiB1aW50NjQsIGRvbm9yOiBieXRlcykgLT4gYnl0ZXM6CmdldF9kb25hdGlvbl9pbmZvOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNS0xNgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgZ2V0X2RvbmF0aW9uX2luZm8oc2VsZiwgYW1vdW50OiBVSW50NjQsIGRvbm9yOiBTdHJpbmcpIC0+IFN0cmluZzoKICAgIHByb3RvIDIgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxOAogICAgLy8gcmV0dXJuIFN0cmluZygiRG9uYXRpb24gaW5mbyByZXRyaWV2ZWQgZm9yIGRvbm9yOiAiKSArIGRvbm9yCiAgICBwdXNoYnl0ZXMgIkRvbmF0aW9uIGluZm8gcmV0cmlldmVkIGZvciBkb25vcjogIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuY2FsY3VsYXRlX3RvdGFsKGFtb3VudDE6IHVpbnQ2NCwgYW1vdW50MjogdWludDY0KSAtPiB1aW50NjQ6CmNhbGN1bGF0ZV90b3RhbDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjAtMjEKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGNhbGN1bGF0ZV90b3RhbChzZWxmLCBhbW91bnQxOiBVSW50NjQsIGFtb3VudDI6IFVJbnQ2NCkgLT4gVUludDY0OgogICAgcHJvdG8gMiAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIzCiAgICAvLyByZXR1cm4gYW1vdW50MSArIGFtb3VudDIKICAgIGZyYW1lX2RpZyAtMgogICAgZnJhbWVfZGlnIC0xCiAgICArCiAgICByZXRzdWIK", "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [57, 82, 116, 163], "errorMessage": "OnCompletion is not NoOp"}, {"pc": [198], "errorMessage": "can only call when creating"}, {"pc": [60, 85, 119, 166], "errorMessage": "can only call when not creating"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
+_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "name"}], "name": "hello", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "initialize", "returns": {"type": "string"}, "desc": "Initialize the contract with default values", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "org_name"}, {"type": "string", "name": "wallet_address"}], "name": "register_organization", "returns": {"type": "uint64"}, "desc": "Register a new organization in the system with proper data storage", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "title"}, {"type": "uint64", "name": "target"}, {"type": "string", "name": "creator"}], "name": "create_campaign", "returns": {"type": "uint64"}, "desc": "Create a new donation campaign with proper data storage", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_campaign_count", "returns": {"type": "uint64"}, "desc": "Get total number of campaigns created", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_organization_count", "returns": {"type": "uint64"}, "desc": "Get total number of organizations registered", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "campaign_id"}], "name": "create_donation", "returns": {"type": "string"}, "desc": "Create a donation record (for testing without payment)", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_total_donations", "returns": {"type": "uint64"}, "desc": "Get total amount of donations across all campaigns", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "amount1"}, {"type": "uint64", "name": "amount2"}], "name": "calculate_total", "returns": {"type": "uint64"}, "desc": "Calculate total of two amounts", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "amount"}, {"type": "string", "name": "donor"}], "name": "validate_donation", "returns": {"type": "string"}, "desc": "Validate donation parameters", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "recipient"}, {"type": "string", "name": "location"}], "name": "log_delivery", "returns": {"type": "uint64"}, "desc": "Log a delivery event", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "delivery_id"}, {"type": "string", "name": "agent"}], "name": "verify_delivery", "returns": {"type": "string"}, "desc": "Verify a delivery by an authorized agent", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_contract_stats", "returns": {"type": "string"}, "desc": "Get overall contract statistics", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "asset_name"}, {"type": "uint64", "name": "total_supply"}], "name": "create_voucher_asset", "returns": {"type": "uint64"}, "desc": "Create a REAL ASA token on the blockchain for aid distribution", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "asset_id"}, {"type": "account", "name": "recipient"}, {"type": "uint64", "name": "amount"}], "name": "distribute_vouchers", "returns": {"type": "string"}, "desc": "REAL blockchain token transfer to recipient", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "voucher_id"}, {"type": "string", "name": "merchant"}, {"type": "uint64", "name": "amount"}], "name": "redeem_voucher", "returns": {"type": "string"}, "desc": "Redeem voucher tokens at an approved merchant", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_voucher_stats", "returns": {"type": "string"}, "desc": "Get voucher system statistics", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "campaign_id"}, {"type": "uint64", "name": "target_amount"}, {"type": "string", "name": "description"}], "name": "create_milestone", "returns": {"type": "uint64"}, "desc": "Create a new milestone for campaign funding", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "milestone_id"}, {"type": "string", "name": "proof"}], "name": "complete_milestone", "returns": {"type": "string"}, "desc": "Mark milestone as completed with proof", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "milestone_id"}, {"type": "account", "name": "recipient"}, {"type": "uint64", "name": "amount"}], "name": "release_milestone_funds", "returns": {"type": "string"}, "desc": "Release REAL funds for completed milestone via blockchain payment", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_milestone_stats", "returns": {"type": "string"}, "desc": "Get milestone system statistics", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "campaign_id"}], "name": "get_campaign_details", "returns": {"type": "(uint64,string,uint64,uint64,string,uint64)", "struct": "CampaignInfo"}, "desc": "Get detailed information about a campaign", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "org_id"}], "name": "get_organization_details", "returns": {"type": "(uint64,string,string,uint64)", "struct": "OrganizationInfo"}, "desc": "Get detailed information about an organization", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "voucher_id"}], "name": "get_voucher_details", "returns": {"type": "(uint64,uint64,string,uint64,uint64)", "struct": "VoucherInfo"}, "desc": "Get detailed information about a voucher", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "milestone_id"}], "name": "get_milestone_details", "returns": {"type": "(uint64,uint64,uint64,string,uint64,uint64)", "struct": "MilestoneInfo"}, "desc": "Get detailed information about a milestone", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "uint64", "name": "delivery_id"}], "name": "get_delivery_details", "returns": {"type": "(uint64,string,string,string,uint64)", "struct": "DeliveryRecord"}, "desc": "Get detailed information about a delivery", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_milestone_count", "returns": {"type": "uint64"}, "desc": "Get total number of milestones created", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_voucher_count", "returns": {"type": "uint64"}, "desc": "Get total number of vouchers created", "events": [], "readonly": true, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_delivery_count", "returns": {"type": "uint64"}, "desc": "Get total number of deliveries logged", "events": [], "readonly": true, "recommendations": {}}], "name": "AidchainContracts", "state": {"keys": {"box": {}, "global": {"campaign_counter": {"key": "Y2FtcGFpZ25fY291bnRlcg==", "keyType": "AVMString", "valueType": "AVMUint64"}, "organization_counter": {"key": "b3JnYW5pemF0aW9uX2NvdW50ZXI=", "keyType": "AVMString", "valueType": "AVMUint64"}, "delivery_counter": {"key": "ZGVsaXZlcnlfY291bnRlcg==", "keyType": "AVMString", "valueType": "AVMUint64"}, "voucher_counter": {"key": "dm91Y2hlcl9jb3VudGVy", "keyType": "AVMString", "valueType": "AVMUint64"}, "milestone_counter": {"key": "bWlsZXN0b25lX2NvdW50ZXI=", "keyType": "AVMString", "valueType": "AVMUint64"}, "total_donations": {"key": "dG90YWxfZG9uYXRpb25z", "keyType": "AVMString", "valueType": "AVMUint64"}, "total_organizations": {"key": "dG90YWxfb3JnYW5pemF0aW9ucw==", "keyType": "AVMString", "valueType": "AVMUint64"}, "total_vouchers_issued": {"key": "dG90YWxfdm91Y2hlcnNfaXNzdWVk", "keyType": "AVMString", "valueType": "AVMUint64"}, "total_milestones_completed": {"key": "dG90YWxfbWlsZXN0b25lc19jb21wbGV0ZWQ=", "keyType": "AVMString", "valueType": "AVMUint64"}}, "local": {}}, "maps": {"box": {"campaigns": {"keyType": "uint64", "valueType": "CampaignInfo", "prefix": "Y2FtcGFpZ25z"}, "organizations": {"keyType": "uint64", "valueType": "OrganizationInfo", "prefix": "b3Jncw=="}, "milestones": {"keyType": "uint64", "valueType": "MilestoneInfo", "prefix": "bWlsZXN0b25lcw=="}, "deliveries": {"keyType": "uint64", "valueType": "DeliveryRecord", "prefix": "ZGVsaXZlcmllcw=="}, "vouchers": {"keyType": "uint64", "valueType": "VoucherInfo", "prefix": "dm91Y2hlcnM="}}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 0, "ints": 9}, "local": {"bytes": 0, "ints": 0}}}, "structs": {"CampaignInfo": [{"name": "id", "type": "uint64"}, {"name": "title", "type": "string"}, {"name": "target", "type": "uint64"}, {"name": "raised", "type": "uint64"}, {"name": "creator", "type": "string"}, {"name": "active", "type": "uint64"}], "DeliveryRecord": [{"name": "id", "type": "uint64"}, {"name": "recipient", "type": "string"}, {"name": "location", "type": "string"}, {"name": "agent", "type": "string"}, {"name": "verified", "type": "uint64"}], "MilestoneInfo": [{"name": "id", "type": "uint64"}, {"name": "campaign_id", "type": "uint64"}, {"name": "target_amount", "type": "uint64"}, {"name": "description", "type": "string"}, {"name": "completed", "type": "uint64"}, {"name": "funds_released", "type": "uint64"}], "OrganizationInfo": [{"name": "id", "type": "uint64"}, {"name": "name", "type": "string"}, {"name": "wallet_address", "type": "string"}, {"name": "verification_level", "type": "uint64"}], "VoucherInfo": [{"name": "id", "type": "uint64"}, {"name": "asset_id", "type": "uint64"}, {"name": "name", "type": "string"}, {"name": "total_supply", "type": "uint64"}, {"name": "issued", "type": "uint64"}]}, "byteCode": {"approval": "CiACAAEmEQQVH3x1EGNhbXBhaWduX2NvdW50ZXIPdm91Y2hlcl9jb3VudGVyEW1pbGVzdG9uZV9jb3VudGVyEGRlbGl2ZXJ5X2NvdW50ZXIIAAAAAAAAAAAUb3JnYW5pemF0aW9uX2NvdW50ZXIPdG90YWxfZG9uYXRpb25zE3RvdGFsX29yZ2FuaXphdGlvbnMVdG90YWxfdm91Y2hlcnNfaXNzdWVkGnRvdGFsX21pbGVzdG9uZXNfY29tcGxldGVkCWNhbXBhaWducwgAAAAAAAAAAQpkZWxpdmVyaWVzCHZvdWNoZXJzCm1pbGVzdG9uZXMEb3JnczEYQAAhKSJnJwYiZycEImcqImcrImcnByJnJwgiZycJImcnCiJnMRtBA/2CHQQCvs4RBIl60acEEdOvGQRP5v1WBBPBBbkEFJJSEgT/URVTBJ/WyXgEzboSlwRBX2QeBMidy2sEjqfg+gQVaZABBMhSe78EzEHWeAQhxKBmBPZK4nQEcySFZwSE7q5jBMPemlIEBtQUygRfUt9fBLRPewMEvw7gLQS/VO02BNWyDXAE83z57QS9eQmyBC2JxqE2GgCOHQMNAvUC2AK3AqYClQJ5AmgCTwItAhAB7gG/AaUBfwFZASsBDADqAMQAlACBAG4AWwBIADUAJAATAAIiQzEZFEQxGESICD0WKExQsCNDMRkURDEYRIgIJxYoTFCwI0MxGRREMRhEiAgRFihMULAjQzEZFEQxGEQ2GgGIB+0oTFCwI0MxGRREMRhENhoBiAfKKExQsCNDMRkURDEYRDYaAYgHpyhMULAjQzEZFEQxGEQ2GgGIB4QoTFCwI0MxGRREMRhENhoBiAdhKExQsCNDMRkURDEYRIAkFR98dQAeTWlsZXN0b25lIHN0YXRpc3RpY3MgYXZhaWxhYmxlsCNDMRkURDEYRDYaARc2GgIXwBw2GgMXiAbESRUWVwYCTFAoTFCwI0MxGRREMRhENhoBFzYaAlcCAIgGS0kVFlcGAkxQKExQsCNDMRkURDEYRDYaARc2GgIXNhoDVwIAiAXSFihMULAjQzEZFEQxGESAIhUffHUAHFZvdWNoZXIgc3RhdGlzdGljcyBhdmFpbGFibGWwI0MxGRREMRhENhoBFzYaAlcCADYaAxeIBRtJFRZXBgJMUChMULAjQzEZFEQxGEQ2GgEXNhoCF8AcNhoDF4gEYUkVFlcGAkxQKExQsCNDMRkURDEYRDYaAVcCADYaAheIA9UoTFCwI0MxGRREMRhEgCMVH3x1AB1Db250cmFjdCBzdGF0aXN0aWNzIGF2YWlsYWJsZbAjQzEZFEQxGEQ2GgEXNhoCVwIAiAMsSRUWVwYCTFAoTFCwI0MxGRREMRhENhoBVwIANhoCVwIAiAKqFihMULAjQzEZFEQxGEQ2GgEXNhoCVwIAiAJTSRUWVwYCTFAoTFCwI0MxGRREMRhENhoBFzYaAheIAioWKExQsCNDMRkURDEYRIgCExYoTFCwI0MxGRREMRhENhoBF4gBt0kVFlcGAkxQKExQsCNDMRkURDEYRIgBmRYoTFCwI0MxGRREMRhEiAGDFihMULAjQzEZFEQxGEQ2GgFXAgA2GgIXNhoDVwIAiAEPFihMULAjQzEZFEQxGEQ2GgFXAgA2GgJXAgCIAJ0WKExQsCNDMRkURDEYRIgAR0kVFlcGAkxQKExQsCNDMRkURDEYRDYaAVcCAIgAGUkVFlcGAkxQKExQsCNDMRlA/NAxGBREI0OKAQGAB0hlbGxvLCCL/1CJKSJnJwYiZycEImcqImcrImcnByJnJwgiZycJImcnCiJngCFDb250cmFjdCBpbml0aWFsaXplZCBzdWNjZXNzZnVsbHmJigIBIicGZUQjCCcGSwFnSRaL/hUWVwYCi/5Qi/8VFlcGAov/UEsCgAIAFFBLAhWBFAgWVwYCUCcFUE8CUExQJxBPAlBJvEhMvyInCGVEIwgnCExniYoDASIpZUQjCClLAWdJFov9FRZXBgKL/VCL/haL/xUWVwYCi/9QSwOAAgAkUEsDFYEkCExPA1AnBVBMFlcGAlAnDFBPAlBMUCcLTwJQSbxITL+JIillRIkiJwZlRImKAQEiKWVEi/8PRIv/RIv/FicLTFC9RQFEIicHZUSB6AcIJwdMZ4AeRG9uYXRpb24gcmVjb3JkZWQgc3VjY2Vzc2Z1bGx5iSInB2VEiYoCAYv+i/8IiYoCAYv+QQAagBRWYWxpZCBkb25hdGlvbiBmcm9tIIv/UImAF0ludmFsaWQgZG9uYXRpb24gYW1vdW50iYoCASInBGVEIwgnBEsBZ0kWi/4VFlcGAov+UIv/FRZXBgKL/1BLAoACABZQSwIVgRYISRZXBgJPAkxQSwIVTwIIFlcGAlAnBVBPAlBMUIACAABQJw1PAlBJvEhMv4mKAgEiJwRlRIv+D0SL/kSL/hYnDUxQSb1FAURJvkQnDFwOi/8VFlcGAov/UEsBgQxZTwIiTwJYTFBLAbxIv4AcRGVsaXZlcnkgdmVyaWZpZWQgYnkgYWdlbnQ6IIv/UImKAgGxMgAyCkcDsiyyK7IqsikisiQisiOL/7IigAdWT1VDSEVSsiWL/rImgQOyELIBs7Q8IiplRCMIKksBZxZMFov+FRZXBgKL/lCL/xZLA0sDUIACACJQTFAnBVBMUCcOTwNQSbxITL+JigMBIoAAi/9EIkkqZUQjCCOLBIsDDIsCjAFBACCLBBYnDkxQSYwAvUUBQQBeiwC+RIEIW4v9EkEAUSOMAYsBRLGL/7ISi/6yFIv9shGBBLIQIrIBsyInCWVEi/8IJwlMZ4AlUmVhbCB0b2tlbnMgdHJhbnNmZXJyZWQgb24gYmxvY2tjaGFpbowAiYsEIwiMBEL/fYoDASIqZUSL/QxAAAWL/UAAFYASSW52YWxpZCB2b3VjaGVyIElEiYv/QAAjgCBBbW91bnQgbXVzdCBiZSBncmVhdGVyIHRoYW4gemVyb4mAFVZvdWNoZXJzIHJlZGVlbWVkIGF0IIv+UImKAwEiKWVEi/0PRIv9RIv9FicLSwFQvUUBRCIrZUQjCCtLAWdJFov+Fov/FRZXBgKL/1BLAk8FUE8CUIACACpQJwVQJwVQTFAnD08CUEm8SEy/iYoCASIrZUSL/g9Ei/5Ei/4WJw9MUEm9RQFESb5EJwxcGksBvEi/IicKZUQjCCcKTGeAIE1pbGVzdG9uZSBjb21wbGV0ZWQgd2l0aCBwcm9vZjogi/9QiYoDASIrZUSL/Q9Ei/1Ei/9EsTIAi/+yCIv+sgcjshCyAbOAKlJlYWwgYmxvY2tjaGFpbiBwYXltZW50IHNlbnQgZm9yIG1pbGVzdG9uZYmKAQEnC4v/UEm9RQFEvkSJigEBJxCL/1BJvUUBRL5EiYoBAScOi/9QSb1FAUS+RImKAQEnD4v/UEm9RQFEvkSJigEBJw2L/1BJvUUBRL5EiSIrZUSJIiplRIkiJwRlRIk=", "clear": "CoEBQw=="}, "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLl9fYWxnb3B5X2VudHJ5cG9pbnRfd2l0aF9pbml0KCkgLT4gdWludDY0OgptYWluOgogICAgaW50Y2Jsb2NrIDAgMQogICAgYnl0ZWNibG9jayAweDE1MWY3Yzc1ICJjYW1wYWlnbl9jb3VudGVyIiAidm91Y2hlcl9jb3VudGVyIiAibWlsZXN0b25lX2NvdW50ZXIiICJkZWxpdmVyeV9jb3VudGVyIiAweDAwMDAwMDAwMDAwMDAwMDAgIm9yZ2FuaXphdGlvbl9jb3VudGVyIiAidG90YWxfZG9uYXRpb25zIiAidG90YWxfb3JnYW5pemF0aW9ucyIgInRvdGFsX3ZvdWNoZXJzX2lzc3VlZCIgInRvdGFsX21pbGVzdG9uZXNfY29tcGxldGVkIiAiY2FtcGFpZ25zIiAweDAwMDAwMDAwMDAwMDAwMDEgImRlbGl2ZXJpZXMiICJ2b3VjaGVycyIgIm1pbGVzdG9uZXMiICJvcmdzIgogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGJueiBtYWluX2FmdGVyX2lmX2Vsc2VAMgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo0MS00MgogICAgLy8gIyBHbG9iYWwgc3RhdGUgZm9yIGNvdW50ZXJzCiAgICAvLyBzZWxmLmNhbXBhaWduX2NvdW50ZXIgPSBHbG9iYWxTdGF0ZShVSW50NjQoMCkpCiAgICBieXRlY18xIC8vICJjYW1wYWlnbl9jb3VudGVyIgogICAgaW50Y18wIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjQzCiAgICAvLyBzZWxmLm9yZ2FuaXphdGlvbl9jb3VudGVyID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWMgNiAvLyAib3JnYW5pemF0aW9uX2NvdW50ZXIiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NDQKICAgIC8vIHNlbGYuZGVsaXZlcnlfY291bnRlciA9IEdsb2JhbFN0YXRlKFVJbnQ2NCgwKSkKICAgIGJ5dGVjIDQgLy8gImRlbGl2ZXJ5X2NvdW50ZXIiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NDUKICAgIC8vIHNlbGYudm91Y2hlcl9jb3VudGVyID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWNfMiAvLyAidm91Y2hlcl9jb3VudGVyIgogICAgaW50Y18wIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjQ2CiAgICAvLyBzZWxmLm1pbGVzdG9uZV9jb3VudGVyID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWNfMyAvLyAibWlsZXN0b25lX2NvdW50ZXIiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NDgtNDkKICAgIC8vICMgR2xvYmFsIHN0YXRlIGZvciB0b3RhbCBtZXRyaWNzCiAgICAvLyBzZWxmLnRvdGFsX2RvbmF0aW9ucyA9IEdsb2JhbFN0YXRlKFVJbnQ2NCgwKSkKICAgIGJ5dGVjIDcgLy8gInRvdGFsX2RvbmF0aW9ucyIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo1MAogICAgLy8gc2VsZi50b3RhbF9vcmdhbml6YXRpb25zID0gR2xvYmFsU3RhdGUoVUludDY0KDApKQogICAgYnl0ZWMgOCAvLyAidG90YWxfb3JnYW5pemF0aW9ucyIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo1MQogICAgLy8gc2VsZi50b3RhbF92b3VjaGVyc19pc3N1ZWQgPSBHbG9iYWxTdGF0ZShVSW50NjQoMCkpCiAgICBieXRlYyA5IC8vICJ0b3RhbF92b3VjaGVyc19pc3N1ZWQiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NTIKICAgIC8vIHNlbGYudG90YWxfbWlsZXN0b25lc19jb21wbGV0ZWQgPSBHbG9iYWxTdGF0ZShVSW50NjQoMCkpCiAgICBieXRlYyAxMCAvLyAidG90YWxfbWlsZXN0b25lc19jb21wbGV0ZWQiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKCm1haW5fYWZ0ZXJfaWZfZWxzZUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX2JhcmVfcm91dGluZ0AzNAogICAgcHVzaGJ5dGVzcyAweDAyYmVjZTExIDB4ODk3YWQxYTcgMHgxMWQzYWYxOSAweDRmZTZmZDU2IDB4MTNjMTA1YjkgMHgxNDkyNTIxMiAweGZmNTExNTUzIDB4OWZkNmM5NzggMHhjZGJhMTI5NyAweDQxNWY2NDFlIDB4Yzg5ZGNiNmIgMHg4ZWE3ZTBmYSAweDE1Njk5MDAxIDB4Yzg1MjdiYmYgMHhjYzQxZDY3OCAweDIxYzRhMDY2IDB4ZjY0YWUyNzQgMHg3MzI0ODU2NyAweDg0ZWVhZTYzIDB4YzNkZTlhNTIgMHgwNmQ0MTRjYSAweDVmNTJkZjVmIDB4YjQ0ZjdiMDMgMHhiZjBlZTAyZCAweGJmNTRlZDM2IDB4ZDViMjBkNzAgMHhmMzdjZjllZCAweGJkNzkwOWIyIDB4MmQ4OWM2YTEgLy8gbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIiwgbWV0aG9kICJpbml0aWFsaXplKClzdHJpbmciLCBtZXRob2QgInJlZ2lzdGVyX29yZ2FuaXphdGlvbihzdHJpbmcsc3RyaW5nKXVpbnQ2NCIsIG1ldGhvZCAiY3JlYXRlX2NhbXBhaWduKHN0cmluZyx1aW50NjQsc3RyaW5nKXVpbnQ2NCIsIG1ldGhvZCAiZ2V0X2NhbXBhaWduX2NvdW50KCl1aW50NjQiLCBtZXRob2QgImdldF9vcmdhbml6YXRpb25fY291bnQoKXVpbnQ2NCIsIG1ldGhvZCAiY3JlYXRlX2RvbmF0aW9uKHVpbnQ2NClzdHJpbmciLCBtZXRob2QgImdldF90b3RhbF9kb25hdGlvbnMoKXVpbnQ2NCIsIG1ldGhvZCAiY2FsY3VsYXRlX3RvdGFsKHVpbnQ2NCx1aW50NjQpdWludDY0IiwgbWV0aG9kICJ2YWxpZGF0ZV9kb25hdGlvbih1aW50NjQsc3RyaW5nKXN0cmluZyIsIG1ldGhvZCAibG9nX2RlbGl2ZXJ5KHN0cmluZyxzdHJpbmcpdWludDY0IiwgbWV0aG9kICJ2ZXJpZnlfZGVsaXZlcnkodWludDY0LHN0cmluZylzdHJpbmciLCBtZXRob2QgImdldF9jb250cmFjdF9zdGF0cygpc3RyaW5nIiwgbWV0aG9kICJjcmVhdGVfdm91Y2hlcl9hc3NldChzdHJpbmcsdWludDY0KXVpbnQ2NCIsIG1ldGhvZCAiZGlzdHJpYnV0ZV92b3VjaGVycyh1aW50NjQsYWNjb3VudCx1aW50NjQpc3RyaW5nIiwgbWV0aG9kICJyZWRlZW1fdm91Y2hlcih1aW50NjQsc3RyaW5nLHVpbnQ2NClzdHJpbmciLCBtZXRob2QgImdldF92b3VjaGVyX3N0YXRzKClzdHJpbmciLCBtZXRob2QgImNyZWF0ZV9taWxlc3RvbmUodWludDY0LHVpbnQ2NCxzdHJpbmcpdWludDY0IiwgbWV0aG9kICJjb21wbGV0ZV9taWxlc3RvbmUodWludDY0LHN0cmluZylzdHJpbmciLCBtZXRob2QgInJlbGVhc2VfbWlsZXN0b25lX2Z1bmRzKHVpbnQ2NCxhY2NvdW50LHVpbnQ2NClzdHJpbmciLCBtZXRob2QgImdldF9taWxlc3RvbmVfc3RhdHMoKXN0cmluZyIsIG1ldGhvZCAiZ2V0X2NhbXBhaWduX2RldGFpbHModWludDY0KSh1aW50NjQsc3RyaW5nLHVpbnQ2NCx1aW50NjQsc3RyaW5nLHVpbnQ2NCkiLCBtZXRob2QgImdldF9vcmdhbml6YXRpb25fZGV0YWlscyh1aW50NjQpKHVpbnQ2NCxzdHJpbmcsc3RyaW5nLHVpbnQ2NCkiLCBtZXRob2QgImdldF92b3VjaGVyX2RldGFpbHModWludDY0KSh1aW50NjQsdWludDY0LHN0cmluZyx1aW50NjQsdWludDY0KSIsIG1ldGhvZCAiZ2V0X21pbGVzdG9uZV9kZXRhaWxzKHVpbnQ2NCkodWludDY0LHVpbnQ2NCx1aW50NjQsc3RyaW5nLHVpbnQ2NCx1aW50NjQpIiwgbWV0aG9kICJnZXRfZGVsaXZlcnlfZGV0YWlscyh1aW50NjQpKHVpbnQ2NCxzdHJpbmcsc3RyaW5nLHN0cmluZyx1aW50NjQpIiwgbWV0aG9kICJnZXRfbWlsZXN0b25lX2NvdW50KCl1aW50NjQiLCBtZXRob2QgImdldF92b3VjaGVyX2NvdW50KCl1aW50NjQiLCBtZXRob2QgImdldF9kZWxpdmVyeV9jb3VudCgpdWludDY0IgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9oZWxsb19yb3V0ZUA1IG1haW5faW5pdGlhbGl6ZV9yb3V0ZUA2IG1haW5fcmVnaXN0ZXJfb3JnYW5pemF0aW9uX3JvdXRlQDcgbWFpbl9jcmVhdGVfY2FtcGFpZ25fcm91dGVAOCBtYWluX2dldF9jYW1wYWlnbl9jb3VudF9yb3V0ZUA5IG1haW5fZ2V0X29yZ2FuaXphdGlvbl9jb3VudF9yb3V0ZUAxMCBtYWluX2NyZWF0ZV9kb25hdGlvbl9yb3V0ZUAxMSBtYWluX2dldF90b3RhbF9kb25hdGlvbnNfcm91dGVAMTIgbWFpbl9jYWxjdWxhdGVfdG90YWxfcm91dGVAMTMgbWFpbl92YWxpZGF0ZV9kb25hdGlvbl9yb3V0ZUAxNCBtYWluX2xvZ19kZWxpdmVyeV9yb3V0ZUAxNSBtYWluX3ZlcmlmeV9kZWxpdmVyeV9yb3V0ZUAxNiBtYWluX2dldF9jb250cmFjdF9zdGF0c19yb3V0ZUAxNyBtYWluX2NyZWF0ZV92b3VjaGVyX2Fzc2V0X3JvdXRlQDE4IG1haW5fZGlzdHJpYnV0ZV92b3VjaGVyc19yb3V0ZUAxOSBtYWluX3JlZGVlbV92b3VjaGVyX3JvdXRlQDIwIG1haW5fZ2V0X3ZvdWNoZXJfc3RhdHNfcm91dGVAMjEgbWFpbl9jcmVhdGVfbWlsZXN0b25lX3JvdXRlQDIyIG1haW5fY29tcGxldGVfbWlsZXN0b25lX3JvdXRlQDIzIG1haW5fcmVsZWFzZV9taWxlc3RvbmVfZnVuZHNfcm91dGVAMjQgbWFpbl9nZXRfbWlsZXN0b25lX3N0YXRzX3JvdXRlQDI1IG1haW5fZ2V0X2NhbXBhaWduX2RldGFpbHNfcm91dGVAMjYgbWFpbl9nZXRfb3JnYW5pemF0aW9uX2RldGFpbHNfcm91dGVAMjcgbWFpbl9nZXRfdm91Y2hlcl9kZXRhaWxzX3JvdXRlQDI4IG1haW5fZ2V0X21pbGVzdG9uZV9kZXRhaWxzX3JvdXRlQDI5IG1haW5fZ2V0X2RlbGl2ZXJ5X2RldGFpbHNfcm91dGVAMzAgbWFpbl9nZXRfbWlsZXN0b25lX2NvdW50X3JvdXRlQDMxIG1haW5fZ2V0X3ZvdWNoZXJfY291bnRfcm91dGVAMzIgbWFpbl9nZXRfZGVsaXZlcnlfY291bnRfcm91dGVAMzMKCm1haW5fYWZ0ZXJfaWZfZWxzZUAzNjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICBpbnRjXzAgLy8gMAogICAgcmV0dXJuCgptYWluX2dldF9kZWxpdmVyeV9jb3VudF9yb3V0ZUAzMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6Mzg0CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIGNhbGxzdWIgZ2V0X2RlbGl2ZXJ5X2NvdW50CiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2dldF92b3VjaGVyX2NvdW50X3JvdXRlQDMyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNzkKICAgIC8vIEBhYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBnZXRfdm91Y2hlcl9jb3VudAogICAgaXRvYgogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfbWlsZXN0b25lX2NvdW50X3JvdXRlQDMxOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNzQKICAgIC8vIEBhYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBnZXRfbWlsZXN0b25lX2NvdW50CiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2dldF9kZWxpdmVyeV9kZXRhaWxzX3JvdXRlQDMwOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNjYKICAgIC8vIEBhYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzY2CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBjYWxsc3ViIGdldF9kZWxpdmVyeV9kZXRhaWxzCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2dldF9taWxlc3RvbmVfZGV0YWlsc19yb3V0ZUAyOToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzYwCiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM2MAogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgY2FsbHN1YiBnZXRfbWlsZXN0b25lX2RldGFpbHMKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X3ZvdWNoZXJfZGV0YWlsc19yb3V0ZUAyODoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzU0CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM1NAogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgY2FsbHN1YiBnZXRfdm91Y2hlcl9kZXRhaWxzCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2dldF9vcmdhbml6YXRpb25fZGV0YWlsc19yb3V0ZUAyNzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzQ4CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM0OAogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgY2FsbHN1YiBnZXRfb3JnYW5pemF0aW9uX2RldGFpbHMKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X2NhbXBhaWduX2RldGFpbHNfcm91dGVAMjY6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM0MgogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNDIKICAgIC8vIEBhYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIGNhbGxzdWIgZ2V0X2NhbXBhaWduX2RldGFpbHMKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X21pbGVzdG9uZV9zdGF0c19yb3V0ZUAyNToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzM1CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgcHVzaGJ5dGVzIDB4MTUxZjdjNzUwMDFlNGQ2OTZjNjU3Mzc0NmY2ZTY1MjA3Mzc0NjE3NDY5NzM3NDY5NjM3MzIwNjE3NjYxNjk2YzYxNjI2YzY1CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fcmVsZWFzZV9taWxlc3RvbmVfZnVuZHNfcm91dGVAMjQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMxOAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBidG9pCiAgICB0eG5hcyBBY2NvdW50cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMTgKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiByZWxlYXNlX21pbGVzdG9uZV9mdW5kcwogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fY29tcGxldGVfbWlsZXN0b25lX3JvdXRlQDIzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMDIKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzAyCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgY29tcGxldGVfbWlsZXN0b25lCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9jcmVhdGVfbWlsZXN0b25lX3JvdXRlQDIyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNzkKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6Mjc5CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgY3JlYXRlX21pbGVzdG9uZQogICAgaXRvYgogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfdm91Y2hlcl9zdGF0c19yb3V0ZUAyMToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjczCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgcHVzaGJ5dGVzIDB4MTUxZjdjNzUwMDFjNTY2Zjc1NjM2ODY1NzIyMDczNzQ2MTc0Njk3Mzc0Njk2MzczMjA2MTc2NjE2OTZjNjE2MjZjNjUKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9yZWRlZW1fdm91Y2hlcl9yb3V0ZUAyMDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjYyCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGV4dHJhY3QgMiAwCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAzCiAgICBidG9pCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI2MgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIHJlZGVlbV92b3VjaGVyCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9kaXN0cmlidXRlX3ZvdWNoZXJzX3JvdXRlQDE5OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMzIKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYXMgQWNjb3VudHMKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGJ0b2kKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjMyCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgZGlzdHJpYnV0ZV92b3VjaGVycwogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fY3JlYXRlX3ZvdWNoZXJfYXNzZXRfcm91dGVAMTg6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE5NgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxOTYKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBjcmVhdGVfdm91Y2hlcl9hc3NldAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfY29udHJhY3Rfc3RhdHNfcm91dGVAMTc6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE5MQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIHB1c2hieXRlcyAweDE1MWY3Yzc1MDAxZDQzNmY2ZTc0NzI2MTYzNzQyMDczNzQ2MTc0Njk3Mzc0Njk2MzczMjA2MTc2NjE2OTZjNjE2MjZjNjUKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl92ZXJpZnlfZGVsaXZlcnlfcm91dGVAMTY6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE3NQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNzUKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiB2ZXJpZnlfZGVsaXZlcnkKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2xvZ19kZWxpdmVyeV9yb3V0ZUAxNToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTU4CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGV4dHJhY3QgMiAwCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNTgKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBsb2dfZGVsaXZlcnkKICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fdmFsaWRhdGVfZG9uYXRpb25fcm91dGVAMTQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE1MAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNTAKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiB2YWxpZGF0ZV9kb25hdGlvbgogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fY2FsY3VsYXRlX3RvdGFsX3JvdXRlQDEzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNDUKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNDUKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBjYWxjdWxhdGVfdG90YWwKICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X3RvdGFsX2RvbmF0aW9uc19yb3V0ZUAxMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTQwCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBnZXRfdG90YWxfZG9uYXRpb25zCiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2NyZWF0ZV9kb25hdGlvbl9yb3V0ZUAxMToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTIzCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTIzCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgY3JlYXRlX2RvbmF0aW9uCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9nZXRfb3JnYW5pemF0aW9uX2NvdW50X3JvdXRlQDEwOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMTgKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICBjYWxsc3ViIGdldF9vcmdhbml6YXRpb25fY291bnQKICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fZ2V0X2NhbXBhaWduX2NvdW50X3JvdXRlQDk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjExMwogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIGNhbGxzdWIgZ2V0X2NhbXBhaWduX2NvdW50CiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgptYWluX2NyZWF0ZV9jYW1wYWlnbl9yb3V0ZUA4OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo5NQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6OTUKICAgIC8vIEBhYmltZXRob2QoKQogICAgY2FsbHN1YiBjcmVhdGVfY2FtcGFpZ24KICAgIGl0b2IKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCm1haW5fcmVnaXN0ZXJfb3JnYW5pemF0aW9uX3JvdXRlQDc6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojc4CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozOQogICAgLy8gY2xhc3MgQWlkY2hhaW5Db250cmFjdHMoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGV4dHJhY3QgMiAwCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo3OAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIHJlZ2lzdGVyX29yZ2FuaXphdGlvbgogICAgaXRvYgogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9pbml0aWFsaXplX3JvdXRlQDY6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjY0CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgY2FsbHN1YiBpbml0aWFsaXplCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9oZWxsb19yb3V0ZUA1OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo2MAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzkKICAgIC8vIGNsYXNzIEFpZGNoYWluQ29udHJhY3RzKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo2MAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIGhlbGxvCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWNfMCAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKbWFpbl9iYXJlX3JvdXRpbmdAMzQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM5CiAgICAvLyBjbGFzcyBBaWRjaGFpbkNvbnRyYWN0cyhBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgYm56IG1haW5fYWZ0ZXJfaWZfZWxzZUAzNgogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gY3JlYXRpbmcKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmhlbGxvKG5hbWU6IGJ5dGVzKSAtPiBieXRlczoKaGVsbG86CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjYwLTYxCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBoZWxsbyhzZWxmLCBuYW1lOiBTdHJpbmcpIC0+IFN0cmluZzoKICAgIHByb3RvIDEgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo2MgogICAgLy8gcmV0dXJuICJIZWxsbywgIiArIG5hbWUKICAgIHB1c2hieXRlcyAiSGVsbG8sICIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmluaXRpYWxpemUoKSAtPiBieXRlczoKaW5pdGlhbGl6ZToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NjcKICAgIC8vIHNlbGYuY2FtcGFpZ25fY291bnRlci52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWNfMSAvLyAiY2FtcGFpZ25fY291bnRlciIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo2OAogICAgLy8gc2VsZi5vcmdhbml6YXRpb25fY291bnRlci52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWMgNiAvLyAib3JnYW5pemF0aW9uX2NvdW50ZXIiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NjkKICAgIC8vIHNlbGYuZGVsaXZlcnlfY291bnRlci52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWMgNCAvLyAiZGVsaXZlcnlfY291bnRlciIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo3MAogICAgLy8gc2VsZi52b3VjaGVyX2NvdW50ZXIudmFsdWUgPSBVSW50NjQoMCkKICAgIGJ5dGVjXzIgLy8gInZvdWNoZXJfY291bnRlciIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo3MQogICAgLy8gc2VsZi5taWxlc3RvbmVfY291bnRlci52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWNfMyAvLyAibWlsZXN0b25lX2NvdW50ZXIiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NzIKICAgIC8vIHNlbGYudG90YWxfZG9uYXRpb25zLnZhbHVlID0gVUludDY0KDApCiAgICBieXRlYyA3IC8vICJ0b3RhbF9kb25hdGlvbnMiCiAgICBpbnRjXzAgLy8gMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6NzMKICAgIC8vIHNlbGYudG90YWxfb3JnYW5pemF0aW9ucy52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWMgOCAvLyAidG90YWxfb3JnYW5pemF0aW9ucyIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo3NAogICAgLy8gc2VsZi50b3RhbF92b3VjaGVyc19pc3N1ZWQudmFsdWUgPSBVSW50NjQoMCkKICAgIGJ5dGVjIDkgLy8gInRvdGFsX3ZvdWNoZXJzX2lzc3VlZCIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo3NQogICAgLy8gc2VsZi50b3RhbF9taWxlc3RvbmVzX2NvbXBsZXRlZC52YWx1ZSA9IFVJbnQ2NCgwKQogICAgYnl0ZWMgMTAgLy8gInRvdGFsX21pbGVzdG9uZXNfY29tcGxldGVkIgogICAgaW50Y18wIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojc2CiAgICAvLyByZXR1cm4gU3RyaW5nKCJDb250cmFjdCBpbml0aWFsaXplZCBzdWNjZXNzZnVsbHkiKQogICAgcHVzaGJ5dGVzICJDb250cmFjdCBpbml0aWFsaXplZCBzdWNjZXNzZnVsbHkiCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLnJlZ2lzdGVyX29yZ2FuaXphdGlvbihvcmdfbmFtZTogYnl0ZXMsIHdhbGxldF9hZGRyZXNzOiBieXRlcykgLT4gdWludDY0OgpyZWdpc3Rlcl9vcmdhbml6YXRpb246CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojc4LTc5CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIC8vIGRlZiByZWdpc3Rlcl9vcmdhbml6YXRpb24oc2VsZiwgb3JnX25hbWU6IFN0cmluZywgd2FsbGV0X2FkZHJlc3M6IFN0cmluZykgLT4gVUludDY0OgogICAgcHJvdG8gMiAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjgxCiAgICAvLyBzZWxmLm9yZ2FuaXphdGlvbl9jb3VudGVyLnZhbHVlICs9IFVJbnQ2NCgxKQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDYgLy8gIm9yZ2FuaXphdGlvbl9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLm9yZ2FuaXphdGlvbl9jb3VudGVyIGV4aXN0cwogICAgaW50Y18xIC8vIDEKICAgICsKICAgIGJ5dGVjIDYgLy8gIm9yZ2FuaXphdGlvbl9jb3VudGVyIgogICAgZGlnIDEKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojg2CiAgICAvLyBpZD1BUkM0VUludDY0KG9yZ19pZCksCiAgICBkdXAKICAgIGl0b2IKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6ODcKICAgIC8vIG5hbWU9QVJDNFN0cmluZyhvcmdfbmFtZSksCiAgICBmcmFtZV9kaWcgLTIKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIGZyYW1lX2RpZyAtMgogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojg4CiAgICAvLyB3YWxsZXRfYWRkcmVzcz1BUkM0U3RyaW5nKHdhbGxldF9hZGRyZXNzKSwKICAgIGZyYW1lX2RpZyAtMQogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6ODQtOTAKICAgIC8vICMgU3RvcmUgb3JnYW5pemF0aW9uIGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLm9yZ2FuaXphdGlvbnNbQVJDNFVJbnQ2NChvcmdfaWQpXSA9IE9yZ2FuaXphdGlvbkluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChvcmdfaWQpLAogICAgLy8gICAgIG5hbWU9QVJDNFN0cmluZyhvcmdfbmFtZSksCiAgICAvLyAgICAgd2FsbGV0X2FkZHJlc3M9QVJDNFN0cmluZyh3YWxsZXRfYWRkcmVzcyksCiAgICAvLyAgICAgdmVyaWZpY2F0aW9uX2xldmVsPUFSQzRVSW50NjQoMCkgICMgMCA9IHVudmVyaWZpZWQgaW5pdGlhbGx5CiAgICAvLyApCiAgICBkaWcgMgogICAgcHVzaGJ5dGVzIDB4MDAxNAogICAgY29uY2F0CiAgICBkaWcgMgogICAgbGVuCiAgICBwdXNoaW50IDIwIC8vIDIwCiAgICArCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojg5CiAgICAvLyB2ZXJpZmljYXRpb25fbGV2ZWw9QVJDNFVJbnQ2NCgwKSAgIyAwID0gdW52ZXJpZmllZCBpbml0aWFsbHkKICAgIGJ5dGVjIDUgLy8gMHgwMDAwMDAwMDAwMDAwMDAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojg0LTkwCiAgICAvLyAjIFN0b3JlIG9yZ2FuaXphdGlvbiBkYXRhIGluIEJveE1hcAogICAgLy8gc2VsZi5vcmdhbml6YXRpb25zW0FSQzRVSW50NjQob3JnX2lkKV0gPSBPcmdhbml6YXRpb25JbmZvKAogICAgLy8gICAgIGlkPUFSQzRVSW50NjQob3JnX2lkKSwKICAgIC8vICAgICBuYW1lPUFSQzRTdHJpbmcob3JnX25hbWUpLAogICAgLy8gICAgIHdhbGxldF9hZGRyZXNzPUFSQzRTdHJpbmcod2FsbGV0X2FkZHJlc3MpLAogICAgLy8gICAgIHZlcmlmaWNhdGlvbl9sZXZlbD1BUkM0VUludDY0KDApICAjIDAgPSB1bnZlcmlmaWVkIGluaXRpYWxseQogICAgLy8gKQogICAgY29uY2F0CiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5Ojg0LTg1CiAgICAvLyAjIFN0b3JlIG9yZ2FuaXphdGlvbiBkYXRhIGluIEJveE1hcAogICAgLy8gc2VsZi5vcmdhbml6YXRpb25zW0FSQzRVSW50NjQob3JnX2lkKV0gPSBPcmdhbml6YXRpb25JbmZvKAogICAgYnl0ZWMgMTYgLy8gIm9yZ3MiCiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo4NC05MAogICAgLy8gIyBTdG9yZSBvcmdhbml6YXRpb24gZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYub3JnYW5pemF0aW9uc1tBUkM0VUludDY0KG9yZ19pZCldID0gT3JnYW5pemF0aW9uSW5mbygKICAgIC8vICAgICBpZD1BUkM0VUludDY0KG9yZ19pZCksCiAgICAvLyAgICAgbmFtZT1BUkM0U3RyaW5nKG9yZ19uYW1lKSwKICAgIC8vICAgICB3YWxsZXRfYWRkcmVzcz1BUkM0U3RyaW5nKHdhbGxldF9hZGRyZXNzKSwKICAgIC8vICAgICB2ZXJpZmljYXRpb25fbGV2ZWw9QVJDNFVJbnQ2NCgwKSAgIyAwID0gdW52ZXJpZmllZCBpbml0aWFsbHkKICAgIC8vICkKICAgIGR1cAogICAgYm94X2RlbAogICAgcG9wCiAgICBzd2FwCiAgICBib3hfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjkyCiAgICAvLyBzZWxmLnRvdGFsX29yZ2FuaXphdGlvbnMudmFsdWUgKz0gVUludDY0KDEpCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgOCAvLyAidG90YWxfb3JnYW5pemF0aW9ucyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi50b3RhbF9vcmdhbml6YXRpb25zIGV4aXN0cwogICAgaW50Y18xIC8vIDEKICAgICsKICAgIGJ5dGVjIDggLy8gInRvdGFsX29yZ2FuaXphdGlvbnMiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo5MwogICAgLy8gcmV0dXJuIG9yZ19pZAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5jcmVhdGVfY2FtcGFpZ24odGl0bGU6IGJ5dGVzLCB0YXJnZXQ6IHVpbnQ2NCwgY3JlYXRvcjogYnl0ZXMpIC0+IHVpbnQ2NDoKY3JlYXRlX2NhbXBhaWduOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo5NS05NgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgY3JlYXRlX2NhbXBhaWduKHNlbGYsIHRpdGxlOiBTdHJpbmcsIHRhcmdldDogVUludDY0LCBjcmVhdG9yOiBTdHJpbmcpIC0+IFVJbnQ2NDoKICAgIHByb3RvIDMgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTo5OAogICAgLy8gc2VsZi5jYW1wYWlnbl9jb3VudGVyLnZhbHVlICs9IFVJbnQ2NCgxKQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzEgLy8gImNhbXBhaWduX2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYuY2FtcGFpZ25fY291bnRlciBleGlzdHMKICAgIGludGNfMSAvLyAxCiAgICArCiAgICBieXRlY18xIC8vICJjYW1wYWlnbl9jb3VudGVyIgogICAgZGlnIDEKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEwMwogICAgLy8gaWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICBkdXAKICAgIGl0b2IKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTA0CiAgICAvLyB0aXRsZT1BUkM0U3RyaW5nKHRpdGxlKSwKICAgIGZyYW1lX2RpZyAtMwogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgZnJhbWVfZGlnIC0zCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTA1CiAgICAvLyB0YXJnZXQ9QVJDNFVJbnQ2NCh0YXJnZXQpLAogICAgZnJhbWVfZGlnIC0yCiAgICBpdG9iCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEwNwogICAgLy8gY3JlYXRvcj1BUkM0U3RyaW5nKGNyZWF0b3IpLAogICAgZnJhbWVfZGlnIC0xCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTEKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMDEtMTA5CiAgICAvLyAjIFN0b3JlIGNhbXBhaWduIGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLmNhbXBhaWduc1tBUkM0VUludDY0KGNhbXBhaWduX2lkKV0gPSBDYW1wYWlnbkluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICAvLyAgICAgdGl0bGU9QVJDNFN0cmluZyh0aXRsZSksCiAgICAvLyAgICAgdGFyZ2V0PUFSQzRVSW50NjQodGFyZ2V0KSwKICAgIC8vICAgICByYWlzZWQ9QVJDNFVJbnQ2NCgwKSwgICMgTm8gZnVuZHMgcmFpc2VkIGluaXRpYWxseQogICAgLy8gICAgIGNyZWF0b3I9QVJDNFN0cmluZyhjcmVhdG9yKSwKICAgIC8vICAgICBhY3RpdmU9QVJDNFVJbnQ2NCgxKSAgIyAxID0gYWN0aXZlCiAgICAvLyApCiAgICBkaWcgMwogICAgcHVzaGJ5dGVzIDB4MDAyNAogICAgY29uY2F0CiAgICBkaWcgMwogICAgbGVuCiAgICBwdXNoaW50IDM2IC8vIDM2CiAgICArCiAgICBzd2FwCiAgICB1bmNvdmVyIDMKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMDYKICAgIC8vIHJhaXNlZD1BUkM0VUludDY0KDApLCAgIyBObyBmdW5kcyByYWlzZWQgaW5pdGlhbGx5CiAgICBieXRlYyA1IC8vIDB4MDAwMDAwMDAwMDAwMDAwMAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMDEtMTA5CiAgICAvLyAjIFN0b3JlIGNhbXBhaWduIGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLmNhbXBhaWduc1tBUkM0VUludDY0KGNhbXBhaWduX2lkKV0gPSBDYW1wYWlnbkluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICAvLyAgICAgdGl0bGU9QVJDNFN0cmluZyh0aXRsZSksCiAgICAvLyAgICAgdGFyZ2V0PUFSQzRVSW50NjQodGFyZ2V0KSwKICAgIC8vICAgICByYWlzZWQ9QVJDNFVJbnQ2NCgwKSwgICMgTm8gZnVuZHMgcmFpc2VkIGluaXRpYWxseQogICAgLy8gICAgIGNyZWF0b3I9QVJDNFN0cmluZyhjcmVhdG9yKSwKICAgIC8vICAgICBhY3RpdmU9QVJDNFVJbnQ2NCgxKSAgIyAxID0gYWN0aXZlCiAgICAvLyApCiAgICBjb25jYXQKICAgIHN3YXAKICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTA4CiAgICAvLyBhY3RpdmU9QVJDNFVJbnQ2NCgxKSAgIyAxID0gYWN0aXZlCiAgICBieXRlYyAxMiAvLyAweDAwMDAwMDAwMDAwMDAwMDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTAxLTEwOQogICAgLy8gIyBTdG9yZSBjYW1wYWlnbiBkYXRhIGluIEJveE1hcAogICAgLy8gc2VsZi5jYW1wYWlnbnNbQVJDNFVJbnQ2NChjYW1wYWlnbl9pZCldID0gQ2FtcGFpZ25JbmZvKAogICAgLy8gICAgIGlkPUFSQzRVSW50NjQoY2FtcGFpZ25faWQpLAogICAgLy8gICAgIHRpdGxlPUFSQzRTdHJpbmcodGl0bGUpLAogICAgLy8gICAgIHRhcmdldD1BUkM0VUludDY0KHRhcmdldCksCiAgICAvLyAgICAgcmFpc2VkPUFSQzRVSW50NjQoMCksICAjIE5vIGZ1bmRzIHJhaXNlZCBpbml0aWFsbHkKICAgIC8vICAgICBjcmVhdG9yPUFSQzRTdHJpbmcoY3JlYXRvciksCiAgICAvLyAgICAgYWN0aXZlPUFSQzRVSW50NjQoMSkgICMgMSA9IGFjdGl2ZQogICAgLy8gKQogICAgY29uY2F0CiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEwMS0xMDIKICAgIC8vICMgU3RvcmUgY2FtcGFpZ24gZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYuY2FtcGFpZ25zW0FSQzRVSW50NjQoY2FtcGFpZ25faWQpXSA9IENhbXBhaWduSW5mbygKICAgIGJ5dGVjIDExIC8vICJjYW1wYWlnbnMiCiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMDEtMTA5CiAgICAvLyAjIFN0b3JlIGNhbXBhaWduIGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLmNhbXBhaWduc1tBUkM0VUludDY0KGNhbXBhaWduX2lkKV0gPSBDYW1wYWlnbkluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICAvLyAgICAgdGl0bGU9QVJDNFN0cmluZyh0aXRsZSksCiAgICAvLyAgICAgdGFyZ2V0PUFSQzRVSW50NjQodGFyZ2V0KSwKICAgIC8vICAgICByYWlzZWQ9QVJDNFVJbnQ2NCgwKSwgICMgTm8gZnVuZHMgcmFpc2VkIGluaXRpYWxseQogICAgLy8gICAgIGNyZWF0b3I9QVJDNFN0cmluZyhjcmVhdG9yKSwKICAgIC8vICAgICBhY3RpdmU9QVJDNFVJbnQ2NCgxKSAgIyAxID0gYWN0aXZlCiAgICAvLyApCiAgICBkdXAKICAgIGJveF9kZWwKICAgIHBvcAogICAgc3dhcAogICAgYm94X3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMTEKICAgIC8vIHJldHVybiBjYW1wYWlnbl9pZAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfY2FtcGFpZ25fY291bnQoKSAtPiB1aW50NjQ6CmdldF9jYW1wYWlnbl9jb3VudDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTE2CiAgICAvLyByZXR1cm4gc2VsZi5jYW1wYWlnbl9jb3VudGVyLnZhbHVlCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMSAvLyAiY2FtcGFpZ25fY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5jYW1wYWlnbl9jb3VudGVyIGV4aXN0cwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfb3JnYW5pemF0aW9uX2NvdW50KCkgLT4gdWludDY0OgpnZXRfb3JnYW5pemF0aW9uX2NvdW50OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMjEKICAgIC8vIHJldHVybiBzZWxmLm9yZ2FuaXphdGlvbl9jb3VudGVyLnZhbHVlCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgNiAvLyAib3JnYW5pemF0aW9uX2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYub3JnYW5pemF0aW9uX2NvdW50ZXIgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmNyZWF0ZV9kb25hdGlvbihjYW1wYWlnbl9pZDogdWludDY0KSAtPiBieXRlczoKY3JlYXRlX2RvbmF0aW9uOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMjMtMTI0CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBjcmVhdGVfZG9uYXRpb24oc2VsZiwgY2FtcGFpZ25faWQ6IFVJbnQ2NCkgLT4gU3RyaW5nOgogICAgcHJvdG8gMSAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEyNi0xMjcKICAgIC8vICMgVmFsaWRhdGUgY2FtcGFpZ24gZXhpc3RzIHVzaW5nIHByb2Zlc3Npb25hbCBwYXR0ZXJucwogICAgLy8gYXNzZXJ0IGNhbXBhaWduX2lkIDw9IHNlbGYuY2FtcGFpZ25fY291bnRlci52YWx1ZSwgIkNhbXBhaWduIElEIG91dCBvZiByYW5nZSIKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18xIC8vICJjYW1wYWlnbl9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmNhbXBhaWduX2NvdW50ZXIgZXhpc3RzCiAgICBmcmFtZV9kaWcgLTEKICAgID49CiAgICBhc3NlcnQgLy8gQ2FtcGFpZ24gSUQgb3V0IG9mIHJhbmdlCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEyOAogICAgLy8gYXNzZXJ0IGNhbXBhaWduX2lkICE9IFVJbnQ2NCgwKSwgIkNhbXBhaWduIElEIGNhbm5vdCBiZSB6ZXJvIgogICAgZnJhbWVfZGlnIC0xCiAgICBhc3NlcnQgLy8gQ2FtcGFpZ24gSUQgY2Fubm90IGJlIHplcm8KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTI5CiAgICAvLyBhc3NlcnQgQVJDNFVJbnQ2NChjYW1wYWlnbl9pZCkgaW4gc2VsZi5jYW1wYWlnbnMsICJDYW1wYWlnbiBub3QgZm91bmQiCiAgICBmcmFtZV9kaWcgLTEKICAgIGl0b2IKICAgIGJ5dGVjIDExIC8vICJjYW1wYWlnbnMiCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJveF9sZW4KICAgIGJ1cnkgMQogICAgYXNzZXJ0IC8vIENhbXBhaWduIG5vdCBmb3VuZAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxMzUtMTM2CiAgICAvLyAjIEFkZCB0byB0b3RhbCBkb25hdGlvbnMgKHJlYWwgYmxvY2tjaGFpbiBzdGF0ZSkKICAgIC8vIHNlbGYudG90YWxfZG9uYXRpb25zLnZhbHVlICs9IGRvbmF0aW9uX2Ftb3VudAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDcgLy8gInRvdGFsX2RvbmF0aW9ucyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi50b3RhbF9kb25hdGlvbnMgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEzMS0xMzMKICAgIC8vICMgRm9yIHRlc3RpbmcgcHVycG9zZXMsIHNpbXVsYXRlIGEgZG9uYXRpb24gYW1vdW50CiAgICAvLyAjIEluIHByb2R1Y3Rpb24sIHRoaXMgd291bGQgZ2V0IHRoZSBhY3R1YWwgcGF5bWVudCBhbW91bnQgZnJvbSBUeG4uYW1vdW50CiAgICAvLyBkb25hdGlvbl9hbW91bnQgPSBVSW50NjQoMTAwMCkgICMgU2ltdWxhdGVkIGRvbmF0aW9uIGFtb3VudAogICAgcHVzaGludCAxMDAwIC8vIDEwMDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTM1LTEzNgogICAgLy8gIyBBZGQgdG8gdG90YWwgZG9uYXRpb25zIChyZWFsIGJsb2NrY2hhaW4gc3RhdGUpCiAgICAvLyBzZWxmLnRvdGFsX2RvbmF0aW9ucy52YWx1ZSArPSBkb25hdGlvbl9hbW91bnQKICAgICsKICAgIGJ5dGVjIDcgLy8gInRvdGFsX2RvbmF0aW9ucyIKICAgIHN3YXAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjEzOAogICAgLy8gcmV0dXJuIFN0cmluZygiRG9uYXRpb24gcmVjb3JkZWQgc3VjY2Vzc2Z1bGx5IikKICAgIHB1c2hieXRlcyAiRG9uYXRpb24gcmVjb3JkZWQgc3VjY2Vzc2Z1bGx5IgogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfdG90YWxfZG9uYXRpb25zKCkgLT4gdWludDY0OgpnZXRfdG90YWxfZG9uYXRpb25zOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNDMKICAgIC8vIHJldHVybiBzZWxmLnRvdGFsX2RvbmF0aW9ucy52YWx1ZQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDcgLy8gInRvdGFsX2RvbmF0aW9ucyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi50b3RhbF9kb25hdGlvbnMgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmNhbGN1bGF0ZV90b3RhbChhbW91bnQxOiB1aW50NjQsIGFtb3VudDI6IHVpbnQ2NCkgLT4gdWludDY0OgpjYWxjdWxhdGVfdG90YWw6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE0NS0xNDYKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGNhbGN1bGF0ZV90b3RhbChzZWxmLCBhbW91bnQxOiBVSW50NjQsIGFtb3VudDI6IFVJbnQ2NCkgLT4gVUludDY0OgogICAgcHJvdG8gMiAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE0OAogICAgLy8gcmV0dXJuIGFtb3VudDEgKyBhbW91bnQyCiAgICBmcmFtZV9kaWcgLTIKICAgIGZyYW1lX2RpZyAtMQogICAgKwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy52YWxpZGF0ZV9kb25hdGlvbihhbW91bnQ6IHVpbnQ2NCwgZG9ub3I6IGJ5dGVzKSAtPiBieXRlczoKdmFsaWRhdGVfZG9uYXRpb246CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE1MC0xNTEKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIHZhbGlkYXRlX2RvbmF0aW9uKHNlbGYsIGFtb3VudDogVUludDY0LCBkb25vcjogU3RyaW5nKSAtPiBTdHJpbmc6CiAgICBwcm90byAyIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTUzCiAgICAvLyBpZiBhbW91bnQgPiBVSW50NjQoMCk6CiAgICBmcmFtZV9kaWcgLTIKICAgIGJ6IHZhbGlkYXRlX2RvbmF0aW9uX2Vsc2VfYm9keUAyCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE1NAogICAgLy8gcmV0dXJuIFN0cmluZygiVmFsaWQgZG9uYXRpb24gZnJvbSAiKSArIGRvbm9yCiAgICBwdXNoYnl0ZXMgIlZhbGlkIGRvbmF0aW9uIGZyb20gIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1YgoKdmFsaWRhdGVfZG9uYXRpb25fZWxzZV9ib2R5QDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE1NgogICAgLy8gcmV0dXJuIFN0cmluZygiSW52YWxpZCBkb25hdGlvbiBhbW91bnQiKQogICAgcHVzaGJ5dGVzICJJbnZhbGlkIGRvbmF0aW9uIGFtb3VudCIKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMubG9nX2RlbGl2ZXJ5KHJlY2lwaWVudDogYnl0ZXMsIGxvY2F0aW9uOiBieXRlcykgLT4gdWludDY0Ogpsb2dfZGVsaXZlcnk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE1OC0xNTkKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGxvZ19kZWxpdmVyeShzZWxmLCByZWNpcGllbnQ6IFN0cmluZywgbG9jYXRpb246IFN0cmluZykgLT4gVUludDY0OgogICAgcHJvdG8gMiAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE2MQogICAgLy8gc2VsZi5kZWxpdmVyeV9jb3VudGVyLnZhbHVlICs9IFVJbnQ2NCgxKQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDQgLy8gImRlbGl2ZXJ5X2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYuZGVsaXZlcnlfY291bnRlciBleGlzdHMKICAgIGludGNfMSAvLyAxCiAgICArCiAgICBieXRlYyA0IC8vICJkZWxpdmVyeV9jb3VudGVyIgogICAgZGlnIDEKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE2NgogICAgLy8gaWQ9QVJDNFVJbnQ2NChkZWxpdmVyeV9pZCksCiAgICBkdXAKICAgIGl0b2IKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTY3CiAgICAvLyByZWNpcGllbnQ9QVJDNFN0cmluZyhyZWNpcGllbnQpLAogICAgZnJhbWVfZGlnIC0yCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNjgKICAgIC8vIGxvY2F0aW9uPUFSQzRTdHJpbmcobG9jYXRpb24pLAogICAgZnJhbWVfZGlnIC0xCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTEKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNjQtMTcxCiAgICAvLyAjIFN0b3JlIGRlbGl2ZXJ5IGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLmRlbGl2ZXJpZXNbQVJDNFVJbnQ2NChkZWxpdmVyeV9pZCldID0gRGVsaXZlcnlSZWNvcmQoCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChkZWxpdmVyeV9pZCksCiAgICAvLyAgICAgcmVjaXBpZW50PUFSQzRTdHJpbmcocmVjaXBpZW50KSwKICAgIC8vICAgICBsb2NhdGlvbj1BUkM0U3RyaW5nKGxvY2F0aW9uKSwKICAgIC8vICAgICBhZ2VudD1BUkM0U3RyaW5nKCIiKSwgICMgRW1wdHkgaW5pdGlhbGx5CiAgICAvLyAgICAgdmVyaWZpZWQ9QVJDNFVJbnQ2NCgwKSAgIyAwID0gbm90IHZlcmlmaWVkIGluaXRpYWxseQogICAgLy8gKQogICAgZGlnIDIKICAgIHB1c2hieXRlcyAweDAwMTYKICAgIGNvbmNhdAogICAgZGlnIDIKICAgIGxlbgogICAgcHVzaGludCAyMiAvLyAyMgogICAgKwogICAgZHVwCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgdW5jb3ZlciAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGRpZyAyCiAgICBsZW4KICAgIHVuY292ZXIgMgogICAgKwogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNzAKICAgIC8vIHZlcmlmaWVkPUFSQzRVSW50NjQoMCkgICMgMCA9IG5vdCB2ZXJpZmllZCBpbml0aWFsbHkKICAgIGJ5dGVjIDUgLy8gMHgwMDAwMDAwMDAwMDAwMDAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE2NC0xNzEKICAgIC8vICMgU3RvcmUgZGVsaXZlcnkgZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYuZGVsaXZlcmllc1tBUkM0VUludDY0KGRlbGl2ZXJ5X2lkKV0gPSBEZWxpdmVyeVJlY29yZCgKICAgIC8vICAgICBpZD1BUkM0VUludDY0KGRlbGl2ZXJ5X2lkKSwKICAgIC8vICAgICByZWNpcGllbnQ9QVJDNFN0cmluZyhyZWNpcGllbnQpLAogICAgLy8gICAgIGxvY2F0aW9uPUFSQzRTdHJpbmcobG9jYXRpb24pLAogICAgLy8gICAgIGFnZW50PUFSQzRTdHJpbmcoIiIpLCAgIyBFbXB0eSBpbml0aWFsbHkKICAgIC8vICAgICB2ZXJpZmllZD1BUkM0VUludDY0KDApICAjIDAgPSBub3QgdmVyaWZpZWQgaW5pdGlhbGx5CiAgICAvLyApCiAgICBjb25jYXQKICAgIHVuY292ZXIgMgogICAgY29uY2F0CiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTY5CiAgICAvLyBhZ2VudD1BUkM0U3RyaW5nKCIiKSwgICMgRW1wdHkgaW5pdGlhbGx5CiAgICBwdXNoYnl0ZXMgMHgwMDAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE2NC0xNzEKICAgIC8vICMgU3RvcmUgZGVsaXZlcnkgZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYuZGVsaXZlcmllc1tBUkM0VUludDY0KGRlbGl2ZXJ5X2lkKV0gPSBEZWxpdmVyeVJlY29yZCgKICAgIC8vICAgICBpZD1BUkM0VUludDY0KGRlbGl2ZXJ5X2lkKSwKICAgIC8vICAgICByZWNpcGllbnQ9QVJDNFN0cmluZyhyZWNpcGllbnQpLAogICAgLy8gICAgIGxvY2F0aW9uPUFSQzRTdHJpbmcobG9jYXRpb24pLAogICAgLy8gICAgIGFnZW50PUFSQzRTdHJpbmcoIiIpLCAgIyBFbXB0eSBpbml0aWFsbHkKICAgIC8vICAgICB2ZXJpZmllZD1BUkM0VUludDY0KDApICAjIDAgPSBub3QgdmVyaWZpZWQgaW5pdGlhbGx5CiAgICAvLyApCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTY0LTE2NQogICAgLy8gIyBTdG9yZSBkZWxpdmVyeSBkYXRhIGluIEJveE1hcAogICAgLy8gc2VsZi5kZWxpdmVyaWVzW0FSQzRVSW50NjQoZGVsaXZlcnlfaWQpXSA9IERlbGl2ZXJ5UmVjb3JkKAogICAgYnl0ZWMgMTMgLy8gImRlbGl2ZXJpZXMiCiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNjQtMTcxCiAgICAvLyAjIFN0b3JlIGRlbGl2ZXJ5IGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLmRlbGl2ZXJpZXNbQVJDNFVJbnQ2NChkZWxpdmVyeV9pZCldID0gRGVsaXZlcnlSZWNvcmQoCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChkZWxpdmVyeV9pZCksCiAgICAvLyAgICAgcmVjaXBpZW50PUFSQzRTdHJpbmcocmVjaXBpZW50KSwKICAgIC8vICAgICBsb2NhdGlvbj1BUkM0U3RyaW5nKGxvY2F0aW9uKSwKICAgIC8vICAgICBhZ2VudD1BUkM0U3RyaW5nKCIiKSwgICMgRW1wdHkgaW5pdGlhbGx5CiAgICAvLyAgICAgdmVyaWZpZWQ9QVJDNFVJbnQ2NCgwKSAgIyAwID0gbm90IHZlcmlmaWVkIGluaXRpYWxseQogICAgLy8gKQogICAgZHVwCiAgICBib3hfZGVsCiAgICBwb3AKICAgIHN3YXAKICAgIGJveF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTczCiAgICAvLyByZXR1cm4gZGVsaXZlcnlfaWQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMudmVyaWZ5X2RlbGl2ZXJ5KGRlbGl2ZXJ5X2lkOiB1aW50NjQsIGFnZW50OiBieXRlcykgLT4gYnl0ZXM6CnZlcmlmeV9kZWxpdmVyeToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTc1LTE3NgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgdmVyaWZ5X2RlbGl2ZXJ5KHNlbGYsIGRlbGl2ZXJ5X2lkOiBVSW50NjQsIGFnZW50OiBTdHJpbmcpIC0+IFN0cmluZzoKICAgIHByb3RvIDIgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxNzgtMTc5CiAgICAvLyAjIFZhbGlkYXRlIGRlbGl2ZXJ5IGV4aXN0cwogICAgLy8gYXNzZXJ0IGRlbGl2ZXJ5X2lkIDw9IHNlbGYuZGVsaXZlcnlfY291bnRlci52YWx1ZSwgIkRlbGl2ZXJ5IElEIG91dCBvZiByYW5nZSIKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJkZWxpdmVyeV9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmRlbGl2ZXJ5X2NvdW50ZXIgZXhpc3RzCiAgICBmcmFtZV9kaWcgLTIKICAgID49CiAgICBhc3NlcnQgLy8gRGVsaXZlcnkgSUQgb3V0IG9mIHJhbmdlCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE4MAogICAgLy8gYXNzZXJ0IGRlbGl2ZXJ5X2lkICE9IFVJbnQ2NCgwKSwgIkRlbGl2ZXJ5IElEIGNhbm5vdCBiZSB6ZXJvIgogICAgZnJhbWVfZGlnIC0yCiAgICBhc3NlcnQgLy8gRGVsaXZlcnkgSUQgY2Fubm90IGJlIHplcm8KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTgxCiAgICAvLyBhc3NlcnQgQVJDNFVJbnQ2NChkZWxpdmVyeV9pZCkgaW4gc2VsZi5kZWxpdmVyaWVzLCAiRGVsaXZlcnkgbm90IGZvdW5kIgogICAgZnJhbWVfZGlnIC0yCiAgICBpdG9iCiAgICBieXRlYyAxMyAvLyAiZGVsaXZlcmllcyIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgZHVwCiAgICBib3hfbGVuCiAgICBidXJ5IDEKICAgIGFzc2VydCAvLyBEZWxpdmVyeSBub3QgZm91bmQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTgzLTE4NAogICAgLy8gIyBVcGRhdGUgZGVsaXZlcnkgc3RhdHVzIGluIEJveE1hcAogICAgLy8gZGVsaXZlcnlfaW5mbyA9IHNlbGYuZGVsaXZlcmllc1tBUkM0VUludDY0KGRlbGl2ZXJ5X2lkKV0uY29weSgpCiAgICBkdXAKICAgIGJveF9nZXQKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmRlbGl2ZXJpZXMgZW50cnkgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE4NQogICAgLy8gZGVsaXZlcnlfaW5mby52ZXJpZmllZCA9IEFSQzRVSW50NjQoMSkgICMgTWFyayBhcyB2ZXJpZmllZAogICAgYnl0ZWMgMTIgLy8gMHgwMDAwMDAwMDAwMDAwMDAxCiAgICByZXBsYWNlMiAxNAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToxODYKICAgIC8vIGRlbGl2ZXJ5X2luZm8uYWdlbnQgPSBBUkM0U3RyaW5nKGFnZW50KSAgIyBTZXQgdGhlIHZlcmlmeWluZyBhZ2VudAogICAgZnJhbWVfZGlnIC0xCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTEKICAgIGNvbmNhdAogICAgZGlnIDEKICAgIHB1c2hpbnQgMTIgLy8gMTIKICAgIGV4dHJhY3RfdWludDE2CiAgICB1bmNvdmVyIDIKICAgIGludGNfMCAvLyAwCiAgICB1bmNvdmVyIDIKICAgIGV4dHJhY3QzCiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTg3CiAgICAvLyBzZWxmLmRlbGl2ZXJpZXNbQVJDNFVJbnQ2NChkZWxpdmVyeV9pZCldID0gZGVsaXZlcnlfaW5mby5jb3B5KCkKICAgIGRpZyAxCiAgICBib3hfZGVsCiAgICBwb3AKICAgIGJveF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTg5CiAgICAvLyByZXR1cm4gU3RyaW5nKCJEZWxpdmVyeSB2ZXJpZmllZCBieSBhZ2VudDogIikgKyBhZ2VudAogICAgcHVzaGJ5dGVzICJEZWxpdmVyeSB2ZXJpZmllZCBieSBhZ2VudDogIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuY3JlYXRlX3ZvdWNoZXJfYXNzZXQoYXNzZXRfbmFtZTogYnl0ZXMsIHRvdGFsX3N1cHBseTogdWludDY0KSAtPiBieXRlczoKY3JlYXRlX3ZvdWNoZXJfYXNzZXQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE5Ni0xOTcKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGNyZWF0ZV92b3VjaGVyX2Fzc2V0KHNlbGYsIGFzc2V0X25hbWU6IFN0cmluZywgdG90YWxfc3VwcGx5OiBVSW50NjQpIC0+IEFSQzRVSW50NjQ6CiAgICBwcm90byAyIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MTk5LTIxMQogICAgLy8gIyBDcmVhdGUgYWN0dWFsIEFTQSB0b2tlbiB1c2luZyBpbm5lciB0cmFuc2FjdGlvbgogICAgLy8gdHhuX3Jlc3VsdCA9IGl0eG4uQXNzZXRDb25maWcoCiAgICAvLyAgICAgYXNzZXRfbmFtZT1hc3NldF9uYW1lLAogICAgLy8gICAgIHVuaXRfbmFtZT1TdHJpbmcoIlZPVUNIRVIiKSwKICAgIC8vICAgICB0b3RhbD10b3RhbF9zdXBwbHksCiAgICAvLyAgICAgZGVjaW1hbHM9MCwKICAgIC8vICAgICBkZWZhdWx0X2Zyb3plbj1GYWxzZSwKICAgIC8vICAgICBtYW5hZ2VyPUdsb2JhbC5jdXJyZW50X2FwcGxpY2F0aW9uX2FkZHJlc3MsCiAgICAvLyAgICAgcmVzZXJ2ZT1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gICAgIGZyZWV6ZT1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gICAgIGNsYXdiYWNrPUdsb2JhbC5jdXJyZW50X2FwcGxpY2F0aW9uX2FkZHJlc3MsCiAgICAvLyAgICAgZmVlPUdsb2JhbC5taW5fdHhuX2ZlZSwgICMgVXNlIG1pbmltdW0gdHJhbnNhY3Rpb24gZmVlCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIxMAogICAgLy8gZmVlPUdsb2JhbC5taW5fdHhuX2ZlZSwgICMgVXNlIG1pbmltdW0gdHJhbnNhY3Rpb24gZmVlCiAgICBnbG9iYWwgTWluVHhuRmVlCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIwNgogICAgLy8gbWFuYWdlcj1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjA3LTIwOQogICAgLy8gcmVzZXJ2ZT1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gZnJlZXplPUdsb2JhbC5jdXJyZW50X2FwcGxpY2F0aW9uX2FkZHJlc3MsCiAgICAvLyBjbGF3YmFjaz1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgZHVwbiAzCiAgICBpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0Q2xhd2JhY2sKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXRGcmVlemUKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXRSZXNlcnZlCiAgICBpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TWFuYWdlcgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMDUKICAgIC8vIGRlZmF1bHRfZnJvemVuPUZhbHNlLAogICAgaW50Y18wIC8vIDAKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXREZWZhdWx0RnJvemVuCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIwNAogICAgLy8gZGVjaW1hbHM9MCwKICAgIGludGNfMCAvLyAwCiAgICBpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVjaW1hbHMKICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBDb25maWdBc3NldFRvdGFsCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIwMgogICAgLy8gdW5pdF9uYW1lPVN0cmluZygiVk9VQ0hFUiIpLAogICAgcHVzaGJ5dGVzICJWT1VDSEVSIgogICAgaXR4bl9maWVsZCBDb25maWdBc3NldFVuaXROYW1lCiAgICBmcmFtZV9kaWcgLTIKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXROYW1lCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE5OS0yMDAKICAgIC8vICMgQ3JlYXRlIGFjdHVhbCBBU0EgdG9rZW4gdXNpbmcgaW5uZXIgdHJhbnNhY3Rpb24KICAgIC8vIHR4bl9yZXN1bHQgPSBpdHhuLkFzc2V0Q29uZmlnKAogICAgcHVzaGludCAzIC8vIGFjZmcKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGl0eG5fZmllbGQgRmVlCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjE5OS0yMTEKICAgIC8vICMgQ3JlYXRlIGFjdHVhbCBBU0EgdG9rZW4gdXNpbmcgaW5uZXIgdHJhbnNhY3Rpb24KICAgIC8vIHR4bl9yZXN1bHQgPSBpdHhuLkFzc2V0Q29uZmlnKAogICAgLy8gICAgIGFzc2V0X25hbWU9YXNzZXRfbmFtZSwKICAgIC8vICAgICB1bml0X25hbWU9U3RyaW5nKCJWT1VDSEVSIiksCiAgICAvLyAgICAgdG90YWw9dG90YWxfc3VwcGx5LAogICAgLy8gICAgIGRlY2ltYWxzPTAsCiAgICAvLyAgICAgZGVmYXVsdF9mcm96ZW49RmFsc2UsCiAgICAvLyAgICAgbWFuYWdlcj1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gICAgIHJlc2VydmU9R2xvYmFsLmN1cnJlbnRfYXBwbGljYXRpb25fYWRkcmVzcywKICAgIC8vICAgICBmcmVlemU9R2xvYmFsLmN1cnJlbnRfYXBwbGljYXRpb25fYWRkcmVzcywKICAgIC8vICAgICBjbGF3YmFjaz1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gICAgIGZlZT1HbG9iYWwubWluX3R4bl9mZWUsICAjIFVzZSBtaW5pbXVtIHRyYW5zYWN0aW9uIGZlZQogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9zdWJtaXQKICAgIGl0eG4gQ3JlYXRlZEFzc2V0SUQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjE2LTIxNwogICAgLy8gIyBJbmNyZW1lbnQgdm91Y2hlciBjb3VudGVyCiAgICAvLyBzZWxmLnZvdWNoZXJfY291bnRlci52YWx1ZSArPSBVSW50NjQoMSkKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18yIC8vICJ2b3VjaGVyX2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYudm91Y2hlcl9jb3VudGVyIGV4aXN0cwogICAgaW50Y18xIC8vIDEKICAgICsKICAgIGJ5dGVjXzIgLy8gInZvdWNoZXJfY291bnRlciIKICAgIGRpZyAxCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMjIKICAgIC8vIGlkPUFSQzRVSW50NjQodm91Y2hlcl9pZCksCiAgICBpdG9iCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIyMwogICAgLy8gYXNzZXRfaWQ9QVJDNFVJbnQ2NChhc3NldF9pZCksCiAgICBzd2FwCiAgICBpdG9iCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIyNAogICAgLy8gbmFtZT1BUkM0U3RyaW5nKGFzc2V0X25hbWUpLAogICAgZnJhbWVfZGlnIC0yCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMjUKICAgIC8vIHRvdGFsX3N1cHBseT1BUkM0VUludDY0KHRvdGFsX3N1cHBseSksCiAgICBmcmFtZV9kaWcgLTEKICAgIGl0b2IKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjIwLTIyNwogICAgLy8gIyBTdG9yZSB2b3VjaGVyIGluZm8gaW4gQm94TWFwCiAgICAvLyBzZWxmLnZvdWNoZXJzW0FSQzRVSW50NjQodm91Y2hlcl9pZCldID0gVm91Y2hlckluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NCh2b3VjaGVyX2lkKSwKICAgIC8vICAgICBhc3NldF9pZD1BUkM0VUludDY0KGFzc2V0X2lkKSwKICAgIC8vICAgICBuYW1lPUFSQzRTdHJpbmcoYXNzZXRfbmFtZSksCiAgICAvLyAgICAgdG90YWxfc3VwcGx5PUFSQzRVSW50NjQodG90YWxfc3VwcGx5KSwKICAgIC8vICAgICBpc3N1ZWQ9QVJDNFVJbnQ2NCgwKSAgIyBObyB0b2tlbnMgaXNzdWVkIHlldAogICAgLy8gKQogICAgZGlnIDMKICAgIGRpZyAzCiAgICBjb25jYXQKICAgIHB1c2hieXRlcyAweDAwMjIKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIyNgogICAgLy8gaXNzdWVkPUFSQzRVSW50NjQoMCkgICMgTm8gdG9rZW5zIGlzc3VlZCB5ZXQKICAgIGJ5dGVjIDUgLy8gMHgwMDAwMDAwMDAwMDAwMDAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIyMC0yMjcKICAgIC8vICMgU3RvcmUgdm91Y2hlciBpbmZvIGluIEJveE1hcAogICAgLy8gc2VsZi52b3VjaGVyc1tBUkM0VUludDY0KHZvdWNoZXJfaWQpXSA9IFZvdWNoZXJJbmZvKAogICAgLy8gICAgIGlkPUFSQzRVSW50NjQodm91Y2hlcl9pZCksCiAgICAvLyAgICAgYXNzZXRfaWQ9QVJDNFVJbnQ2NChhc3NldF9pZCksCiAgICAvLyAgICAgbmFtZT1BUkM0U3RyaW5nKGFzc2V0X25hbWUpLAogICAgLy8gICAgIHRvdGFsX3N1cHBseT1BUkM0VUludDY0KHRvdGFsX3N1cHBseSksCiAgICAvLyAgICAgaXNzdWVkPUFSQzRVSW50NjQoMCkgICMgTm8gdG9rZW5zIGlzc3VlZCB5ZXQKICAgIC8vICkKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIyMC0yMjEKICAgIC8vICMgU3RvcmUgdm91Y2hlciBpbmZvIGluIEJveE1hcAogICAgLy8gc2VsZi52b3VjaGVyc1tBUkM0VUludDY0KHZvdWNoZXJfaWQpXSA9IFZvdWNoZXJJbmZvKAogICAgYnl0ZWMgMTQgLy8gInZvdWNoZXJzIgogICAgdW5jb3ZlciAzCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjIwLTIyNwogICAgLy8gIyBTdG9yZSB2b3VjaGVyIGluZm8gaW4gQm94TWFwCiAgICAvLyBzZWxmLnZvdWNoZXJzW0FSQzRVSW50NjQodm91Y2hlcl9pZCldID0gVm91Y2hlckluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NCh2b3VjaGVyX2lkKSwKICAgIC8vICAgICBhc3NldF9pZD1BUkM0VUludDY0KGFzc2V0X2lkKSwKICAgIC8vICAgICBuYW1lPUFSQzRTdHJpbmcoYXNzZXRfbmFtZSksCiAgICAvLyAgICAgdG90YWxfc3VwcGx5PUFSQzRVSW50NjQodG90YWxfc3VwcGx5KSwKICAgIC8vICAgICBpc3N1ZWQ9QVJDNFVJbnQ2NCgwKSAgIyBObyB0b2tlbnMgaXNzdWVkIHlldAogICAgLy8gKQogICAgZHVwCiAgICBib3hfZGVsCiAgICBwb3AKICAgIHN3YXAKICAgIGJveF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjI5LTIzMAogICAgLy8gIyBSZXR1cm4gdGhlIGFjdHVhbCBhc3NldCBJRCBjcmVhdGVkIGJ5IHRoZSBibG9ja2NoYWluCiAgICAvLyByZXR1cm4gQVJDNFVJbnQ2NChhc3NldF9pZCkKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuZGlzdHJpYnV0ZV92b3VjaGVycyhhc3NldF9pZDogdWludDY0LCByZWNpcGllbnQ6IGJ5dGVzLCBhbW91bnQ6IHVpbnQ2NCkgLT4gYnl0ZXM6CmRpc3RyaWJ1dGVfdm91Y2hlcnM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIzMi0yMzMKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGRpc3RyaWJ1dGVfdm91Y2hlcnMoc2VsZiwgYXNzZXRfaWQ6IFVJbnQ2NCwgcmVjaXBpZW50OiBBY2NvdW50LCBhbW91bnQ6IFVJbnQ2NCkgLT4gU3RyaW5nOgogICAgcHJvdG8gMyAxCiAgICBpbnRjXzAgLy8gMAogICAgcHVzaGJ5dGVzICIiCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjIzNS0yMzYKICAgIC8vICMgVmFsaWRhdGUgdXNpbmcgcHJvZmVzc2lvbmFsIHBhdHRlcm5zCiAgICAvLyBhc3NlcnQgYW1vdW50ID4gVUludDY0KDApLCAiQW1vdW50IG11c3QgYmUgZ3JlYXRlciB0aGFuIHplcm8iCiAgICBmcmFtZV9kaWcgLTEKICAgIGFzc2VydCAvLyBBbW91bnQgbXVzdCBiZSBncmVhdGVyIHRoYW4gemVybwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyMzgtMjM5CiAgICAvLyAjIEZpbmQgdGhlIHZvdWNoZXIgaW5mbyBieSBhc3NldF9pZCAoc2VhcmNoIHRocm91Z2ggdm91Y2hlcnMpCiAgICAvLyB2b3VjaGVyX2ZvdW5kID0gRmFsc2UKICAgIGludGNfMCAvLyAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI0MAogICAgLy8gbWF4X3ZvdWNoZXJzID0gc2VsZi52b3VjaGVyX2NvdW50ZXIudmFsdWUKICAgIGR1cAogICAgYnl0ZWNfMiAvLyAidm91Y2hlcl9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnZvdWNoZXJfY291bnRlciBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjQxCiAgICAvLyBmb3Igdm91Y2hlcl9pZCBpbiB1cmFuZ2UoMSwgbWF4X3ZvdWNoZXJzICsgVUludDY0KDEpKToKICAgIGludGNfMSAvLyAxCiAgICArCiAgICBpbnRjXzEgLy8gMQoKZGlzdHJpYnV0ZV92b3VjaGVyc19mb3JfaGVhZGVyQDE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI0MQogICAgLy8gZm9yIHZvdWNoZXJfaWQgaW4gdXJhbmdlKDEsIG1heF92b3VjaGVycyArIFVJbnQ2NCgxKSk6CiAgICBmcmFtZV9kaWcgNAogICAgZnJhbWVfZGlnIDMKICAgIDwKICAgIGZyYW1lX2RpZyAyCiAgICBmcmFtZV9idXJ5IDEKICAgIGJ6IGRpc3RyaWJ1dGVfdm91Y2hlcnNfYWZ0ZXJfZm9yQDgKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjQyCiAgICAvLyBpZiBBUkM0VUludDY0KHZvdWNoZXJfaWQpIGluIHNlbGYudm91Y2hlcnM6CiAgICBmcmFtZV9kaWcgNAogICAgaXRvYgogICAgYnl0ZWMgMTQgLy8gInZvdWNoZXJzIgogICAgc3dhcAogICAgY29uY2F0CiAgICBkdXAKICAgIGZyYW1lX2J1cnkgMAogICAgYm94X2xlbgogICAgYnVyeSAxCiAgICBieiBkaXN0cmlidXRlX3ZvdWNoZXJzX2FmdGVyX2lmX2Vsc2VANgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNDMKICAgIC8vIHZvdWNoZXJfaW5mbyA9IHNlbGYudm91Y2hlcnNbQVJDNFVJbnQ2NCh2b3VjaGVyX2lkKV0uY29weSgpCiAgICBmcmFtZV9kaWcgMAogICAgYm94X2dldAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYudm91Y2hlcnMgZW50cnkgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI0NAogICAgLy8gaWYgdm91Y2hlcl9pbmZvLmFzc2V0X2lkLm5hdGl2ZSA9PSBhc3NldF9pZDoKICAgIHB1c2hpbnQgOCAvLyA4CiAgICBleHRyYWN0X3VpbnQ2NAogICAgZnJhbWVfZGlnIC0zCiAgICA9PQogICAgYnogZGlzdHJpYnV0ZV92b3VjaGVyc19hZnRlcl9pZl9lbHNlQDYKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjQ1CiAgICAvLyB2b3VjaGVyX2ZvdW5kID0gVHJ1ZQogICAgaW50Y18xIC8vIDEKICAgIGZyYW1lX2J1cnkgMQoKZGlzdHJpYnV0ZV92b3VjaGVyc19hZnRlcl9mb3JAODoKICAgIGZyYW1lX2RpZyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI0OAogICAgLy8gYXNzZXJ0IHZvdWNoZXJfZm91bmQsICJBc3NldCBub3QgZm91bmQgaW4gdm91Y2hlciByZWdpc3RyeSIKICAgIGFzc2VydCAvLyBBc3NldCBub3QgZm91bmQgaW4gdm91Y2hlciByZWdpc3RyeQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNTAtMjU1CiAgICAvLyAjIFBlcmZvcm0gYWN0dWFsIEFTQSB0cmFuc2ZlciBvbiBibG9ja2NoYWluCiAgICAvLyBpdHhuLkFzc2V0VHJhbnNmZXIoCiAgICAvLyAgICAgeGZlcl9hc3NldD1hc3NldF9pZCwKICAgIC8vICAgICBhc3NldF9yZWNlaXZlcj1yZWNpcGllbnQsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PWFtb3VudCwKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fYmVnaW4KICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBBc3NldEFtb3VudAogICAgZnJhbWVfZGlnIC0yCiAgICBpdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKICAgIGZyYW1lX2RpZyAtMwogICAgaXR4bl9maWVsZCBYZmVyQXNzZXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjUwLTI1MQogICAgLy8gIyBQZXJmb3JtIGFjdHVhbCBBU0EgdHJhbnNmZXIgb24gYmxvY2tjaGFpbgogICAgLy8gaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgcHVzaGludCA0IC8vIGF4ZmVyCiAgICBpdHhuX2ZpZWxkIFR5cGVFbnVtCiAgICBpbnRjXzAgLy8gMAogICAgaXR4bl9maWVsZCBGZWUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjUwLTI1NQogICAgLy8gIyBQZXJmb3JtIGFjdHVhbCBBU0EgdHJhbnNmZXIgb24gYmxvY2tjaGFpbgogICAgLy8gaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgLy8gICAgIHhmZXJfYXNzZXQ9YXNzZXRfaWQsCiAgICAvLyAgICAgYXNzZXRfcmVjZWl2ZXI9cmVjaXBpZW50LAogICAgLy8gICAgIGFzc2V0X2Ftb3VudD1hbW91bnQsCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX3N1Ym1pdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNTctMjU4CiAgICAvLyAjIFVwZGF0ZSB0cmFja2luZyBpbiBjb250cmFjdCBzdGF0ZQogICAgLy8gc2VsZi50b3RhbF92b3VjaGVyc19pc3N1ZWQudmFsdWUgKz0gYW1vdW50CiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgOSAvLyAidG90YWxfdm91Y2hlcnNfaXNzdWVkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnRvdGFsX3ZvdWNoZXJzX2lzc3VlZCBleGlzdHMKICAgIGZyYW1lX2RpZyAtMQogICAgKwogICAgYnl0ZWMgOSAvLyAidG90YWxfdm91Y2hlcnNfaXNzdWVkIgogICAgc3dhcAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjYwCiAgICAvLyByZXR1cm4gU3RyaW5nKCJSZWFsIHRva2VucyB0cmFuc2ZlcnJlZCBvbiBibG9ja2NoYWluIikKICAgIHB1c2hieXRlcyAiUmVhbCB0b2tlbnMgdHJhbnNmZXJyZWQgb24gYmxvY2tjaGFpbiIKICAgIGZyYW1lX2J1cnkgMAogICAgcmV0c3ViCgpkaXN0cmlidXRlX3ZvdWNoZXJzX2FmdGVyX2lmX2Vsc2VANjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjQxCiAgICAvLyBmb3Igdm91Y2hlcl9pZCBpbiB1cmFuZ2UoMSwgbWF4X3ZvdWNoZXJzICsgVUludDY0KDEpKToKICAgIGZyYW1lX2RpZyA0CiAgICBpbnRjXzEgLy8gMQogICAgKwogICAgZnJhbWVfYnVyeSA0CiAgICBiIGRpc3RyaWJ1dGVfdm91Y2hlcnNfZm9yX2hlYWRlckAxCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5yZWRlZW1fdm91Y2hlcih2b3VjaGVyX2lkOiB1aW50NjQsIG1lcmNoYW50OiBieXRlcywgYW1vdW50OiB1aW50NjQpIC0+IGJ5dGVzOgpyZWRlZW1fdm91Y2hlcjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjYyLTI2MwogICAgLy8gQGFiaW1ldGhvZCgpCiAgICAvLyBkZWYgcmVkZWVtX3ZvdWNoZXIoc2VsZiwgdm91Y2hlcl9pZDogVUludDY0LCBtZXJjaGFudDogU3RyaW5nLCBhbW91bnQ6IFVJbnQ2NCkgLT4gU3RyaW5nOgogICAgcHJvdG8gMyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI2NQogICAgLy8gaWYgdm91Y2hlcl9pZCA+IHNlbGYudm91Y2hlcl9jb3VudGVyLnZhbHVlIG9yIHZvdWNoZXJfaWQgPT0gVUludDY0KDApOgogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzIgLy8gInZvdWNoZXJfY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi52b3VjaGVyX2NvdW50ZXIgZXhpc3RzCiAgICBmcmFtZV9kaWcgLTMKICAgIDwKICAgIGJueiByZWRlZW1fdm91Y2hlcl9pZl9ib2R5QDIKICAgIGZyYW1lX2RpZyAtMwogICAgYm56IHJlZGVlbV92b3VjaGVyX2FmdGVyX2lmX2Vsc2VAMwoKcmVkZWVtX3ZvdWNoZXJfaWZfYm9keUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNjYKICAgIC8vIHJldHVybiBTdHJpbmcoIkludmFsaWQgdm91Y2hlciBJRCIpCiAgICBwdXNoYnl0ZXMgIkludmFsaWQgdm91Y2hlciBJRCIKICAgIHJldHN1YgoKcmVkZWVtX3ZvdWNoZXJfYWZ0ZXJfaWZfZWxzZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyNjgKICAgIC8vIGlmIGFtb3VudCA9PSBVSW50NjQoMCk6CiAgICBmcmFtZV9kaWcgLTEKICAgIGJueiByZWRlZW1fdm91Y2hlcl9hZnRlcl9pZl9lbHNlQDUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjY5CiAgICAvLyByZXR1cm4gU3RyaW5nKCJBbW91bnQgbXVzdCBiZSBncmVhdGVyIHRoYW4gemVybyIpCiAgICBwdXNoYnl0ZXMgIkFtb3VudCBtdXN0IGJlIGdyZWF0ZXIgdGhhbiB6ZXJvIgogICAgcmV0c3ViCgpyZWRlZW1fdm91Y2hlcl9hZnRlcl9pZl9lbHNlQDU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI3MQogICAgLy8gcmV0dXJuIFN0cmluZygiVm91Y2hlcnMgcmVkZWVtZWQgYXQgIikgKyBtZXJjaGFudAogICAgcHVzaGJ5dGVzICJWb3VjaGVycyByZWRlZW1lZCBhdCAiCiAgICBmcmFtZV9kaWcgLTIKICAgIGNvbmNhdAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5jcmVhdGVfbWlsZXN0b25lKGNhbXBhaWduX2lkOiB1aW50NjQsIHRhcmdldF9hbW91bnQ6IHVpbnQ2NCwgZGVzY3JpcHRpb246IGJ5dGVzKSAtPiB1aW50NjQ6CmNyZWF0ZV9taWxlc3RvbmU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI3OS0yODAKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIGNyZWF0ZV9taWxlc3RvbmUoc2VsZiwgY2FtcGFpZ25faWQ6IFVJbnQ2NCwgdGFyZ2V0X2Ftb3VudDogVUludDY0LCBkZXNjcmlwdGlvbjogU3RyaW5nKSAtPiBVSW50NjQ6CiAgICBwcm90byAzIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjgyLTI4MwogICAgLy8gIyBWYWxpZGF0ZSBjYW1wYWlnbiBleGlzdHMKICAgIC8vIGFzc2VydCBjYW1wYWlnbl9pZCA8PSBzZWxmLmNhbXBhaWduX2NvdW50ZXIudmFsdWUsICJDYW1wYWlnbiBJRCBvdXQgb2YgcmFuZ2UiCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMSAvLyAiY2FtcGFpZ25fY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5jYW1wYWlnbl9jb3VudGVyIGV4aXN0cwogICAgZnJhbWVfZGlnIC0zCiAgICA+PQogICAgYXNzZXJ0IC8vIENhbXBhaWduIElEIG91dCBvZiByYW5nZQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyODQKICAgIC8vIGFzc2VydCBjYW1wYWlnbl9pZCAhPSBVSW50NjQoMCksICJDYW1wYWlnbiBJRCBjYW5ub3QgYmUgemVybyIKICAgIGZyYW1lX2RpZyAtMwogICAgYXNzZXJ0IC8vIENhbXBhaWduIElEIGNhbm5vdCBiZSB6ZXJvCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI4NQogICAgLy8gYXNzZXJ0IEFSQzRVSW50NjQoY2FtcGFpZ25faWQpIGluIHNlbGYuY2FtcGFpZ25zLCAiQ2FtcGFpZ24gbm90IGZvdW5kIgogICAgZnJhbWVfZGlnIC0zCiAgICBpdG9iCiAgICBieXRlYyAxMSAvLyAiY2FtcGFpZ25zIgogICAgZGlnIDEKICAgIGNvbmNhdAogICAgYm94X2xlbgogICAgYnVyeSAxCiAgICBhc3NlcnQgLy8gQ2FtcGFpZ24gbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI4NwogICAgLy8gc2VsZi5taWxlc3RvbmVfY291bnRlci52YWx1ZSArPSBVSW50NjQoMSkKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18zIC8vICJtaWxlc3RvbmVfY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5taWxlc3RvbmVfY291bnRlciBleGlzdHMKICAgIGludGNfMSAvLyAxCiAgICArCiAgICBieXRlY18zIC8vICJtaWxlc3RvbmVfY291bnRlciIKICAgIGRpZyAxCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyOTIKICAgIC8vIGlkPUFSQzRVSW50NjQobWlsZXN0b25lX2lkKSwKICAgIGR1cAogICAgaXRvYgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyOTQKICAgIC8vIHRhcmdldF9hbW91bnQ9QVJDNFVJbnQ2NCh0YXJnZXRfYW1vdW50KSwKICAgIGZyYW1lX2RpZyAtMgogICAgaXRvYgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyOTUKICAgIC8vIGRlc2NyaXB0aW9uPUFSQzRTdHJpbmcoZGVzY3JpcHRpb24pLAogICAgZnJhbWVfZGlnIC0xCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBmcmFtZV9kaWcgLTEKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyOTAtMjk4CiAgICAvLyAjIFN0b3JlIG1pbGVzdG9uZSBkYXRhIGluIEJveE1hcAogICAgLy8gc2VsZi5taWxlc3RvbmVzW0FSQzRVSW50NjQobWlsZXN0b25lX2lkKV0gPSBNaWxlc3RvbmVJbmZvKAogICAgLy8gICAgIGlkPUFSQzRVSW50NjQobWlsZXN0b25lX2lkKSwKICAgIC8vICAgICBjYW1wYWlnbl9pZD1BUkM0VUludDY0KGNhbXBhaWduX2lkKSwKICAgIC8vICAgICB0YXJnZXRfYW1vdW50PUFSQzRVSW50NjQodGFyZ2V0X2Ftb3VudCksCiAgICAvLyAgICAgZGVzY3JpcHRpb249QVJDNFN0cmluZyhkZXNjcmlwdGlvbiksCiAgICAvLyAgICAgY29tcGxldGVkPUFSQzRVSW50NjQoMCksICAjIDAgPSBwZW5kaW5nCiAgICAvLyAgICAgZnVuZHNfcmVsZWFzZWQ9QVJDNFVJbnQ2NCgwKSAgIyAwID0gbm90IHJlbGVhc2VkCiAgICAvLyApCiAgICBkaWcgMgogICAgdW5jb3ZlciA1CiAgICBjb25jYXQKICAgIHVuY292ZXIgMgogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgMHgwMDJhCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6Mjk2CiAgICAvLyBjb21wbGV0ZWQ9QVJDNFVJbnQ2NCgwKSwgICMgMCA9IHBlbmRpbmcKICAgIGJ5dGVjIDUgLy8gMHgwMDAwMDAwMDAwMDAwMDAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjI5MC0yOTgKICAgIC8vICMgU3RvcmUgbWlsZXN0b25lIGRhdGEgaW4gQm94TWFwCiAgICAvLyBzZWxmLm1pbGVzdG9uZXNbQVJDNFVJbnQ2NChtaWxlc3RvbmVfaWQpXSA9IE1pbGVzdG9uZUluZm8oCiAgICAvLyAgICAgaWQ9QVJDNFVJbnQ2NChtaWxlc3RvbmVfaWQpLAogICAgLy8gICAgIGNhbXBhaWduX2lkPUFSQzRVSW50NjQoY2FtcGFpZ25faWQpLAogICAgLy8gICAgIHRhcmdldF9hbW91bnQ9QVJDNFVJbnQ2NCh0YXJnZXRfYW1vdW50KSwKICAgIC8vICAgICBkZXNjcmlwdGlvbj1BUkM0U3RyaW5nKGRlc2NyaXB0aW9uKSwKICAgIC8vICAgICBjb21wbGV0ZWQ9QVJDNFVJbnQ2NCgwKSwgICMgMCA9IHBlbmRpbmcKICAgIC8vICAgICBmdW5kc19yZWxlYXNlZD1BUkM0VUludDY0KDApICAjIDAgPSBub3QgcmVsZWFzZWQKICAgIC8vICkKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weToyOTcKICAgIC8vIGZ1bmRzX3JlbGVhc2VkPUFSQzRVSW50NjQoMCkgICMgMCA9IG5vdCByZWxlYXNlZAogICAgYnl0ZWMgNSAvLyAweDAwMDAwMDAwMDAwMDAwMDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjkwLTI5OAogICAgLy8gIyBTdG9yZSBtaWxlc3RvbmUgZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYubWlsZXN0b25lc1tBUkM0VUludDY0KG1pbGVzdG9uZV9pZCldID0gTWlsZXN0b25lSW5mbygKICAgIC8vICAgICBpZD1BUkM0VUludDY0KG1pbGVzdG9uZV9pZCksCiAgICAvLyAgICAgY2FtcGFpZ25faWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICAvLyAgICAgdGFyZ2V0X2Ftb3VudD1BUkM0VUludDY0KHRhcmdldF9hbW91bnQpLAogICAgLy8gICAgIGRlc2NyaXB0aW9uPUFSQzRTdHJpbmcoZGVzY3JpcHRpb24pLAogICAgLy8gICAgIGNvbXBsZXRlZD1BUkM0VUludDY0KDApLCAgIyAwID0gcGVuZGluZwogICAgLy8gICAgIGZ1bmRzX3JlbGVhc2VkPUFSQzRVSW50NjQoMCkgICMgMCA9IG5vdCByZWxlYXNlZAogICAgLy8gKQogICAgY29uY2F0CiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjkwLTI5MQogICAgLy8gIyBTdG9yZSBtaWxlc3RvbmUgZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYubWlsZXN0b25lc1tBUkM0VUludDY0KG1pbGVzdG9uZV9pZCldID0gTWlsZXN0b25lSW5mbygKICAgIGJ5dGVjIDE1IC8vICJtaWxlc3RvbmVzIgogICAgdW5jb3ZlciAyCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MjkwLTI5OAogICAgLy8gIyBTdG9yZSBtaWxlc3RvbmUgZGF0YSBpbiBCb3hNYXAKICAgIC8vIHNlbGYubWlsZXN0b25lc1tBUkM0VUludDY0KG1pbGVzdG9uZV9pZCldID0gTWlsZXN0b25lSW5mbygKICAgIC8vICAgICBpZD1BUkM0VUludDY0KG1pbGVzdG9uZV9pZCksCiAgICAvLyAgICAgY2FtcGFpZ25faWQ9QVJDNFVJbnQ2NChjYW1wYWlnbl9pZCksCiAgICAvLyAgICAgdGFyZ2V0X2Ftb3VudD1BUkM0VUludDY0KHRhcmdldF9hbW91bnQpLAogICAgLy8gICAgIGRlc2NyaXB0aW9uPUFSQzRTdHJpbmcoZGVzY3JpcHRpb24pLAogICAgLy8gICAgIGNvbXBsZXRlZD1BUkM0VUludDY0KDApLCAgIyAwID0gcGVuZGluZwogICAgLy8gICAgIGZ1bmRzX3JlbGVhc2VkPUFSQzRVSW50NjQoMCkgICMgMCA9IG5vdCByZWxlYXNlZAogICAgLy8gKQogICAgZHVwCiAgICBib3hfZGVsCiAgICBwb3AKICAgIHN3YXAKICAgIGJveF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzAwCiAgICAvLyByZXR1cm4gbWlsZXN0b25lX2lkCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmNvbXBsZXRlX21pbGVzdG9uZShtaWxlc3RvbmVfaWQ6IHVpbnQ2NCwgcHJvb2Y6IGJ5dGVzKSAtPiBieXRlczoKY29tcGxldGVfbWlsZXN0b25lOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMDItMzAzCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBjb21wbGV0ZV9taWxlc3RvbmUoc2VsZiwgbWlsZXN0b25lX2lkOiBVSW50NjQsIHByb29mOiBTdHJpbmcpIC0+IFN0cmluZzoKICAgIHByb3RvIDIgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMDUtMzA2CiAgICAvLyAjIFZhbGlkYXRlIG1pbGVzdG9uZSBleGlzdHMKICAgIC8vIGFzc2VydCBtaWxlc3RvbmVfaWQgPD0gc2VsZi5taWxlc3RvbmVfY291bnRlci52YWx1ZSwgIk1pbGVzdG9uZSBJRCBvdXQgb2YgcmFuZ2UiCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMyAvLyAibWlsZXN0b25lX2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYubWlsZXN0b25lX2NvdW50ZXIgZXhpc3RzCiAgICBmcmFtZV9kaWcgLTIKICAgID49CiAgICBhc3NlcnQgLy8gTWlsZXN0b25lIElEIG91dCBvZiByYW5nZQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMDcKICAgIC8vIGFzc2VydCBtaWxlc3RvbmVfaWQgIT0gVUludDY0KDApLCAiTWlsZXN0b25lIElEIGNhbm5vdCBiZSB6ZXJvIgogICAgZnJhbWVfZGlnIC0yCiAgICBhc3NlcnQgLy8gTWlsZXN0b25lIElEIGNhbm5vdCBiZSB6ZXJvCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMwOAogICAgLy8gYXNzZXJ0IEFSQzRVSW50NjQobWlsZXN0b25lX2lkKSBpbiBzZWxmLm1pbGVzdG9uZXMsICJNaWxlc3RvbmUgbm90IGZvdW5kIgogICAgZnJhbWVfZGlnIC0yCiAgICBpdG9iCiAgICBieXRlYyAxNSAvLyAibWlsZXN0b25lcyIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgZHVwCiAgICBib3hfbGVuCiAgICBidXJ5IDEKICAgIGFzc2VydCAvLyBNaWxlc3RvbmUgbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMxMC0zMTEKICAgIC8vICMgVXBkYXRlIG1pbGVzdG9uZSBzdGF0dXMgaW4gQm94TWFwCiAgICAvLyBtaWxlc3RvbmVfaW5mbyA9IHNlbGYubWlsZXN0b25lc1tBUkM0VUludDY0KG1pbGVzdG9uZV9pZCldLmNvcHkoKQogICAgZHVwCiAgICBib3hfZ2V0CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5taWxlc3RvbmVzIGVudHJ5IGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMTIKICAgIC8vIG1pbGVzdG9uZV9pbmZvLmNvbXBsZXRlZCA9IEFSQzRVSW50NjQoMSkgICMgTWFyayBhcyBjb21wbGV0ZWQKICAgIGJ5dGVjIDEyIC8vIDB4MDAwMDAwMDAwMDAwMDAwMQogICAgcmVwbGFjZTIgMjYKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzEzCiAgICAvLyBzZWxmLm1pbGVzdG9uZXNbQVJDNFVJbnQ2NChtaWxlc3RvbmVfaWQpXSA9IG1pbGVzdG9uZV9pbmZvLmNvcHkoKQogICAgZGlnIDEKICAgIGJveF9kZWwKICAgIHBvcAogICAgYm94X3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMTUKICAgIC8vIHNlbGYudG90YWxfbWlsZXN0b25lc19jb21wbGV0ZWQudmFsdWUgKz0gVUludDY0KDEpCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgMTAgLy8gInRvdGFsX21pbGVzdG9uZXNfY29tcGxldGVkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnRvdGFsX21pbGVzdG9uZXNfY29tcGxldGVkIGV4aXN0cwogICAgaW50Y18xIC8vIDEKICAgICsKICAgIGJ5dGVjIDEwIC8vICJ0b3RhbF9taWxlc3RvbmVzX2NvbXBsZXRlZCIKICAgIHN3YXAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMxNgogICAgLy8gcmV0dXJuIFN0cmluZygiTWlsZXN0b25lIGNvbXBsZXRlZCB3aXRoIHByb29mOiAiKSArIHByb29mCiAgICBwdXNoYnl0ZXMgIk1pbGVzdG9uZSBjb21wbGV0ZWQgd2l0aCBwcm9vZjogIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMucmVsZWFzZV9taWxlc3RvbmVfZnVuZHMobWlsZXN0b25lX2lkOiB1aW50NjQsIHJlY2lwaWVudDogYnl0ZXMsIGFtb3VudDogdWludDY0KSAtPiBieXRlczoKcmVsZWFzZV9taWxlc3RvbmVfZnVuZHM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMxOC0zMTkKICAgIC8vIEBhYmltZXRob2QoKQogICAgLy8gZGVmIHJlbGVhc2VfbWlsZXN0b25lX2Z1bmRzKHNlbGYsIG1pbGVzdG9uZV9pZDogVUludDY0LCByZWNpcGllbnQ6IEFjY291bnQsIGFtb3VudDogVUludDY0KSAtPiBTdHJpbmc6CiAgICBwcm90byAzIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzIxLTMyMgogICAgLy8gIyBWYWxpZGF0ZSB1c2luZyBwcm9mZXNzaW9uYWwgcGF0dGVybnMKICAgIC8vIGFzc2VydCBtaWxlc3RvbmVfaWQgPD0gc2VsZi5taWxlc3RvbmVfY291bnRlci52YWx1ZSwgIk1pbGVzdG9uZSBJRCBvdXQgb2YgcmFuZ2UiCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMyAvLyAibWlsZXN0b25lX2NvdW50ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYubWlsZXN0b25lX2NvdW50ZXIgZXhpc3RzCiAgICBmcmFtZV9kaWcgLTMKICAgID49CiAgICBhc3NlcnQgLy8gTWlsZXN0b25lIElEIG91dCBvZiByYW5nZQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMjMKICAgIC8vIGFzc2VydCBtaWxlc3RvbmVfaWQgIT0gVUludDY0KDApLCAiTWlsZXN0b25lIElEIGNhbm5vdCBiZSB6ZXJvIgogICAgZnJhbWVfZGlnIC0zCiAgICBhc3NlcnQgLy8gTWlsZXN0b25lIElEIGNhbm5vdCBiZSB6ZXJvCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMyNAogICAgLy8gYXNzZXJ0IGFtb3VudCA+IFVJbnQ2NCgwKSwgIkFtb3VudCBtdXN0IGJlIGdyZWF0ZXIgdGhhbiB6ZXJvIgogICAgZnJhbWVfZGlnIC0xCiAgICBhc3NlcnQgLy8gQW1vdW50IG11c3QgYmUgZ3JlYXRlciB0aGFuIHplcm8KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzI2LTMzMQogICAgLy8gIyBNYWtlIGFjdHVhbCBwYXltZW50IG9uIGJsb2NrY2hhaW4KICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgICByZWNlaXZlcj1yZWNpcGllbnQsCiAgICAvLyAgICAgYW1vdW50PWFtb3VudCwKICAgIC8vICAgICBmZWU9R2xvYmFsLm1pbl90eG5fZmVlLCAgIyBVc2UgbWluaW11bSB0cmFuc2FjdGlvbiBmZWUKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fYmVnaW4KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzMwCiAgICAvLyBmZWU9R2xvYmFsLm1pbl90eG5fZmVlLCAgIyBVc2UgbWluaW11bSB0cmFuc2FjdGlvbiBmZWUKICAgIGdsb2JhbCBNaW5UeG5GZWUKICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBBbW91bnQKICAgIGZyYW1lX2RpZyAtMgogICAgaXR4bl9maWVsZCBSZWNlaXZlcgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozMjYtMzI3CiAgICAvLyAjIE1ha2UgYWN0dWFsIHBheW1lbnQgb24gYmxvY2tjaGFpbgogICAgLy8gaXR4bi5QYXltZW50KAogICAgaW50Y18xIC8vIHBheQogICAgaXR4bl9maWVsZCBUeXBlRW51bQogICAgaXR4bl9maWVsZCBGZWUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzI2LTMzMQogICAgLy8gIyBNYWtlIGFjdHVhbCBwYXltZW50IG9uIGJsb2NrY2hhaW4KICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgICByZWNlaXZlcj1yZWNpcGllbnQsCiAgICAvLyAgICAgYW1vdW50PWFtb3VudCwKICAgIC8vICAgICBmZWU9R2xvYmFsLm1pbl90eG5fZmVlLCAgIyBVc2UgbWluaW11bSB0cmFuc2FjdGlvbiBmZWUKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjMzMwogICAgLy8gcmV0dXJuIFN0cmluZygiUmVhbCBibG9ja2NoYWluIHBheW1lbnQgc2VudCBmb3IgbWlsZXN0b25lIikKICAgIHB1c2hieXRlcyAiUmVhbCBibG9ja2NoYWluIHBheW1lbnQgc2VudCBmb3IgbWlsZXN0b25lIgogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfY2FtcGFpZ25fZGV0YWlscyhjYW1wYWlnbl9pZDogYnl0ZXMpIC0+IGJ5dGVzOgpnZXRfY2FtcGFpZ25fZGV0YWlsczoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzQyLTM0MwogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgLy8gZGVmIGdldF9jYW1wYWlnbl9kZXRhaWxzKHNlbGYsIGNhbXBhaWduX2lkOiBBUkM0VUludDY0KSAtPiBDYW1wYWlnbkluZm86CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzQ1CiAgICAvLyBhc3NlcnQgY2FtcGFpZ25faWQgaW4gc2VsZi5jYW1wYWlnbnMsICJDYW1wYWlnbiBub3QgZm91bmQiCiAgICBieXRlYyAxMSAvLyAiY2FtcGFpZ25zIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIGR1cAogICAgYm94X2xlbgogICAgYnVyeSAxCiAgICBhc3NlcnQgLy8gQ2FtcGFpZ24gbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM0NgogICAgLy8gcmV0dXJuIHNlbGYuY2FtcGFpZ25zW2NhbXBhaWduX2lkXQogICAgYm94X2dldAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYuY2FtcGFpZ25zIGVudHJ5IGV4aXN0cwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfb3JnYW5pemF0aW9uX2RldGFpbHMob3JnX2lkOiBieXRlcykgLT4gYnl0ZXM6CmdldF9vcmdhbml6YXRpb25fZGV0YWlsczoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzQ4LTM0OQogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgLy8gZGVmIGdldF9vcmdhbml6YXRpb25fZGV0YWlscyhzZWxmLCBvcmdfaWQ6IEFSQzRVSW50NjQpIC0+IE9yZ2FuaXphdGlvbkluZm86CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzUxCiAgICAvLyBhc3NlcnQgb3JnX2lkIGluIHNlbGYub3JnYW5pemF0aW9ucywgIk9yZ2FuaXphdGlvbiBub3QgZm91bmQiCiAgICBieXRlYyAxNiAvLyAib3JncyIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICBkdXAKICAgIGJveF9sZW4KICAgIGJ1cnkgMQogICAgYXNzZXJ0IC8vIE9yZ2FuaXphdGlvbiBub3QgZm91bmQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzUyCiAgICAvLyByZXR1cm4gc2VsZi5vcmdhbml6YXRpb25zW29yZ19pZF0KICAgIGJveF9nZXQKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLm9yZ2FuaXphdGlvbnMgZW50cnkgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmdldF92b3VjaGVyX2RldGFpbHModm91Y2hlcl9pZDogYnl0ZXMpIC0+IGJ5dGVzOgpnZXRfdm91Y2hlcl9kZXRhaWxzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNTQtMzU1CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICAvLyBkZWYgZ2V0X3ZvdWNoZXJfZGV0YWlscyhzZWxmLCB2b3VjaGVyX2lkOiBBUkM0VUludDY0KSAtPiBWb3VjaGVySW5mbzoKICAgIHByb3RvIDEgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNTcKICAgIC8vIGFzc2VydCB2b3VjaGVyX2lkIGluIHNlbGYudm91Y2hlcnMsICJWb3VjaGVyIG5vdCBmb3VuZCIKICAgIGJ5dGVjIDE0IC8vICJ2b3VjaGVycyIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICBkdXAKICAgIGJveF9sZW4KICAgIGJ1cnkgMQogICAgYXNzZXJ0IC8vIFZvdWNoZXIgbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM1OAogICAgLy8gcmV0dXJuIHNlbGYudm91Y2hlcnNbdm91Y2hlcl9pZF0KICAgIGJveF9nZXQKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnZvdWNoZXJzIGVudHJ5IGV4aXN0cwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmFpZGNoYWluX2NvbnRyYWN0cy5jb250cmFjdC5BaWRjaGFpbkNvbnRyYWN0cy5nZXRfbWlsZXN0b25lX2RldGFpbHMobWlsZXN0b25lX2lkOiBieXRlcykgLT4gYnl0ZXM6CmdldF9taWxlc3RvbmVfZGV0YWlsczoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzYwLTM2MQogICAgLy8gQGFiaW1ldGhvZChyZWFkb25seT1UcnVlKQogICAgLy8gZGVmIGdldF9taWxlc3RvbmVfZGV0YWlscyhzZWxmLCBtaWxlc3RvbmVfaWQ6IEFSQzRVSW50NjQpIC0+IE1pbGVzdG9uZUluZm86CiAgICBwcm90byAxIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzYzCiAgICAvLyBhc3NlcnQgbWlsZXN0b25lX2lkIGluIHNlbGYubWlsZXN0b25lcywgIk1pbGVzdG9uZSBub3QgZm91bmQiCiAgICBieXRlYyAxNSAvLyAibWlsZXN0b25lcyIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICBkdXAKICAgIGJveF9sZW4KICAgIGJ1cnkgMQogICAgYXNzZXJ0IC8vIE1pbGVzdG9uZSBub3QgZm91bmQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9haWRjaGFpbl9jb250cmFjdHMvY29udHJhY3QucHk6MzY0CiAgICAvLyByZXR1cm4gc2VsZi5taWxlc3RvbmVzW21pbGVzdG9uZV9pZF0KICAgIGJveF9nZXQKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLm1pbGVzdG9uZXMgZW50cnkgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmdldF9kZWxpdmVyeV9kZXRhaWxzKGRlbGl2ZXJ5X2lkOiBieXRlcykgLT4gYnl0ZXM6CmdldF9kZWxpdmVyeV9kZXRhaWxzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozNjYtMzY3CiAgICAvLyBAYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICAvLyBkZWYgZ2V0X2RlbGl2ZXJ5X2RldGFpbHMoc2VsZiwgZGVsaXZlcnlfaWQ6IEFSQzRVSW50NjQpIC0+IERlbGl2ZXJ5UmVjb3JkOgogICAgcHJvdG8gMSAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM2OQogICAgLy8gYXNzZXJ0IGRlbGl2ZXJ5X2lkIGluIHNlbGYuZGVsaXZlcmllcywgIkRlbGl2ZXJ5IG5vdCBmb3VuZCIKICAgIGJ5dGVjIDEzIC8vICJkZWxpdmVyaWVzIgogICAgZnJhbWVfZGlnIC0xCiAgICBjb25jYXQKICAgIGR1cAogICAgYm94X2xlbgogICAgYnVyeSAxCiAgICBhc3NlcnQgLy8gRGVsaXZlcnkgbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM3MAogICAgLy8gcmV0dXJuIHNlbGYuZGVsaXZlcmllc1tkZWxpdmVyeV9pZF0KICAgIGJveF9nZXQKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmRlbGl2ZXJpZXMgZW50cnkgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmdldF9taWxlc3RvbmVfY291bnQoKSAtPiB1aW50NjQ6CmdldF9taWxlc3RvbmVfY291bnQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvYWlkY2hhaW5fY29udHJhY3RzL2NvbnRyYWN0LnB5OjM3NwogICAgLy8gcmV0dXJuIHNlbGYubWlsZXN0b25lX2NvdW50ZXIudmFsdWUKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18zIC8vICJtaWxlc3RvbmVfY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5taWxlc3RvbmVfY291bnRlciBleGlzdHMKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5haWRjaGFpbl9jb250cmFjdHMuY29udHJhY3QuQWlkY2hhaW5Db250cmFjdHMuZ2V0X3ZvdWNoZXJfY291bnQoKSAtPiB1aW50NjQ6CmdldF92b3VjaGVyX2NvdW50OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozODIKICAgIC8vIHJldHVybiBzZWxmLnZvdWNoZXJfY291bnRlci52YWx1ZQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzIgLy8gInZvdWNoZXJfY291bnRlciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi52b3VjaGVyX2NvdW50ZXIgZXhpc3RzCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuYWlkY2hhaW5fY29udHJhY3RzLmNvbnRyYWN0LkFpZGNoYWluQ29udHJhY3RzLmdldF9kZWxpdmVyeV9jb3VudCgpIC0+IHVpbnQ2NDoKZ2V0X2RlbGl2ZXJ5X2NvdW50OgogICAgLy8gc21hcnRfY29udHJhY3RzL2FpZGNoYWluX2NvbnRyYWN0cy9jb250cmFjdC5weTozODcKICAgIC8vIHJldHVybiBzZWxmLmRlbGl2ZXJ5X2NvdW50ZXIudmFsdWUKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJkZWxpdmVyeV9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmRlbGl2ZXJ5X2NvdW50ZXIgZXhpc3RzCiAgICByZXRzdWIK", "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [2039, 2471], "errorMessage": "Amount must be greater than zero"}, {"pc": [2094], "errorMessage": "Asset not found in voucher registry"}, {"pc": [1602, 2298], "errorMessage": "Campaign ID cannot be zero"}, {"pc": [1599, 2295], "errorMessage": "Campaign ID out of range"}, {"pc": [1613, 2310, 2546], "errorMessage": "Campaign not found"}, {"pc": [1843], "errorMessage": "Delivery ID cannot be zero"}, {"pc": [1840], "errorMessage": "Delivery ID out of range"}, {"pc": [1855, 2610], "errorMessage": "Delivery not found"}, {"pc": [2381, 2468], "errorMessage": "Milestone ID cannot be zero"}, {"pc": [2378, 2465], "errorMessage": "Milestone ID out of range"}, {"pc": [2393, 2594], "errorMessage": "Milestone not found"}, {"pc": [508, 525, 542, 559, 578, 597, 616, 635, 654, 702, 740, 774, 805, 851, 889, 927, 953, 1000, 1034, 1063, 1097, 1122, 1139, 1167, 1184, 1201, 1234, 1263, 1287], "errorMessage": "OnCompletion is not NoOp"}, {"pc": [2562], "errorMessage": "Organization not found"}, {"pc": [2578], "errorMessage": "Voucher not found"}, {"pc": [1322], "errorMessage": "can only call when creating"}, {"pc": [511, 528, 545, 562, 581, 600, 619, 638, 657, 705, 743, 777, 808, 854, 892, 930, 956, 1003, 1037, 1066, 1100, 1125, 1142, 1170, 1187, 1204, 1237, 1266, 1290], "errorMessage": "can only call when not creating"}, {"pc": [1501, 1581, 1595, 2291], "errorMessage": "check self.campaign_counter exists"}, {"pc": [2548], "errorMessage": "check self.campaigns entry exists"}, {"pc": [1858, 2612], "errorMessage": "check self.deliveries entry exists"}, {"pc": [1742, 1836, 2628], "errorMessage": "check self.delivery_counter exists"}, {"pc": [2314, 2374, 2461, 2617], "errorMessage": "check self.milestone_counter exists"}, {"pc": [2396, 2596], "errorMessage": "check self.milestones entry exists"}, {"pc": [1417, 1587], "errorMessage": "check self.organization_counter exists"}, {"pc": [2564], "errorMessage": "check self.organizations entry exists"}, {"pc": [1618, 1664], "errorMessage": "check self.total_donations exists"}, {"pc": [2410], "errorMessage": "check self.total_milestones_completed exists"}, {"pc": [1487], "errorMessage": "check self.total_organizations exists"}, {"pc": [2120], "errorMessage": "check self.total_vouchers_issued exists"}, {"pc": [1980, 2044, 2185, 2622], "errorMessage": "check self.voucher_counter exists"}, {"pc": [2079, 2580], "errorMessage": "check self.vouchers entry exists"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
 APP_SPEC = algokit_utils.Arc56Contract.from_json(_APP_SPEC_JSON)
 
 def _parse_abi_args(args: object | None = None) -> list[object] | None:
@@ -64,6 +64,53 @@ def _init_dataclass(cls: type, data: dict) -> object:
             field_values[field.name] = field_value
     return cls(**field_values)
 
+@dataclasses.dataclass(frozen=True)
+class CampaignInfo:
+    """Struct for CampaignInfo"""
+    id: int
+    title: str
+    target: int
+    raised: int
+    creator: str
+    active: int
+
+@dataclasses.dataclass(frozen=True)
+class DeliveryRecord:
+    """Struct for DeliveryRecord"""
+    id: int
+    recipient: str
+    location: str
+    agent: str
+    verified: int
+
+@dataclasses.dataclass(frozen=True)
+class MilestoneInfo:
+    """Struct for MilestoneInfo"""
+    id: int
+    campaign_id: int
+    target_amount: int
+    description: str
+    completed: int
+    funds_released: int
+
+@dataclasses.dataclass(frozen=True)
+class OrganizationInfo:
+    """Struct for OrganizationInfo"""
+    id: int
+    name: str
+    wallet_address: str
+    verification_level: int
+
+@dataclasses.dataclass(frozen=True)
+class VoucherInfo:
+    """Struct for VoucherInfo"""
+    id: int
+    asset_id: int
+    name: str
+    total_supply: int
+    issued: int
+
+
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class HelloArgs:
     """Dataclass for hello arguments"""
@@ -74,23 +121,34 @@ class HelloArgs:
         return "hello(string)string"
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
+class RegisterOrganizationArgs:
+    """Dataclass for register_organization arguments"""
+    org_name: str
+    wallet_address: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "register_organization(string,string)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class CreateCampaignArgs:
+    """Dataclass for create_campaign arguments"""
+    title: str
+    target: int
+    creator: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "create_campaign(string,uint64,string)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class CreateDonationArgs:
     """Dataclass for create_donation arguments"""
-    amount: int
+    campaign_id: int
 
     @property
     def abi_method_signature(self) -> str:
         return "create_donation(uint64)string"
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class GetDonationInfoArgs:
-    """Dataclass for get_donation_info arguments"""
-    amount: int
-    donor: str
-
-    @property
-    def abi_method_signature(self) -> str:
-        return "get_donation_info(uint64,string)string"
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class CalculateTotalArgs:
@@ -101,6 +159,145 @@ class CalculateTotalArgs:
     @property
     def abi_method_signature(self) -> str:
         return "calculate_total(uint64,uint64)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class ValidateDonationArgs:
+    """Dataclass for validate_donation arguments"""
+    amount: int
+    donor: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "validate_donation(uint64,string)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class LogDeliveryArgs:
+    """Dataclass for log_delivery arguments"""
+    recipient: str
+    location: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "log_delivery(string,string)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class VerifyDeliveryArgs:
+    """Dataclass for verify_delivery arguments"""
+    delivery_id: int
+    agent: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "verify_delivery(uint64,string)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class CreateVoucherAssetArgs:
+    """Dataclass for create_voucher_asset arguments"""
+    asset_name: str
+    total_supply: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "create_voucher_asset(string,uint64)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class DistributeVouchersArgs:
+    """Dataclass for distribute_vouchers arguments"""
+    asset_id: int
+    recipient: str | bytes
+    amount: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "distribute_vouchers(uint64,account,uint64)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class RedeemVoucherArgs:
+    """Dataclass for redeem_voucher arguments"""
+    voucher_id: int
+    merchant: str
+    amount: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "redeem_voucher(uint64,string,uint64)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class CreateMilestoneArgs:
+    """Dataclass for create_milestone arguments"""
+    campaign_id: int
+    target_amount: int
+    description: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "create_milestone(uint64,uint64,string)uint64"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class CompleteMilestoneArgs:
+    """Dataclass for complete_milestone arguments"""
+    milestone_id: int
+    proof: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "complete_milestone(uint64,string)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class ReleaseMilestoneFundsArgs:
+    """Dataclass for release_milestone_funds arguments"""
+    milestone_id: int
+    recipient: str | bytes
+    amount: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "release_milestone_funds(uint64,account,uint64)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetCampaignDetailsArgs:
+    """Dataclass for get_campaign_details arguments"""
+    campaign_id: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetOrganizationDetailsArgs:
+    """Dataclass for get_organization_details arguments"""
+    org_id: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_organization_details(uint64)(uint64,string,string,uint64)"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetVoucherDetailsArgs:
+    """Dataclass for get_voucher_details arguments"""
+    voucher_id: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetMilestoneDetailsArgs:
+    """Dataclass for get_milestone_details arguments"""
+    milestone_id: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetDeliveryDetailsArgs:
+    """Dataclass for get_delivery_details arguments"""
+    delivery_id: int
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_delivery_details(uint64)(uint64,string,string,string,uint64)"
 
 
 class AidchainContractsParams:
@@ -120,6 +317,65 @@ class AidchainContractsParams:
             "args": method_args,
         }))
 
+    def initialize(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "initialize()string",
+        }))
+
+    def register_organization(
+        self,
+        args: tuple[str, str] | RegisterOrganizationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_organization(string,string)uint64",
+            "args": method_args,
+        }))
+
+    def create_campaign(
+        self,
+        args: tuple[str, int, str] | CreateCampaignArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_campaign(string,uint64,string)uint64",
+            "args": method_args,
+        }))
+
+    def get_campaign_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_count()uint64",
+        }))
+
+    def get_organization_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_count()uint64",
+        }))
+
     def create_donation(
         self,
         args: tuple[int] | CreateDonationArgs,
@@ -133,17 +389,15 @@ class AidchainContractsParams:
             "args": method_args,
         }))
 
-    def get_donation_info(
+    def get_total_donations(
         self,
-        args: tuple[int, str] | GetDonationInfoArgs,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> algokit_utils.AppCallMethodCallParams:
-        method_args = _parse_abi_args(args)
+    
         params = params or algokit_utils.CommonAppCallParams()
         return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "get_donation_info(uint64,string)string",
-            "args": method_args,
+            "method": "get_total_donations()uint64",
         }))
 
     def calculate_total(
@@ -157,6 +411,254 @@ class AidchainContractsParams:
             **dataclasses.asdict(params),
             "method": "calculate_total(uint64,uint64)uint64",
             "args": method_args,
+        }))
+
+    def validate_donation(
+        self,
+        args: tuple[int, str] | ValidateDonationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "validate_donation(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def log_delivery(
+        self,
+        args: tuple[str, str] | LogDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "log_delivery(string,string)uint64",
+            "args": method_args,
+        }))
+
+    def verify_delivery(
+        self,
+        args: tuple[int, str] | VerifyDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "verify_delivery(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def get_contract_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_contract_stats()string",
+        }))
+
+    def create_voucher_asset(
+        self,
+        args: tuple[str, int] | CreateVoucherAssetArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_voucher_asset(string,uint64)uint64",
+            "args": method_args,
+        }))
+
+    def distribute_vouchers(
+        self,
+        args: tuple[int, str | bytes, int] | DistributeVouchersArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "distribute_vouchers(uint64,account,uint64)string",
+            "args": method_args,
+        }))
+
+    def redeem_voucher(
+        self,
+        args: tuple[int, str, int] | RedeemVoucherArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "redeem_voucher(uint64,string,uint64)string",
+            "args": method_args,
+        }))
+
+    def get_voucher_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_stats()string",
+        }))
+
+    def create_milestone(
+        self,
+        args: tuple[int, int, str] | CreateMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_milestone(uint64,uint64,string)uint64",
+            "args": method_args,
+        }))
+
+    def complete_milestone(
+        self,
+        args: tuple[int, str] | CompleteMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "complete_milestone(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def release_milestone_funds(
+        self,
+        args: tuple[int, str | bytes, int] | ReleaseMilestoneFundsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_milestone_funds(uint64,account,uint64)string",
+            "args": method_args,
+        }))
+
+    def get_milestone_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_stats()string",
+        }))
+
+    def get_campaign_details(
+        self,
+        args: tuple[int] | GetCampaignDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_organization_details(
+        self,
+        args: tuple[int] | GetOrganizationDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_details(uint64)(uint64,string,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_voucher_details(
+        self,
+        args: tuple[int] | GetVoucherDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }))
+
+    def get_milestone_details(
+        self,
+        args: tuple[int] | GetMilestoneDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }))
+
+    def get_delivery_details(
+        self,
+        args: tuple[int] | GetDeliveryDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_details(uint64)(uint64,string,string,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_milestone_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_count()uint64",
+        }))
+
+    def get_voucher_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_count()uint64",
+        }))
+
+    def get_delivery_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_count()uint64",
         }))
 
     def clear_state(
@@ -187,6 +689,65 @@ class AidchainContractsCreateTransactionParams:
             "args": method_args,
         }))
 
+    def initialize(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "initialize()string",
+        }))
+
+    def register_organization(
+        self,
+        args: tuple[str, str] | RegisterOrganizationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_organization(string,string)uint64",
+            "args": method_args,
+        }))
+
+    def create_campaign(
+        self,
+        args: tuple[str, int, str] | CreateCampaignArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_campaign(string,uint64,string)uint64",
+            "args": method_args,
+        }))
+
+    def get_campaign_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_count()uint64",
+        }))
+
+    def get_organization_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_count()uint64",
+        }))
+
     def create_donation(
         self,
         args: tuple[int] | CreateDonationArgs,
@@ -200,17 +761,15 @@ class AidchainContractsCreateTransactionParams:
             "args": method_args,
         }))
 
-    def get_donation_info(
+    def get_total_donations(
         self,
-        args: tuple[int, str] | GetDonationInfoArgs,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> algokit_utils.BuiltTransactions:
-        method_args = _parse_abi_args(args)
+    
         params = params or algokit_utils.CommonAppCallParams()
         return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "get_donation_info(uint64,string)string",
-            "args": method_args,
+            "method": "get_total_donations()uint64",
         }))
 
     def calculate_total(
@@ -224,6 +783,254 @@ class AidchainContractsCreateTransactionParams:
             **dataclasses.asdict(params),
             "method": "calculate_total(uint64,uint64)uint64",
             "args": method_args,
+        }))
+
+    def validate_donation(
+        self,
+        args: tuple[int, str] | ValidateDonationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "validate_donation(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def log_delivery(
+        self,
+        args: tuple[str, str] | LogDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "log_delivery(string,string)uint64",
+            "args": method_args,
+        }))
+
+    def verify_delivery(
+        self,
+        args: tuple[int, str] | VerifyDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "verify_delivery(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def get_contract_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_contract_stats()string",
+        }))
+
+    def create_voucher_asset(
+        self,
+        args: tuple[str, int] | CreateVoucherAssetArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_voucher_asset(string,uint64)uint64",
+            "args": method_args,
+        }))
+
+    def distribute_vouchers(
+        self,
+        args: tuple[int, str | bytes, int] | DistributeVouchersArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "distribute_vouchers(uint64,account,uint64)string",
+            "args": method_args,
+        }))
+
+    def redeem_voucher(
+        self,
+        args: tuple[int, str, int] | RedeemVoucherArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "redeem_voucher(uint64,string,uint64)string",
+            "args": method_args,
+        }))
+
+    def get_voucher_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_stats()string",
+        }))
+
+    def create_milestone(
+        self,
+        args: tuple[int, int, str] | CreateMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_milestone(uint64,uint64,string)uint64",
+            "args": method_args,
+        }))
+
+    def complete_milestone(
+        self,
+        args: tuple[int, str] | CompleteMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "complete_milestone(uint64,string)string",
+            "args": method_args,
+        }))
+
+    def release_milestone_funds(
+        self,
+        args: tuple[int, str | bytes, int] | ReleaseMilestoneFundsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_milestone_funds(uint64,account,uint64)string",
+            "args": method_args,
+        }))
+
+    def get_milestone_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_stats()string",
+        }))
+
+    def get_campaign_details(
+        self,
+        args: tuple[int] | GetCampaignDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_organization_details(
+        self,
+        args: tuple[int] | GetOrganizationDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_details(uint64)(uint64,string,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_voucher_details(
+        self,
+        args: tuple[int] | GetVoucherDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }))
+
+    def get_milestone_details(
+        self,
+        args: tuple[int] | GetMilestoneDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }))
+
+    def get_delivery_details(
+        self,
+        args: tuple[int] | GetDeliveryDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_details(uint64)(uint64,string,string,string,uint64)",
+            "args": method_args,
+        }))
+
+    def get_milestone_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_count()uint64",
+        }))
+
+    def get_voucher_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_count()uint64",
+        }))
+
+    def get_delivery_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_count()uint64",
         }))
 
     def clear_state(
@@ -257,6 +1064,80 @@ class AidchainContractsSend:
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
 
+    def initialize(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "initialize()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def register_organization(
+        self,
+        args: tuple[str, str] | RegisterOrganizationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_organization(string,string)uint64",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def create_campaign(
+        self,
+        args: tuple[str, int, str] | CreateCampaignArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_campaign(string,uint64,string)uint64",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def get_campaign_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_count()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def get_organization_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_count()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
     def create_donation(
         self,
         args: tuple[int] | CreateDonationArgs,
@@ -273,21 +1154,19 @@ class AidchainContractsSend:
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
 
-    def get_donation_info(
+    def get_total_donations(
         self,
-        args: tuple[int, str] | GetDonationInfoArgs,
         params: algokit_utils.CommonAppCallParams | None = None,
         send_params: algokit_utils.SendParams | None = None
-    ) -> algokit_utils.SendAppTransactionResult[str]:
-        method_args = _parse_abi_args(args)
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
         params = params or algokit_utils.CommonAppCallParams()
         response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
-            "method": "get_donation_info(uint64,string)string",
-            "args": method_args,
+            "method": "get_total_donations()uint64",
         }), send_params=send_params)
         parsed_response = response
-        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
 
     def calculate_total(
         self,
@@ -305,6 +1184,314 @@ class AidchainContractsSend:
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
 
+    def validate_donation(
+        self,
+        args: tuple[int, str] | ValidateDonationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "validate_donation(uint64,string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def log_delivery(
+        self,
+        args: tuple[str, str] | LogDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "log_delivery(string,string)uint64",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def verify_delivery(
+        self,
+        args: tuple[int, str] | VerifyDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "verify_delivery(uint64,string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_contract_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_contract_stats()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def create_voucher_asset(
+        self,
+        args: tuple[str, int] | CreateVoucherAssetArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_voucher_asset(string,uint64)uint64",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def distribute_vouchers(
+        self,
+        args: tuple[int, str | bytes, int] | DistributeVouchersArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "distribute_vouchers(uint64,account,uint64)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def redeem_voucher(
+        self,
+        args: tuple[int, str, int] | RedeemVoucherArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "redeem_voucher(uint64,string,uint64)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_voucher_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_stats()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def create_milestone(
+        self,
+        args: tuple[int, int, str] | CreateMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "create_milestone(uint64,uint64,string)uint64",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def complete_milestone(
+        self,
+        args: tuple[int, str] | CompleteMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "complete_milestone(uint64,string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def release_milestone_funds(
+        self,
+        args: tuple[int, str | bytes, int] | ReleaseMilestoneFundsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "release_milestone_funds(uint64,account,uint64)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_milestone_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_stats()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_campaign_details(
+        self,
+        args: tuple[int] | GetCampaignDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[CampaignInfo]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = dataclasses.replace(response, abi_return=_init_dataclass(CampaignInfo, typing.cast(dict, response.abi_return))) # type: ignore
+        return typing.cast(algokit_utils.SendAppTransactionResult[CampaignInfo], parsed_response)
+
+    def get_organization_details(
+        self,
+        args: tuple[int] | GetOrganizationDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[OrganizationInfo]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_organization_details(uint64)(uint64,string,string,uint64)",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = dataclasses.replace(response, abi_return=_init_dataclass(OrganizationInfo, typing.cast(dict, response.abi_return))) # type: ignore
+        return typing.cast(algokit_utils.SendAppTransactionResult[OrganizationInfo], parsed_response)
+
+    def get_voucher_details(
+        self,
+        args: tuple[int] | GetVoucherDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[VoucherInfo]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = dataclasses.replace(response, abi_return=_init_dataclass(VoucherInfo, typing.cast(dict, response.abi_return))) # type: ignore
+        return typing.cast(algokit_utils.SendAppTransactionResult[VoucherInfo], parsed_response)
+
+    def get_milestone_details(
+        self,
+        args: tuple[int] | GetMilestoneDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[MilestoneInfo]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = dataclasses.replace(response, abi_return=_init_dataclass(MilestoneInfo, typing.cast(dict, response.abi_return))) # type: ignore
+        return typing.cast(algokit_utils.SendAppTransactionResult[MilestoneInfo], parsed_response)
+
+    def get_delivery_details(
+        self,
+        args: tuple[int] | GetDeliveryDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[DeliveryRecord]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_details(uint64)(uint64,string,string,string,uint64)",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = dataclasses.replace(response, abi_return=_init_dataclass(DeliveryRecord, typing.cast(dict, response.abi_return))) # type: ignore
+        return typing.cast(algokit_utils.SendAppTransactionResult[DeliveryRecord], parsed_response)
+
+    def get_milestone_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_milestone_count()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def get_voucher_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_voucher_count()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
+    def get_delivery_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[int]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_delivery_count()uint64",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[int], parsed_response)
+
     def clear_state(
         self,
         params: algokit_utils.AppClientBareCallParams | None = None,
@@ -316,11 +1503,241 @@ class AidchainContractsSend:
         )
 
 
+class GlobalStateValue(typing.TypedDict):
+    """Shape of global_state state key values"""
+    campaign_counter: int
+    organization_counter: int
+    delivery_counter: int
+    voucher_counter: int
+    milestone_counter: int
+    total_donations: int
+    total_organizations: int
+    total_vouchers_issued: int
+    total_milestones_completed: int
+
 class AidchainContractsState:
     """Methods to access state for the current AidchainContracts app"""
 
     def __init__(self, app_client: algokit_utils.AppClient):
         self.app_client = app_client
+
+    @property
+    def global_state(
+        self
+    ) -> "_GlobalState":
+            """Methods to access global_state for the current app"""
+            return _GlobalState(self.app_client)
+
+    @property
+    def box(
+        self
+    ) -> "_BoxState":
+            """Methods to access box for the current app"""
+            return _BoxState(self.app_client)
+
+class _GlobalState:
+    def __init__(self, app_client: algokit_utils.AppClient):
+        self.app_client = app_client
+        
+        # Pre-generated mapping of value types to their struct classes
+        self._struct_classes: dict[str, typing.Type[typing.Any]] = {}
+
+    def get_all(self) -> GlobalStateValue:
+        """Get all current keyed values from global_state state"""
+        result = self.app_client.state.global_state.get_all()
+        if not result:
+            return typing.cast(GlobalStateValue, {})
+
+        converted = {}
+        for key, value in result.items():
+            key_info = self.app_client.app_spec.state.keys.global_state.get(key)
+            struct_class = self._struct_classes.get(key_info.value_type) if key_info else None
+            converted[key] = (
+                _init_dataclass(struct_class, value) if struct_class and isinstance(value, dict)
+                else value
+            )
+        return typing.cast(GlobalStateValue, converted)
+
+    @property
+    def campaign_counter(self) -> int:
+        """Get the current value of the campaign_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("campaign_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def organization_counter(self) -> int:
+        """Get the current value of the organization_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("organization_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def delivery_counter(self) -> int:
+        """Get the current value of the delivery_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("delivery_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def voucher_counter(self) -> int:
+        """Get the current value of the voucher_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("voucher_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def milestone_counter(self) -> int:
+        """Get the current value of the milestone_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("milestone_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def total_donations(self) -> int:
+        """Get the current value of the total_donations key in global_state state"""
+        value = self.app_client.state.global_state.get_value("total_donations")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def total_organizations(self) -> int:
+        """Get the current value of the total_organizations key in global_state state"""
+        value = self.app_client.state.global_state.get_value("total_organizations")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def total_vouchers_issued(self) -> int:
+        """Get the current value of the total_vouchers_issued key in global_state state"""
+        value = self.app_client.state.global_state.get_value("total_vouchers_issued")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def total_milestones_completed(self) -> int:
+        """Get the current value of the total_milestones_completed key in global_state state"""
+        value = self.app_client.state.global_state.get_value("total_milestones_completed")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+class _BoxState:
+    def __init__(self, app_client: algokit_utils.AppClient):
+        self.app_client = app_client
+        
+        # Pre-generated mapping of value types to their struct classes
+        self._struct_classes: dict[str, typing.Type[typing.Any]] = {
+            "CampaignInfo": CampaignInfo,
+            "OrganizationInfo": OrganizationInfo,
+            "MilestoneInfo": MilestoneInfo,
+            "DeliveryRecord": DeliveryRecord,
+            "VoucherInfo": VoucherInfo
+        }
+
+    def get_all(self) -> dict[str, typing.Any]:
+        """Get all current keyed values from box state"""
+        result = self.app_client.state.box.get_all()
+        if not result:
+            return {}
+
+        converted = {}
+        for key, value in result.items():
+            key_info = self.app_client.app_spec.state.keys.box.get(key)
+            struct_class = self._struct_classes.get(key_info.value_type) if key_info else None
+            converted[key] = (
+                _init_dataclass(struct_class, value) if struct_class and isinstance(value, dict)
+                else value
+            )
+        return converted
+
+    @property
+    def campaigns(self) -> "_MapState[int, CampaignInfo]":
+        """Get values from the campaigns map in box state"""
+        return _MapState(
+            self.app_client.state.box,
+            "campaigns",
+            self._struct_classes.get("CampaignInfo")
+        )
+
+    @property
+    def organizations(self) -> "_MapState[int, OrganizationInfo]":
+        """Get values from the organizations map in box state"""
+        return _MapState(
+            self.app_client.state.box,
+            "organizations",
+            self._struct_classes.get("OrganizationInfo")
+        )
+
+    @property
+    def milestones(self) -> "_MapState[int, MilestoneInfo]":
+        """Get values from the milestones map in box state"""
+        return _MapState(
+            self.app_client.state.box,
+            "milestones",
+            self._struct_classes.get("MilestoneInfo")
+        )
+
+    @property
+    def deliveries(self) -> "_MapState[int, DeliveryRecord]":
+        """Get values from the deliveries map in box state"""
+        return _MapState(
+            self.app_client.state.box,
+            "deliveries",
+            self._struct_classes.get("DeliveryRecord")
+        )
+
+    @property
+    def vouchers(self) -> "_MapState[int, VoucherInfo]":
+        """Get values from the vouchers map in box state"""
+        return _MapState(
+            self.app_client.state.box,
+            "vouchers",
+            self._struct_classes.get("VoucherInfo")
+        )
+
+_KeyType = typing.TypeVar("_KeyType")
+_ValueType = typing.TypeVar("_ValueType")
+
+class _AppClientStateMethodsProtocol(typing.Protocol):
+    def get_map(self, map_name: str) -> dict[typing.Any, typing.Any]:
+        ...
+    def get_map_value(self, map_name: str, key: typing.Any) -> typing.Any | None:
+        ...
+
+class _MapState(typing.Generic[_KeyType, _ValueType]):
+    """Generic class for accessing state maps with strongly typed keys and values"""
+
+    def __init__(self, state_accessor: _AppClientStateMethodsProtocol, map_name: str,
+                struct_class: typing.Type[_ValueType] | None = None):
+        self._state_accessor = state_accessor
+        self._map_name = map_name
+        self._struct_class = struct_class
+
+    def get_map(self) -> dict[_KeyType, _ValueType]:
+        """Get all current values in the map"""
+        result = self._state_accessor.get_map(self._map_name)
+        if self._struct_class and result:
+            return {k: _init_dataclass(self._struct_class, v) if isinstance(v, dict) else v
+                    for k, v in result.items()}  # type: ignore
+        return typing.cast(dict[_KeyType, _ValueType], result or {})
+
+    def get_value(self, key: _KeyType) -> _ValueType | None:
+        """Get a value from the map by key"""
+        key_value = dataclasses.asdict(key) if dataclasses.is_dataclass(key) else key  # type: ignore
+        value = self._state_accessor.get_map_value(self._map_name, key_value)
+        if value is not None and self._struct_class and isinstance(value, dict):
+            return _init_dataclass(self._struct_class, value)  # type: ignore
+        return typing.cast(_ValueType | None, value)
+
 
 class AidchainContractsClient:
     """Client for interacting with AidchainContracts smart contract"""
@@ -474,19 +1891,169 @@ class AidchainContractsClient:
     @typing.overload
     def decode_return_value(
         self,
+        method: typing.Literal["initialize()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["register_organization(string,string)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["create_campaign(string,uint64,string)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_campaign_count()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_organization_count()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
         method: typing.Literal["create_donation(uint64)string"],
         return_value: algokit_utils.ABIReturn | None
     ) -> str | None: ...
     @typing.overload
     def decode_return_value(
         self,
-        method: typing.Literal["get_donation_info(uint64,string)string"],
+        method: typing.Literal["get_total_donations()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["calculate_total(uint64,uint64)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["validate_donation(uint64,string)string"],
         return_value: algokit_utils.ABIReturn | None
     ) -> str | None: ...
     @typing.overload
     def decode_return_value(
         self,
-        method: typing.Literal["calculate_total(uint64,uint64)uint64"],
+        method: typing.Literal["log_delivery(string,string)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["verify_delivery(uint64,string)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_contract_stats()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["create_voucher_asset(string,uint64)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["distribute_vouchers(uint64,account,uint64)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["redeem_voucher(uint64,string,uint64)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_voucher_stats()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["create_milestone(uint64,uint64,string)uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["complete_milestone(uint64,string)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["release_milestone_funds(uint64,account,uint64)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_milestone_stats()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> CampaignInfo | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_organization_details(uint64)(uint64,string,string,uint64)"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> OrganizationInfo | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> VoucherInfo | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> MilestoneInfo | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_delivery_details(uint64)(uint64,string,string,string,uint64)"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> DeliveryRecord | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_milestone_count()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_voucher_count()uint64"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> int | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_delivery_count()uint64"],
         return_value: algokit_utils.ABIReturn | None
     ) -> int | None: ...
     @typing.overload
@@ -500,7 +2067,7 @@ class AidchainContractsClient:
         self,
         method: str,
         return_value: algokit_utils.ABIReturn | None
-    ) -> algokit_utils.ABIValue | algokit_utils.ABIStruct | None | int | str:
+    ) -> algokit_utils.ABIValue | algokit_utils.ABIStruct | None | CampaignInfo | DeliveryRecord | MilestoneInfo | OrganizationInfo | VoucherInfo | int | str:
         """Decode ABI return value for the given method."""
         if return_value is None:
             return None
@@ -691,6 +2258,103 @@ class AidchainContractsFactoryCreateParams:
             compilation_params=compilation_params
         )
 
+    def initialize(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the initialize()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "initialize()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def register_organization(
+        self,
+        args: tuple[str, str] | RegisterOrganizationArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the register_organization(string,string)uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "register_organization(string,string)uint64",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def create_campaign(
+        self,
+        args: tuple[str, int, str] | CreateCampaignArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the create_campaign(string,uint64,string)uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "create_campaign(string,uint64,string)uint64",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_campaign_count(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_campaign_count()uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_campaign_count()uint64",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_organization_count(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_organization_count()uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_organization_count()uint64",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
     def create_donation(
         self,
         args: tuple[int] | CreateDonationArgs,
@@ -711,21 +2375,20 @@ class AidchainContractsFactoryCreateParams:
             compilation_params=compilation_params
         )
 
-    def get_donation_info(
+    def get_total_donations(
         self,
-        args: tuple[int, str] | GetDonationInfoArgs,
         *,
         params: algokit_utils.CommonAppCallCreateParams | None = None,
         compilation_params: algokit_utils.AppClientCompilationParams | None = None
     ) -> algokit_utils.AppCreateMethodCallParams:
-        """Creates a new instance using the get_donation_info(uint64,string)string ABI method"""
+        """Creates a new instance using the get_total_donations()uint64 ABI method"""
         params = params or algokit_utils.CommonAppCallCreateParams()
         return self.app_factory.params.create(
             algokit_utils.AppFactoryCreateMethodCallParams(
                 **{
                 **dataclasses.asdict(params),
-                "method": "get_donation_info(uint64,string)string",
-                "args": _parse_abi_args(args),
+                "method": "get_total_donations()uint64",
+                "args": None,
                 }
             ),
             compilation_params=compilation_params
@@ -746,6 +2409,400 @@ class AidchainContractsFactoryCreateParams:
                 **dataclasses.asdict(params),
                 "method": "calculate_total(uint64,uint64)uint64",
                 "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def validate_donation(
+        self,
+        args: tuple[int, str] | ValidateDonationArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the validate_donation(uint64,string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "validate_donation(uint64,string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def log_delivery(
+        self,
+        args: tuple[str, str] | LogDeliveryArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the log_delivery(string,string)uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "log_delivery(string,string)uint64",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def verify_delivery(
+        self,
+        args: tuple[int, str] | VerifyDeliveryArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the verify_delivery(uint64,string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "verify_delivery(uint64,string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_contract_stats(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_contract_stats()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_contract_stats()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def create_voucher_asset(
+        self,
+        args: tuple[str, int] | CreateVoucherAssetArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the create_voucher_asset(string,uint64)uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "create_voucher_asset(string,uint64)uint64",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def distribute_vouchers(
+        self,
+        args: tuple[int, str | bytes, int] | DistributeVouchersArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the distribute_vouchers(uint64,account,uint64)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "distribute_vouchers(uint64,account,uint64)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def redeem_voucher(
+        self,
+        args: tuple[int, str, int] | RedeemVoucherArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the redeem_voucher(uint64,string,uint64)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "redeem_voucher(uint64,string,uint64)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_voucher_stats(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_voucher_stats()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_voucher_stats()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def create_milestone(
+        self,
+        args: tuple[int, int, str] | CreateMilestoneArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the create_milestone(uint64,uint64,string)uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "create_milestone(uint64,uint64,string)uint64",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def complete_milestone(
+        self,
+        args: tuple[int, str] | CompleteMilestoneArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the complete_milestone(uint64,string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "complete_milestone(uint64,string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def release_milestone_funds(
+        self,
+        args: tuple[int, str | bytes, int] | ReleaseMilestoneFundsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the release_milestone_funds(uint64,account,uint64)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "release_milestone_funds(uint64,account,uint64)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_milestone_stats(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_milestone_stats()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_milestone_stats()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_campaign_details(
+        self,
+        args: tuple[int] | GetCampaignDetailsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64) ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_organization_details(
+        self,
+        args: tuple[int] | GetOrganizationDetailsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_organization_details(uint64)(uint64,string,string,uint64) ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_organization_details(uint64)(uint64,string,string,uint64)",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_voucher_details(
+        self,
+        args: tuple[int] | GetVoucherDetailsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64) ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_milestone_details(
+        self,
+        args: tuple[int] | GetMilestoneDetailsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64) ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_delivery_details(
+        self,
+        args: tuple[int] | GetDeliveryDetailsArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_delivery_details(uint64)(uint64,string,string,string,uint64) ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_delivery_details(uint64)(uint64,string,string,string,uint64)",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_milestone_count(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_milestone_count()uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_milestone_count()uint64",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_voucher_count(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_voucher_count()uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_voucher_count()uint64",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_delivery_count(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_delivery_count()uint64 ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_delivery_count()uint64",
+                "args": None,
                 }
             ),
             compilation_params=compilation_params
@@ -870,6 +2927,93 @@ class AidchainContractsComposer:
         )
         return self
 
+    def initialize(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.initialize(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "initialize()string", v
+            )
+        )
+        return self
+
+    def register_organization(
+        self,
+        args: tuple[str, str] | RegisterOrganizationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.register_organization(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "register_organization(string,string)uint64", v
+            )
+        )
+        return self
+
+    def create_campaign(
+        self,
+        args: tuple[str, int, str] | CreateCampaignArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.create_campaign(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "create_campaign(string,uint64,string)uint64", v
+            )
+        )
+        return self
+
+    def get_campaign_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_campaign_count(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_campaign_count()uint64", v
+            )
+        )
+        return self
+
+    def get_organization_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_organization_count(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_organization_count()uint64", v
+            )
+        )
+        return self
+
     def create_donation(
         self,
         args: tuple[int] | CreateDonationArgs,
@@ -888,20 +3032,19 @@ class AidchainContractsComposer:
         )
         return self
 
-    def get_donation_info(
+    def get_total_donations(
         self,
-        args: tuple[int, str] | GetDonationInfoArgs,
         params: algokit_utils.CommonAppCallParams | None = None
     ) -> "AidchainContractsComposer":
         self._composer.add_app_call_method_call(
-            self.client.params.get_donation_info(
-                args=args,
+            self.client.params.get_total_donations(
+                
                 params=params,
             )
         )
         self._result_mappers.append(
             lambda v: self.client.decode_return_value(
-                "get_donation_info(uint64,string)string", v
+                "get_total_donations()uint64", v
             )
         )
         return self
@@ -920,6 +3063,360 @@ class AidchainContractsComposer:
         self._result_mappers.append(
             lambda v: self.client.decode_return_value(
                 "calculate_total(uint64,uint64)uint64", v
+            )
+        )
+        return self
+
+    def validate_donation(
+        self,
+        args: tuple[int, str] | ValidateDonationArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.validate_donation(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "validate_donation(uint64,string)string", v
+            )
+        )
+        return self
+
+    def log_delivery(
+        self,
+        args: tuple[str, str] | LogDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.log_delivery(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "log_delivery(string,string)uint64", v
+            )
+        )
+        return self
+
+    def verify_delivery(
+        self,
+        args: tuple[int, str] | VerifyDeliveryArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.verify_delivery(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "verify_delivery(uint64,string)string", v
+            )
+        )
+        return self
+
+    def get_contract_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_contract_stats(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_contract_stats()string", v
+            )
+        )
+        return self
+
+    def create_voucher_asset(
+        self,
+        args: tuple[str, int] | CreateVoucherAssetArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.create_voucher_asset(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "create_voucher_asset(string,uint64)uint64", v
+            )
+        )
+        return self
+
+    def distribute_vouchers(
+        self,
+        args: tuple[int, str | bytes, int] | DistributeVouchersArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.distribute_vouchers(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "distribute_vouchers(uint64,account,uint64)string", v
+            )
+        )
+        return self
+
+    def redeem_voucher(
+        self,
+        args: tuple[int, str, int] | RedeemVoucherArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.redeem_voucher(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "redeem_voucher(uint64,string,uint64)string", v
+            )
+        )
+        return self
+
+    def get_voucher_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_voucher_stats(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_voucher_stats()string", v
+            )
+        )
+        return self
+
+    def create_milestone(
+        self,
+        args: tuple[int, int, str] | CreateMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.create_milestone(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "create_milestone(uint64,uint64,string)uint64", v
+            )
+        )
+        return self
+
+    def complete_milestone(
+        self,
+        args: tuple[int, str] | CompleteMilestoneArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.complete_milestone(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "complete_milestone(uint64,string)string", v
+            )
+        )
+        return self
+
+    def release_milestone_funds(
+        self,
+        args: tuple[int, str | bytes, int] | ReleaseMilestoneFundsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.release_milestone_funds(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "release_milestone_funds(uint64,account,uint64)string", v
+            )
+        )
+        return self
+
+    def get_milestone_stats(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_milestone_stats(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_milestone_stats()string", v
+            )
+        )
+        return self
+
+    def get_campaign_details(
+        self,
+        args: tuple[int] | GetCampaignDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_campaign_details(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_campaign_details(uint64)(uint64,string,uint64,uint64,string,uint64)", v
+            )
+        )
+        return self
+
+    def get_organization_details(
+        self,
+        args: tuple[int] | GetOrganizationDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_organization_details(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_organization_details(uint64)(uint64,string,string,uint64)", v
+            )
+        )
+        return self
+
+    def get_voucher_details(
+        self,
+        args: tuple[int] | GetVoucherDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_voucher_details(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_voucher_details(uint64)(uint64,uint64,string,uint64,uint64)", v
+            )
+        )
+        return self
+
+    def get_milestone_details(
+        self,
+        args: tuple[int] | GetMilestoneDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_milestone_details(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_milestone_details(uint64)(uint64,uint64,uint64,string,uint64,uint64)", v
+            )
+        )
+        return self
+
+    def get_delivery_details(
+        self,
+        args: tuple[int] | GetDeliveryDetailsArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_delivery_details(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_delivery_details(uint64)(uint64,string,string,string,uint64)", v
+            )
+        )
+        return self
+
+    def get_milestone_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_milestone_count(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_milestone_count()uint64", v
+            )
+        )
+        return self
+
+    def get_voucher_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_voucher_count(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_voucher_count()uint64", v
+            )
+        )
+        return self
+
+    def get_delivery_count(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "AidchainContractsComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_delivery_count(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_delivery_count()uint64", v
             )
         )
         return self
