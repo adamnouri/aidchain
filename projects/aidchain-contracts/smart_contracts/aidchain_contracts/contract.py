@@ -130,7 +130,7 @@ class AidchainContracts(ARC4Contract):
         
         # For testing purposes, simulate a donation amount
         # In production, this would get the actual payment amount from Txn.amount
-        donation_amount = UInt64(1000)  # Simulated donation amount
+        donation_amount = UInt64(Txn.amount)  # Simulated donation amount
         
         # Add to total donations (real blockchain state)
         self.total_donations.value += donation_amount
