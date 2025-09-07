@@ -1,6 +1,6 @@
 # aidchain
 
-This starter full stack project has been generated using AlgoKit. See below for default getting started instructions.
+AidChain is a blockchain-powered platform that makes every donation traceable and transparent. Donors can see funds flow from contribution to NGO to final aid delivery, verified on-chain through QR scans. Starting with food vouchers and a public dashboard, our vision is to expand into digital ID wallets and a full humanitarian operating system.
 
 Watch the video below
 (https://www.loom.com/share/5eee836d6f7e4474ab644277bf44fd07?sid=d583e535-abb7-4dd7-ad8b-e2d23e7640c9)
