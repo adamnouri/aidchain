@@ -1,11 +1,12 @@
 // src/components/Home.tsx
 import { useWallet } from '@txnlab/use-wallet-react'
+import { AppClientProvider } from './context/AppClientContext'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import AppCalls from './components/AppCalls'
 
-interface HomeProps {}
+interface HomeProps { }
 
 const Home: React.FC<HomeProps> = () => {
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
